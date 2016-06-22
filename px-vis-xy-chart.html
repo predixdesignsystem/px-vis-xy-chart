@@ -1,0 +1,293 @@
+<!--
+    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
+    siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with
+    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
+-->
+<link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../px-vis/px-vis-behavior-common.html"/>
+<link rel="import" href="../px-vis/px-vis-behavior-d3.html"/>
+<link rel="import" href="../px-vis/px-vis-scale.html"/>
+<link rel="import" href="../px-vis/px-vis-svg.html"/>
+<link rel="import" href="../px-vis/px-vis-scatter.html"/>
+<link rel="import" href="../px-vis/px-vis-axis.html"/>
+<link rel="import" href="../px-vis/px-vis-tooltip.html"/>
+<link rel="import" href="../px-vis/px-vis-interaction-space.html"/>
+<link rel="import" href="../px-vis/px-vis-register.html"/>
+<link rel="import" href="../px-vis/px-vis-zoom.html"/>
+<link rel="import" href="../px-vis/px-vis-clip-path.html"/>
+
+<!--
+Element providing solution to no problem in particular.
+
+##### Usage
+
+    <px-vis-xy-chart></px-vis-xy-chart>
+
+@element px-vis-xy-chart
+@blurb Element providing solution to no problem in particular.
+@homepage index.html
+@demo demo.html
+-->
+<dom-module id="px-vis-xy-chart">
+  <link rel="import" type="css" href="css/px-vis-xy-chart.css"/>
+  <template>
+    <!-- Legend -->
+    <div class$="{{_getWrapperClass(_registerType)}}">
+      <px-vis-register
+        id="register"
+        class$="{{_getHideClass(hideRegister)}}"
+        tooltip-data="[[tooltipData]]"
+        chart-data="[[chartData]]"
+        muted-series={{mutedSeries}}
+        type="{{_registerType}}">
+      </px-vis-register>
+      <px-vis-zoom
+        extents-data="[[extentsData]]"
+        margin="[[margin]]"
+        px-svg-elem="[[pxSvgElem]]"
+        selected-domain="{{selectedDomain}}">
+      </px-vis-zoom>
+      <!-- Core -->
+      <px-vis-scale
+        id="scale"
+        x-scale="linear"
+        y-scale="linear"
+        width="[[width]]"
+        height="[[height]]"
+        margin="[[margin]]"
+        chart-data="[[chartData]]"
+        x="{{x}}"
+        y="{{y}}"
+        current-domain-x="{{currentDomainX}}"
+        current-domain-y="{{currentDomainY}}"
+        selected-domain="[[selectedDomain]]">
+      </px-vis-scale>
+      <px-vis-svg
+        id="svg"
+        width="[[width]]"
+        height="[[height]]"
+        margin="[[margin]]"
+        svg="{{svg}}"
+        px-svg-elem="{{pxSvgElem}}">
+      </px-vis-svg>
+      <px-vis-clip-path
+        svg="[[svg]]"
+        x="[[x]]"
+        y="[[y]]"
+        width="[[width]]"
+        height="[[height]]"
+        margin="[[margin]]"
+        clip-path="{{clipPath}}">
+      </px-vis-clip-path>
+      <!-- scatter series -->
+      <template is="dom-repeat" items="{{chartData}}">
+        <px-vis-scatter
+          id="scatter"
+          svg="[[svg]]"
+          series-id="[[item.name]]"
+          series-number="[[item.seriesNumber]]"
+          chart-data="[[item]]"
+          x="[[x]]"
+          y="[[y]]"
+          current-domain-x="[[currentDomainX]]"
+          current-domain-y="[[currentDomainY]]"
+          muted-series="[[mutedSeries]]"
+          clip-path="[[clipPath]]">
+        </px-vis-scatter>
+      </template>
+    </div>
+    <!-- X axis -->
+    <px-vis-axis
+      id="xAxis"
+      svg="[[svg]]"
+      axis="[[x]]"
+      chart-data="[[chartData]]"
+      margin="[[margin]]"
+      current-domain="[[currentDomainX]]"
+      muted-series="[[mutedSeries]]">
+    </px-vis-axis>
+    <!-- Y axis -->
+    <px-vis-axis
+      id="yAxis"
+      svg="[[svg]]"
+      axis="[[y]]"
+      margin="[[margin]]"
+      chart-data="[[chartData]]"
+      current-domain="[[currentDomainY]]"
+      muted-series="[[mutedSeries]]">
+    </px-vis-axis>
+    <px-vis-interaction-space
+      svg="[[svg]]"
+      width="[[width]]"
+      height="[[height]]"
+      margin="[[margin]]"
+      x="[[x]]"
+      y="[[y]]"
+      current-domain-x="[[currentDomainX]]"
+      current-domain-y="[[currentDomainY]]"
+      chart-data="[[chartData]]"
+      tooltip-data="{{tooltipData}}"
+      extents-data="{{extentsData}}">
+    </px-vis-interaction-space>
+    <!-- Tooltip -->
+    <px-vis-tooltip
+      class$="{{_getHideClass(hideTooltip)}}"
+      tooltip-data="[[tooltipData]]"
+      chart-data="[[chartData]]"
+      muted-series="[[mutedSeries]]"
+      px-svg-elem="[[pxSvgElem]]">
+    </px-vis-tooltip>
+    <px-vis-cursor
+      horizontal-line="full"
+      vertical-line="full"
+      circle-point="yes"
+      svg="[[svg]]"
+      width="[[width]]"
+      height="[[height]]"
+      margin="[[margin]]"
+      chart-data="[[chartData]]"
+      tooltip-data="[[tooltipData]]">
+    </px-vis-cursor>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+
+    is: 'px-vis-xy-chart',
+
+    behaviors: [
+      PxVisBehaviorD3.svg,
+      PxVisBehaviorD3.axes,
+      PxVisBehaviorD3.selectedDomain,
+      PxVisBehaviorD3.clipPath,
+      PxVisBehavior.dataset,
+      PxVisBehavior.mutedSeries,
+      PxVisBehavior.sizing,
+      PxVisBehavior.tooltipData,
+      PxVisBehavior.extentsData
+    ],
+    properties: {
+      /**
+       * Configuration object used to customize the X axis cosmetic properties.
+       * Please refer to px-vis-axis (URL) for a list of supported proerties
+       *
+       */
+      xAxisConfig: {
+        type: Object,
+        observer: '_xAxisConfigChanged'
+      },
+      /**
+       * Configuration object used to customize the Y axis cosmetic properties.
+       * Please refer to px-vis-axis (URL) for a list of supported proerties
+       *
+       */
+      yAxisConfig: {
+        type: Object,
+        observer: '_yAxisConfigChanged'
+      },
+      /**
+       * Configuration object used to customize the tooltip.
+       * Please refer to px-tooltip (URL) for a list of supported proerties.
+       * Most interesting properties include:
+       * -width
+       * -height
+       * -units (array)
+       *
+       */
+      tooltipConfig: {
+        type: Object,
+        observer: '_tooltipConfigChanged'
+      },
+      /**
+       * Configuration object used to customize the tooltip.
+       * Please refer to px-tooltip (URL) for a list of supported proerties.
+       * Most interesting properties include:
+       * -width
+       * -height
+       * -units (array)
+       *
+       */
+      registerConfig: {
+        type: Object,
+        observer: '_registerConfigChanged'
+      },
+      /**
+       *
+       * Allows to hide the tooltip
+       */
+      hideTooltip: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       *
+       * Allows to hide the register
+       */
+      hideRegister: {
+        type: Boolean,
+        value: false
+      },
+      _registerType: {
+        type: String
+      }
+    },
+    observer: ['_xAxisConfigChanged(xAxisConfig.*)',
+               '_yAxisConfigChanged(yAxisConfig.*)'],
+    _xAxisConfigChanged: function(conf) {
+
+      this._applyConfigToElement(this.xAxisConfig, this.$.xAxis);
+    },
+    _yAxisConfigChanged: function(conf) {
+
+      this._applyConfigToElement(this.yAxisConfig, this.$.yAxis);
+    },
+    _tooltipConfigChanged: function(conf) {
+
+      this._applyConfigToElement(this.tooltipConfig, this.$.tooltip);
+    },
+    _registerConfigChanged: function(conf) {
+
+      this._applyConfigToElement(this.registerConfig, this.$.register);
+    },
+
+    /**
+     * Applies the config object to the element. Each key in the config object
+     * is the name of the property to be applied
+     *
+     */
+    _applyConfigToElement: function(config, element) {
+      if(typeof(config) !== 'object') {
+        console.error('Configuration object must be valid JSON: ' + config);
+        return;
+      }
+      if(!element) {
+        console.error('Cannot apply config to undefined element');
+        return;
+      }
+
+      var keys = Object.keys(config);
+      for(var i = 0; i < keys.length; i++){
+        var key = keys[i];
+        element.set(key, config[key])
+      }
+    },
+    _getHideClass: function(hide) {
+      if(hide === true) {
+        return 'visuallyhidden';
+      }
+      return '';
+    },
+    _getWrapperClass: function() {
+      var classList = "flex ";
+
+      if(this._registerType === 'vertical') {
+        classList += "flex--row--rev";
+      }
+      else {
+        classList += "flex--col";
+      }
+      return classList;
+    }
+  });
+</script>

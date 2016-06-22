@@ -1,0 +1,115 @@
+<!doctype html>
+
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      px-vis-xy-chart Demo</title>
+    <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+    <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+    <link rel="import" href="px-vis-xy-chart.html" />
+    <link rel="import" href="../iron-ajax/iron-ajax.html" />
+    <link rel="import" href="../px-theme/px-theme.html" />
+  </head>
+
+  <body>
+
+    <template id="demo" is="dom-bind">
+      <h3>Demo</h3>
+      <iron-ajax
+             url="demo_data.json"
+             handle-as="json"
+             last-error="{{sss}}"
+             last-response="{{data}}" auto></iron-ajax>
+      <div style="display:flex; justify-content: flex-start">
+        <div style="display:flex; flex-direction:column">
+          <span>Minimum configuration</span>
+          <px-vis-xy-chart
+            id="chart"
+            chart-data="{{data}}"
+            width="500"
+            height="400"
+            margin='{ "top": "10", "bottom": "50", "left": "50", "right": "10" }'
+            x-axis-title="X"
+            y-axis-title="Y"
+            x-axis-config='{"title": "X"}'
+            y-axis-config='{"title": "Y",
+                            "orientation": "left"}'>
+          </px-vis-xy-chart>
+        </div>
+        <div style="display:flex; flex-direction:column">
+          <span>Advanced/Custom configuration</span>
+          <px-vis-xy-chart
+            id="chart"
+            chart-data="{{data}}"
+            width="500"
+            height="400"
+            margin='{ "top": "10", "bottom": "60", "left": "50", "right": "10" }'
+            x-axis-title="X"
+            y-axis-title="Y"
+            x-axis-config='{"title": "X",
+             "labelPosition": "center",
+             "orientation": "bottom",
+             "labelRotation": 45,
+             "labelTranslation": [0,20],
+             "labelTypeSize": 16,
+             "margin": {"left": 5, "right": 5, "top": 5, "bottom": 65}}'
+            y-axis-config='{"title": "Y",
+              "labelPosition": "before",
+              "orientation": "left",
+              "labelRotation": 180,
+              "labelTranslation": [-25,0],
+              "labelTypeSize": 12,
+              "margin": {"left": 0, "right": 0, "top": 0, "bottom": 0}}'
+            register-config='{
+              "height": 80,
+              "type": "horizontal"}'>
+          </px-vis-xy-chart>
+        </div>
+      </div>
+      <!-- <div style="display:flex; justify-content: flex-start">
+        <div style="flex:1">X axis config: <textarea id="xConfig" value="{{xConfig::input}}" style="width:350px; height:230px"></textarea></div>
+        <div style="flex:1">Y axis config: <textarea id="yConfig" value="{{yConfig::input}}" style="width:350px; height:230px"></textarea></div>
+      </div> -->
+    </template>
+  </body>
+  <script>
+    document.addEventListener('WebComponentsReady', function() {
+      var chart = document.getElementById('chart'),
+          xConfigText = document.getElementById('xConfig'),
+          yConfigText = document.getElementById('yConfig');
+        /*  xInitConf = {"title": "X",
+           "labelPosition": "center",
+           "orientation": "bottom",
+           "labelRotation": 0,
+           "labelTranslation": [0,0],
+           "labelTypeSize": 12,
+           "translateAmt": [0,0],
+           "margin": {"left": 5, "right": 5, "top": 5, "bottom": 5}},
+          yInitConf = {"title": "Y",
+           "labelPosition": "center",
+           "orientation": "left",
+           "labelRotation": 0,
+           "labelTranslation": [0,0],
+           "labelTypeSize": 12,
+           "translateAmt": [0,0],
+           "margin": {"left": 5, "right": 5, "top": 5, "bottom": 5}};*/
+
+    /*  xConfigText.addEventListener('input', function() {
+        chart.set('xAxisConfig', JSON.parse(xConfigText.value));
+      });
+      yConfigText.addEventListener('input', function() {
+        chart.set('yAxisConfig', JSON.parse(yConfigText.value));
+      });
+
+      xConfigText.value = JSON.stringify(xInitConf, null, 4);
+      yConfigText.value = JSON.stringify(yInitConf, null, 4);
+      chart.set('xAxisConfig', xInitConf);
+      chart.set('yAxisConfig', yInitConf);*/
+    });
+  </script>
+
+</html>
