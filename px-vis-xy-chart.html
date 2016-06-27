@@ -4,17 +4,21 @@
     'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
 -->
 <link rel="import" href="../polymer/polymer.html"/>
+<link rel="import" href="../px-vis/px-vis-behavior-chart.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-common.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-d3.html"/>
 <link rel="import" href="../px-vis/px-vis-scale.html"/>
 <link rel="import" href="../px-vis/px-vis-svg.html"/>
 <link rel="import" href="../px-vis/px-vis-scatter.html"/>
+<link rel="import" href="../px-vis/px-vis-line.html"/>
 <link rel="import" href="../px-vis/px-vis-axis.html"/>
 <link rel="import" href="../px-vis/px-vis-tooltip.html"/>
 <link rel="import" href="../px-vis/px-vis-interaction-space.html"/>
 <link rel="import" href="../px-vis/px-vis-register.html"/>
 <link rel="import" href="../px-vis/px-vis-zoom.html"/>
+<link rel="import" href="../px-vis/px-vis-cursor.html"/>
 <link rel="import" href="../px-vis/px-vis-clip-path.html"/>
+
 
 <!--
 Element providing solution to no problem in particular.
@@ -38,8 +42,11 @@ Element providing solution to no problem in particular.
         class$="{{_getHideClass(hideRegister)}}"
         tooltip-data="[[tooltipData]]"
         chart-data="[[chartData]]"
+        series-config="[[seriesConfig]]"
         muted-series={{mutedSeries}}
-        type="{{_registerType}}">
+        type="{{_registerType}}"
+        x-axis-type="[[xAxisType]]"
+        y-axis-type="[[yAxisType]]">
       </px-vis-register>
       <px-vis-zoom
         extents-data="[[extentsData]]"
@@ -50,8 +57,8 @@ Element providing solution to no problem in particular.
       <!-- Core -->
       <px-vis-scale
         id="scale"
-        x-scale="linear"
-        y-scale="linear"
+        x-scale="[[xAxisType]]"
+        y-scale="[[yAxisType]]"
         width="[[width]]"
         height="[[height]]"
         margin="[[margin]]"
@@ -60,7 +67,8 @@ Element providing solution to no problem in particular.
         y="{{y}}"
         current-domain-x="{{currentDomainX}}"
         current-domain-y="{{currentDomainY}}"
-        selected-domain="[[selectedDomain]]">
+        selected-domain="[[selectedDomain]]"
+        series-config="[[seriesConfig]]">
       </px-vis-scale>
       <px-vis-svg
         id="svg"
@@ -80,20 +88,35 @@ Element providing solution to no problem in particular.
         clip-path="{{clipPath}}">
       </px-vis-clip-path>
       <!-- scatter series -->
-      <template is="dom-repeat" items="{{chartData}}">
-        <px-vis-scatter
-          id="scatter"
-          svg="[[svg]]"
-          series-id="[[item.name]]"
-          series-number="[[item.seriesNumber]]"
-          chart-data="[[item]]"
-          x="[[x]]"
-          y="[[y]]"
-          current-domain-x="[[currentDomainX]]"
-          current-domain-y="[[currentDomainY]]"
-          muted-series="[[mutedSeries]]"
-          clip-path="[[clipPath]]">
-        </px-vis-scatter>
+      <template is="dom-repeat" items="{{_returnKeys(seriesConfig)}}">
+        <template is="dom-if" if="{{_chartTypeLine(item, seriesConfig)}}">
+          <px-vis-scatter
+            svg="[[svg]]"
+            series-id="[[item]]"
+            chart-data="[[chartData]]"
+            x="[[x]]"
+            y="[[y]]"
+            current-domain-x="[[currentDomainX]]"
+            current-domain-y="[[currentDomainY]]"
+            muted-series="[[mutedSeries]]"
+            clip-path="[[clipPath]]"
+            series-config="[[seriesConfig]]">
+          </px-vis-scatter>
+        </template>
+        <template is="dom-if" if="{{_chartTypeScatter(item, seriesConfig)}}">
+          <px-vis-line
+            svg="[[svg]]"
+            series-id="[[item]]"
+            chart-data="[[chartData]]"
+            x="[[x]]"
+            y="[[y]]"
+            current-domain-x="[[currentDomainX]]"
+            current-domain-y="[[currentDomainY]]"
+            muted-series="[[mutedSeries]]"
+            clip-path="[[clipPath]]"
+            series-config="[[seriesConfig]]">
+          </px-vis-line>
+        </template>
       </template>
     </div>
     <!-- X axis -->
@@ -101,10 +124,10 @@ Element providing solution to no problem in particular.
       id="xAxis"
       svg="[[svg]]"
       axis="[[x]]"
-      chart-data="[[chartData]]"
       margin="[[margin]]"
       current-domain="[[currentDomainX]]"
-      muted-series="[[mutedSeries]]">
+      muted-series="[[mutedSeries]]"
+      >
     </px-vis-axis>
     <!-- Y axis -->
     <px-vis-axis
@@ -112,9 +135,9 @@ Element providing solution to no problem in particular.
       svg="[[svg]]"
       axis="[[y]]"
       margin="[[margin]]"
-      chart-data="[[chartData]]"
       current-domain="[[currentDomainY]]"
-      muted-series="[[mutedSeries]]">
+      muted-series="[[mutedSeries]]"
+      >
     </px-vis-axis>
     <px-vis-interaction-space
       svg="[[svg]]"
@@ -127,7 +150,10 @@ Element providing solution to no problem in particular.
       current-domain-y="[[currentDomainY]]"
       chart-data="[[chartData]]"
       tooltip-data="{{tooltipData}}"
-      extents-data="{{extentsData}}">
+      extents-data="{{extentsData}}"
+      x-axis-type="[[xAxisType]]"
+      y-axis-type="[[yAxisType]]"
+      series-config="[[seriesConfig]]">
     </px-vis-interaction-space>
     <!-- Tooltip -->
     <px-vis-tooltip
@@ -135,7 +161,10 @@ Element providing solution to no problem in particular.
       tooltip-data="[[tooltipData]]"
       chart-data="[[chartData]]"
       muted-series="[[mutedSeries]]"
-      px-svg-elem="[[pxSvgElem]]">
+      px-svg-elem="[[pxSvgElem]]"
+      x-axis-type="[[xAxisType]]"
+      y-axis-type="[[yAxisType]]"
+      series-config="[[seriesConfig]]">
     </px-vis-tooltip>
     <px-vis-cursor
       horizontal-line="full"
@@ -146,7 +175,8 @@ Element providing solution to no problem in particular.
       height="[[height]]"
       margin="[[margin]]"
       chart-data="[[chartData]]"
-      tooltip-data="[[tooltipData]]">
+      tooltip-data="[[tooltipData]]"
+      series-config="[[seriesConfig]]">
     </px-vis-cursor>
   </template>
 </dom-module>
@@ -165,7 +195,10 @@ Element providing solution to no problem in particular.
       PxVisBehavior.mutedSeries,
       PxVisBehavior.sizing,
       PxVisBehavior.tooltipData,
-      PxVisBehavior.extentsData
+      PxVisBehavior.extentsData,
+      PxVisBehavior.axisTypes,
+      PxVisBehavior.seriesConfig,
+      PxVisBehaviorChart.chartCommon
     ],
     properties: {
       /**
