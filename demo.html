@@ -12,6 +12,7 @@
     <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
     <link rel="import" href="px-vis-xy-chart.html" />
     <link rel="import" href="../iron-ajax/iron-ajax.html" />
+    <link rel="import" href="../px-vis/px-vis-data-converter.html"/>
     <link rel="import" href="../px-theme/px-theme.html" />
   </head>
 
@@ -22,19 +23,31 @@
       <iron-ajax
              url="demo_data.json"
              handle-as="json"
-             last-error="{{sss}}"
              last-response="{{data}}" auto></iron-ajax>
      <iron-ajax
             url="demo_data_ordinal.json"
             handle-as="json"
-            last-error="{{sss}}"
             last-response="{{dataOrdinal}}" auto></iron-ajax>
+      <px-vis-data-converter
+        data-key = "series"
+        id-key = "name"
+        original-data = '[[data]]'
+        series-config="{{seriesConfig}}"
+        chart-data="{{chartData}}">
+      </px-vis-data-converter>
+      <px-vis-data-converter
+        data-key = "series"
+        id-key = "name"
+        original-data = '[[dataOrdinal]]'
+        series-config="{{seriesConfigOrdinal}}"
+        chart-data="{{chartDataOrdinal}}">
+      </px-vis-data-converter>
       <div style="display:flex; justify-content: flex-start">
         <div style="display:flex; flex-direction:column">
-          <span>Minimum configuration</span>
+          <!-- <span>Minimum configuration</span> -->
           <px-vis-xy-chart
             id="chart"
-            chart-data="{{dataOrdinal}}"
+            chart-data="{{chartDataOrdinal}}"
             width="500"
             height="400"
             margin='{ "top": "10", "bottom": "50", "left": "50", "right": "10" }'
@@ -44,24 +57,14 @@
             x-axis-config='{"title": "X"}'
             y-axis-config='{"title": "Y",
                             "orientation": "left"}'
-            series-config='{
-              "0":{
-                "type": "scatter",
-                "name": "mySeries",
-                "x": 0
-              },
-              "1":{
-                "type":"line",
-                "name": "hpt-acc-position-cruise"
-              }
-            }'>
+            series-config='[[seriesConfigOrdinal]]'>
           </px-vis-xy-chart>
         </div>
         <div style="display:flex; flex-direction:column">
-          <span>Advanced/Custom configuration</span>
+          <!-- <span>Advanced/Custom configuration</span> -->
           <px-vis-xy-chart
             id="chart"
-            chart-data="{{data}}"
+            chart-data="{{chartData}}"
             width="500"
             height="400"
             margin='{ "top": "10", "bottom": "60", "left": "50", "right": "10" }'
@@ -82,19 +85,9 @@
               "labelTypeSize": 12,
               "margin": {"left": 0, "right": 0, "top": 0, "bottom": 0}}'
             register-config='{
-              "height": 80,
+              "height": 30,
               "type": "horizontal"}'
-            series-config='{
-            	"0": {
-            		"type": "scatter",
-            		"name": "mySeries",
-            		"x": "0"
-            	},
-            	"1": {
-            		"type": "line",
-            		"name": "hpt-acc-position-cruise"
-            	}
-            }'>
+            series-config='[[seriesConfig]]'>
           </px-vis-xy-chart>
         </div>
       </div>

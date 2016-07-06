@@ -42,7 +42,7 @@ Element providing solution to no problem in particular.
         class$="{{_getHideClass(hideRegister)}}"
         tooltip-data="[[tooltipData]]"
         chart-data="[[chartData]]"
-        series-config="[[seriesConfig]]"
+        complete-series-config="[[completeSeriesConfig]]"
         muted-series={{mutedSeries}}
         type="{{_registerType}}"
         x-axis-type="[[xAxisType]]"
@@ -68,7 +68,8 @@ Element providing solution to no problem in particular.
         current-domain-x="{{currentDomainX}}"
         current-domain-y="{{currentDomainY}}"
         selected-domain="[[selectedDomain]]"
-        series-config="[[seriesConfig]]">
+        chart-extents="[[chartExtents]]"
+        complete-series-config="[[completeSeriesConfig]]">
       </px-vis-scale>
       <px-vis-svg
         id="svg"
@@ -88,8 +89,8 @@ Element providing solution to no problem in particular.
         clip-path="{{clipPath}}">
       </px-vis-clip-path>
       <!-- scatter series -->
-      <template is="dom-repeat" items="{{_returnKeys(seriesConfig)}}">
-        <template is="dom-if" if="{{_chartTypeLine(item, seriesConfig)}}">
+      <template is="dom-repeat" items="[[_returnKeys(completeSeriesConfig)]]">
+        <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]">
           <px-vis-scatter
             svg="[[svg]]"
             series-id="[[item]]"
@@ -100,10 +101,10 @@ Element providing solution to no problem in particular.
             current-domain-y="[[currentDomainY]]"
             muted-series="[[mutedSeries]]"
             clip-path="[[clipPath]]"
-            series-config="[[seriesConfig]]">
+            complete-series-config="[[completeSeriesConfig]]">
           </px-vis-scatter>
         </template>
-        <template is="dom-if" if="{{_chartTypeScatter(item, seriesConfig)}}">
+        <template is="dom-if" if="[[_chartTypeScatter(item, completeSeriesConfig)]]">
           <px-vis-line
             svg="[[svg]]"
             series-id="[[item]]"
@@ -114,7 +115,7 @@ Element providing solution to no problem in particular.
             current-domain-y="[[currentDomainY]]"
             muted-series="[[mutedSeries]]"
             clip-path="[[clipPath]]"
-            series-config="[[seriesConfig]]">
+            complete-series-config="[[completeSeriesConfig]]">
           </px-vis-line>
         </template>
       </template>
@@ -153,7 +154,7 @@ Element providing solution to no problem in particular.
       extents-data="{{extentsData}}"
       x-axis-type="[[xAxisType]]"
       y-axis-type="[[yAxisType]]"
-      series-config="[[seriesConfig]]">
+      complete-series-config="[[completeSeriesConfig]]">
     </px-vis-interaction-space>
     <!-- Tooltip -->
     <px-vis-tooltip
@@ -164,7 +165,7 @@ Element providing solution to no problem in particular.
       px-svg-elem="[[pxSvgElem]]"
       x-axis-type="[[xAxisType]]"
       y-axis-type="[[yAxisType]]"
-      series-config="[[seriesConfig]]">
+      complete-series-config="[[completeSeriesConfig]]">
     </px-vis-tooltip>
     <px-vis-cursor
       horizontal-line="full"
@@ -176,7 +177,7 @@ Element providing solution to no problem in particular.
       margin="[[margin]]"
       chart-data="[[chartData]]"
       tooltip-data="[[tooltipData]]"
-      series-config="[[seriesConfig]]">
+      complete-series-config="[[completeSeriesConfig]]">
     </px-vis-cursor>
   </template>
 </dom-module>
@@ -197,7 +198,7 @@ Element providing solution to no problem in particular.
       PxVisBehavior.tooltipData,
       PxVisBehavior.extentsData,
       PxVisBehavior.axisTypes,
-      PxVisBehavior.seriesConfig,
+      PxVisBehavior.completeSeriesConfig,
       PxVisBehaviorChart.chartCommon
     ],
     properties: {
