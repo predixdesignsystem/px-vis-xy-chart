@@ -28,7 +28,7 @@
             url="demo_data_ordinal.json"
             handle-as="json"
             last-response="{{dataOrdinal}}" auto></iron-ajax>
-      <px-vis-data-converter
+      <!-- <px-vis-data-converter
         data-key = "series"
         id-key = "name"
         original-data = '[[data]]'
@@ -41,13 +41,13 @@
         original-data = '[[dataOrdinal]]'
         series-config="{{seriesConfigOrdinal}}"
         chart-data="{{chartDataOrdinal}}">
-      </px-vis-data-converter>
+      </px-vis-data-converter> -->
       <div style="display:flex; justify-content: flex-start">
         <div style="display:flex; flex-direction:column">
           <!-- <span>Minimum configuration</span> -->
           <px-vis-xy-chart
             id="chart"
-            chart-data="{{chartDataOrdinal}}"
+            chart-data="{{dataOrdinal}}"
             width="500"
             height="400"
             margin='{ "top": "10", "bottom": "50", "left": "50", "right": "10" }'
@@ -57,14 +57,20 @@
             x-axis-config='{"title": "X"}'
             y-axis-config='{"title": "Y",
                             "orientation": "left"}'
-            series-config='[[seriesConfigOrdinal]]'>
+            series-config='{
+              "y": {
+                "type": "line",
+                "name": "serie 1",
+                "x": "x"
+              }
+            }'>
           </px-vis-xy-chart>
         </div>
         <div style="display:flex; flex-direction:column">
           <!-- <span>Advanced/Custom configuration</span> -->
           <px-vis-xy-chart
             id="chart"
-            chart-data="{{chartData}}"
+            chart-data="{{data}}"
             width="500"
             height="400"
             margin='{ "top": "10", "bottom": "60", "left": "50", "right": "10" }'
@@ -87,7 +93,18 @@
             register-config='{
               "height": 30,
               "type": "horizontal"}'
-            series-config='[[seriesConfig]]'>
+              series-config='{
+                "y1": {
+                  "type": "line",
+                  "name": "serie 1",
+                  "x": "x"
+                },
+                "y2": {
+                  "type": "scatter",
+                  "name": "helter scatter",
+                  "x": "x"
+                }
+              }'>
           </px-vis-xy-chart>
         </div>
       </div>
