@@ -90,7 +90,7 @@ Element providing solution to no problem in particular.
       </px-vis-clip-path>
       <!-- scatter series -->
       <template is="dom-repeat" items="[[_returnKeys(completeSeriesConfig)]]">
-        <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]">
+        <template is="dom-if" if="[[_chartTypeScatter(item, completeSeriesConfig)]]">
           <px-vis-scatter
             svg="[[svg]]"
             series-id="[[item]]"
@@ -104,7 +104,7 @@ Element providing solution to no problem in particular.
             complete-series-config="[[completeSeriesConfig]]">
           </px-vis-scatter>
         </template>
-        <template is="dom-if" if="[[_chartTypeScatter(item, completeSeriesConfig)]]">
+        <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]">
           <px-vis-line
             svg="[[svg]]"
             series-id="[[item]]"
