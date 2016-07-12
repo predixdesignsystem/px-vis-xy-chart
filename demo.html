@@ -35,13 +35,12 @@
       </iron-ajax>
       <div style="display:flex; justify-content: flex-start">
         <div style="display:flex; flex-direction:column">
-          <!-- <span>Minimum configuration</span> -->
           <px-vis-xy-chart
             id="chart"
             chart-data="{{dataOrdinal}}"
             width="500"
             height="400"
-            margin='{ "top": "10", "bottom": "50", "left": "50", "right": "10" }'
+            margin='{ "top": "20", "bottom": "20", "left": "50", "right": "10" }'
             x-axis-title="X"
             y-axis-title="Y"
             x-axis-type="ordinal"
@@ -60,7 +59,6 @@
           </px-vis-xy-chart>
         </div>
         <div style="display:flex; flex-direction:column">
-          <!-- <span>Advanced/Custom configuration</span> -->
           <px-vis-xy-chart
             id="chart"
             chart-data="{{data}}"
@@ -76,7 +74,7 @@
               "labelPosition": "center",
               "orientation": "left"}'
             register-config='{
-              "height": 30,
+              "height": 50,
               "type": "horizontal"}'
             series-config='{
               "y1": {

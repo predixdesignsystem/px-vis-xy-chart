@@ -36,8 +36,25 @@ Element providing solution to no problem in particular.
 <dom-module id="px-vis-xy-chart">
   <link rel="import" type="css" href="css/px-vis-xy-chart.css"/>
   <template>
+    <px-vis-zoom
+      extents-data="[[extentsData]]"
+      margin="[[margin]]"
+      px-svg-elem="[[pxSvgElem]]"
+      selected-domain="{{selectedDomain}}">
+    </px-vis-zoom>
     <!-- Legend -->
     <div class$="{{_getWrapperClass(_registerType)}}">
+      <px-vis-tooltip
+        class$="{{_getHideClass(hideTooltip)}}"
+        tooltip-data="[[tooltipData]]"
+        chart-data="[[chartData]]"
+        muted-series="[[mutedSeries]]"
+        px-svg-elem="[[pxSvgElem]]"
+        x-axis-type="[[xAxisType]]"
+        y-axis-type="[[yAxisType]]"
+        margin="[[margin]]"
+        complete-series-config="[[completeSeriesConfig]]">
+      </px-vis-tooltip>
       <px-vis-register
         id="register"
         class$="{{_getHideClass(hideRegister)}}"
@@ -49,12 +66,6 @@ Element providing solution to no problem in particular.
         x-axis-type="[[xAxisType]]"
         y-axis-type="[[yAxisType]]">
       </px-vis-register>
-      <px-vis-zoom
-        extents-data="[[extentsData]]"
-        margin="[[margin]]"
-        px-svg-elem="[[pxSvgElem]]"
-        selected-domain="{{selectedDomain}}">
-      </px-vis-zoom>
       <!-- Core -->
       <px-vis-scale
         id="scale"
@@ -120,6 +131,18 @@ Element providing solution to no problem in particular.
           </px-vis-line>
         </template>
       </template>
+      <px-vis-cursor
+        horizontal-line="full"
+        vertical-line="full"
+        circle-point="yes"
+        svg="[[svg]]"
+        width="[[width]]"
+        height="[[height]]"
+        margin="[[margin]]"
+        chart-data="[[chartData]]"
+        tooltip-data="[[tooltipData]]"
+        complete-series-config="[[completeSeriesConfig]]">
+      </px-vis-cursor>
     </div>
     <!-- X axis -->
     <px-vis-axis
@@ -157,29 +180,6 @@ Element providing solution to no problem in particular.
       y-axis-type="[[yAxisType]]"
       complete-series-config="[[completeSeriesConfig]]">
     </px-vis-interaction-space>
-    <!-- Tooltip -->
-    <px-vis-tooltip
-      class$="{{_getHideClass(hideTooltip)}}"
-      tooltip-data="[[tooltipData]]"
-      chart-data="[[chartData]]"
-      muted-series="[[mutedSeries]]"
-      px-svg-elem="[[pxSvgElem]]"
-      x-axis-type="[[xAxisType]]"
-      y-axis-type="[[yAxisType]]"
-      complete-series-config="[[completeSeriesConfig]]">
-    </px-vis-tooltip>
-    <px-vis-cursor
-      horizontal-line="full"
-      vertical-line="full"
-      circle-point="yes"
-      svg="[[svg]]"
-      width="[[width]]"
-      height="[[height]]"
-      margin="[[margin]]"
-      chart-data="[[chartData]]"
-      tooltip-data="[[tooltipData]]"
-      complete-series-config="[[completeSeriesConfig]]">
-    </px-vis-cursor>
     <template is="dom-repeat" items="[[eventData]]">
       <px-vis-event
         svg="[[svg]]"
