@@ -18,6 +18,7 @@
 <link rel="import" href="../px-vis/px-vis-zoom.html"/>
 <link rel="import" href="../px-vis/px-vis-cursor.html"/>
 <link rel="import" href="../px-vis/px-vis-clip-path.html"/>
+<link rel="import" href="../px-vis/px-vis-event.html"/>
 
 
 <!--
@@ -100,7 +101,7 @@ Element providing solution to no problem in particular.
             current-domain-x="[[currentDomainX]]"
             current-domain-y="[[currentDomainY]]"
             muted-series="[[mutedSeries]]"
-            clip-path="[[clipPath]]"
+            clip-path="[[seriesClipPath]]"
             complete-series-config="[[completeSeriesConfig]]">
           </px-vis-scatter>
         </template>
@@ -114,7 +115,7 @@ Element providing solution to no problem in particular.
             current-domain-x="[[currentDomainX]]"
             current-domain-y="[[currentDomainY]]"
             muted-series="[[mutedSeries]]"
-            clip-path="[[clipPath]]"
+            clip-path="[[seriesClipPath]]"
             complete-series-config="[[completeSeriesConfig]]">
           </px-vis-line>
         </template>
@@ -179,6 +180,20 @@ Element providing solution to no problem in particular.
       tooltip-data="[[tooltipData]]"
       complete-series-config="[[completeSeriesConfig]]">
     </px-vis-cursor>
+    <template is="dom-repeat" items="[[eventData]]">
+      <px-vis-event
+        svg="[[svg]]"
+        event-id="[[item.id]]"
+        event-data="[[item]]"
+        x="[[x]]"
+        y="[[y]]"
+        event-config="[[eventConfig]]"
+        current-domain-x="[[currentDomainX]]"
+        current-domain-y="[[currentDomainY]]"
+        clip-path="[[clipPath]]"
+        >
+      </px-vis-event>
+    </template>
   </template>
 </dom-module>
 
@@ -198,6 +213,7 @@ Element providing solution to no problem in particular.
       PxVisBehavior.tooltipData,
       PxVisBehavior.extentsData,
       PxVisBehavior.axisTypes,
+      PxVisBehavior.events,
       PxVisBehavior.completeSeriesConfig,
       PxVisBehaviorChart.chartCommon
     ],

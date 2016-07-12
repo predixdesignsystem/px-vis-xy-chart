@@ -21,6 +21,7 @@
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#~v1.1.6",
     "iron-ajax": "PolymerElements/iron-ajax#~1.1.1",
+    "px-demo-data": "~0.0.1",
     "px-layout-design": "~0.3.13",
     "px-starter-kit-design": "~0.5.5"
   }

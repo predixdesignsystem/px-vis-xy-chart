@@ -28,20 +28,11 @@
             url="demo_data_ordinal.json"
             handle-as="json"
             last-response="{{dataOrdinal}}" auto></iron-ajax>
-      <!-- <px-vis-data-converter
-        data-key = "series"
-        id-key = "name"
-        original-data = '[[data]]'
-        series-config="{{seriesConfig}}"
-        chart-data="{{chartData}}">
-      </px-vis-data-converter>
-      <px-vis-data-converter
-        data-key = "series"
-        id-key = "name"
-        original-data = '[[dataOrdinal]]'
-        series-config="{{seriesConfigOrdinal}}"
-        chart-data="{{chartDataOrdinal}}">
-      </px-vis-data-converter> -->
+      <iron-ajax
+        url="events.json"
+        handle-as="json"
+        last-response="{{eventData}}" auto>
+      </iron-ajax>
       <div style="display:flex; justify-content: flex-start">
         <div style="display:flex; flex-direction:column">
           <!-- <span>Minimum configuration</span> -->
@@ -60,6 +51,7 @@
             series-config='{
               "y": {
                 "type": "scatter",
+                "markerSymbol": "diamond",
                 "name": "serie 1",
                 "x": "x",
                 "y":"y"
@@ -74,40 +66,54 @@
             chart-data="{{data}}"
             width="500"
             height="400"
-            margin='{ "top": "10", "bottom": "60", "left": "50", "right": "10" }'
+            margin='{ "top": "30", "bottom": "60", "left": "50", "right": "10" }'
             x-axis-title="X"
             y-axis-title="Y"
             x-axis-config='{"title": "X",
              "labelPosition": "center",
-             "orientation": "bottom",
-             "labelRotation": 45,
-             "labelTranslation": [0,20],
-             "labelTypeSize": 16,
-             "margin": {"left": 5, "right": 5, "top": 5, "bottom": 65}}'
+             "orientation": "bottom"}'
             y-axis-config='{"title": "Y",
-              "labelPosition": "before",
-              "orientation": "left",
-              "labelRotation": 180,
-              "labelTranslation": [-25,0],
-              "labelTypeSize": 12,
-              "margin": {"left": 0, "right": 0, "top": 0, "bottom": 0}}'
+              "labelPosition": "center",
+              "orientation": "left"}'
             register-config='{
               "height": 30,
               "type": "horizontal"}'
-              series-config='{
-                "y1": {
-                  "type": "line",
-                  "name": "serie 1",
-                  "x": "x",
-                  "y":"y1"
-                },
-                "y2": {
-                  "type": "scatter",
-                  "name": "helter scatter",
-                  "x": "x",
-                  "y":"y2"
-                }
-              }'>
+            series-config='{
+              "y1": {
+                "type": "scatter",
+                "markerSymbol": "triangle-up",
+                "name": "serie 1",
+                "x": "x",
+                "y":"y1"
+              },
+              "y2": {
+                "type": "scatter",
+                "name": "helter scatter",
+                "x": "x",
+                "y":"y2"
+              }
+            }'
+            event-config='{
+            	"Recalibrate": {
+            		"color": "blue",
+            		"icon": "fa-camera",
+            		"type": "fa",
+            		"offset": [0, 0]
+            	},
+            	"Fan start": {
+            		"color": "green",
+            		"icon": "\uf015",
+            		"type": "unicode",
+            		"offset": [1, 0]
+            	},
+            	"Fan stop": {
+            		"icon": "ge_logo.png",
+            		"type": "image",
+            		"offset": [0, -20],
+            		"size": "20"
+            	}
+            }'
+            event-data="{{eventData}}">
           </px-vis-xy-chart>
         </div>
       </div>
