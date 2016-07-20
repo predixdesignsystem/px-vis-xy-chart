@@ -1,27 +1,39 @@
 // This is the wrapper for custom tests, called upon web components ready state
 function runCustomTests() {
   // Place any setup steps like variable declaration and initialization here
+  var hor = document.getElementById('horizontal'),
+      vert = document.getElementById('vertical');
 
   // This is the placeholder suite to place custom tests in
   // Use testCase(options) for a more convenient setup of the test cases
-  suite('Custom Automation Tests for px-vis-xy-chart', function() {
-    test('Check initial value of counter', function(done){
-      var counterEl = Polymer.dom(document).querySelector('px-vis-xy-chart'),
-          counterValueEl = Polymer.dom(counterEl.root).querySelector('span');
-      assert.equal(counterValueEl.textContent, '0');
-      done();
+  suite('register position', function() {
+
+    test('register horizontal position', function() {
+        var svg = Polymer.dom(hor.root).querySelector('px-vis-svg'),
+            register = Polymer.dom(hor.root).querySelector('px-vis-register'),
+            svgRect = svg.getBoundingClientRect(),
+            regRect = register.getBoundingClientRect();
+
+        assert.equal(regRect.bottom, svgRect.top);
+
     });
 
-    test('Clicking px-vis-xy-chart increments the counter', function(done){
-      var counterEl = Polymer.dom(document).querySelector('px-vis-xy-chart'),
-          counterValueEl = Polymer.dom(counterEl.root).querySelector('span');
-      assert.equal(counterValueEl.textContent, '0');
+    test('register vertical position', function() {
+        var svg = Polymer.dom(vert.root).querySelector('px-vis-svg'),
+            register = Polymer.dom(vert.root).querySelector('px-vis-register'),
+            svgRect = svg.getBoundingClientRect(),
+            regRect = register.getBoundingClientRect();
 
-      counterEl.click();
-      flush(function(){
-        assert.equal(counterValueEl.textContent, '1');
-      });
-      done();
+        assert.equal(regRect.left, svgRect.right);
+
     });
+
+    test('get hide class', function() {
+
+      assert.equal('visuallyhidden', hor._getHideClass(true));
+      assert.equal('', hor._getHideClass(false));
+    });
+
+    
   });
 };
