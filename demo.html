@@ -118,10 +118,6 @@
           </px-vis-xy-chart>
         </div>
       </div>
-      <!-- <div style="display:flex; justify-content: flex-start">
-        <div style="flex:1">X axis config: <textarea id="xConfig" value="{{xConfig::input}}" style="width:350px; height:230px"></textarea></div>
-        <div style="flex:1">Y axis config: <textarea id="yConfig" value="{{yConfig::input}}" style="width:350px; height:230px"></textarea></div>
-      </div> -->
     </template>
   </body>
   <script>
@@ -129,34 +125,6 @@
       var chart = document.getElementById('chart'),
           xConfigText = document.getElementById('xConfig'),
           yConfigText = document.getElementById('yConfig');
-        /*  xInitConf = {"title": "X",
-           "labelPosition": "center",
-           "orientation": "bottom",
-           "labelRotation": 0,
-           "labelTranslation": [0,0],
-           "labelTypeSize": 12,
-           "translateAmt": [0,0],
-           "margin": {"left": 5, "right": 5, "top": 5, "bottom": 5}},
-          yInitConf = {"title": "Y",
-           "labelPosition": "center",
-           "orientation": "left",
-           "labelRotation": 0,
-           "labelTranslation": [0,0],
-           "labelTypeSize": 12,
-           "translateAmt": [0,0],
-           "margin": {"left": 5, "right": 5, "top": 5, "bottom": 5}};*/
-
-    /*  xConfigText.addEventListener('input', function() {
-        chart.set('xAxisConfig', JSON.parse(xConfigText.value));
-      });
-      yConfigText.addEventListener('input', function() {
-        chart.set('yAxisConfig', JSON.parse(yConfigText.value));
-      });
-
-      xConfigText.value = JSON.stringify(xInitConf, null, 4);
-      yConfigText.value = JSON.stringify(yInitConf, null, 4);
-      chart.set('xAxisConfig', xInitConf);
-      chart.set('yAxisConfig', yInitConf);*/
     });
   </script>
 
