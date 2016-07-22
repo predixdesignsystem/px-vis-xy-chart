@@ -44,17 +44,7 @@ Element providing solution to no problem in particular.
     </px-vis-zoom>
     <!-- Legend -->
     <div class$="{{_getWrapperClass(_registerType)}}">
-      <px-vis-tooltip
-        class$="{{_getHideClass(hideTooltip)}}"
-        tooltip-data="[[tooltipData]]"
-        chart-data="[[chartData]]"
-        muted-series="[[mutedSeries]]"
-        px-svg-elem="[[pxSvgElem]]"
-        x-axis-type="[[xAxisType]]"
-        y-axis-type="[[yAxisType]]"
-        margin="[[margin]]"
-        complete-series-config="[[completeSeriesConfig]]">
-      </px-vis-tooltip>
+
       <px-vis-register
         id="register"
         class$="{{_getHideClass(hideRegister)}}"
@@ -66,83 +56,97 @@ Element providing solution to no problem in particular.
         x-axis-type="[[xAxisType]]"
         y-axis-type="[[yAxisType]]">
       </px-vis-register>
-      <!-- Core -->
-      <px-vis-scale
-        id="scale"
-        x-axis-type="[[xAxisType]]"
-        y-axis-type="[[yAxisType]]"
-        width="[[width]]"
-        height="[[height]]"
-        margin="[[margin]]"
-        chart-data="[[chartData]]"
-        x="{{x}}"
-        y="{{y}}"
-        current-domain-x="{{currentDomainX}}"
-        current-domain-y="{{currentDomainY}}"
-        selected-domain="[[selectedDomain]]"
-        chart-extents="[[chartExtents]]"
-        complete-series-config="[[completeSeriesConfig]]">
-      </px-vis-scale>
-      <px-vis-svg
-        id="svg"
-        width="[[width]]"
-        height="[[height]]"
-        margin="[[margin]]"
-        svg="{{svg}}"
-        px-svg-elem="{{pxSvgElem}}">
-      </px-vis-svg>
-      <px-vis-clip-path
-        svg="[[svg]]"
-        x="[[x]]"
-        y="[[y]]"
-        width="[[width]]"
-        height="[[height]]"
-        margin="[[margin]]"
-        clip-path="{{clipPath}}">
-      </px-vis-clip-path>
-      <!-- scatter series -->
-      <template is="dom-repeat" items="[[_returnKeys(completeSeriesConfig)]]">
-        <template is="dom-if" if="[[_chartTypeScatter(item, completeSeriesConfig)]]">
-          <px-vis-scatter
-            svg="[[svg]]"
-            series-id="[[item]]"
-            chart-data="[[chartData]]"
-            x="[[x]]"
-            y="[[y]]"
-            current-domain-x="[[currentDomainX]]"
-            current-domain-y="[[currentDomainY]]"
-            muted-series="[[mutedSeries]]"
-            clip-path="[[seriesClipPath]]"
-            complete-series-config="[[completeSeriesConfig]]">
-          </px-vis-scatter>
+
+      <div>
+        <!-- Core -->
+        <px-vis-scale
+          id="scale"
+          x-axis-type="[[xAxisType]]"
+          y-axis-type="[[yAxisType]]"
+          width="[[width]]"
+          height="[[height]]"
+          margin="[[margin]]"
+          chart-data="[[chartData]]"
+          x="{{x}}"
+          y="{{y}}"
+          current-domain-x="{{currentDomainX}}"
+          current-domain-y="{{currentDomainY}}"
+          selected-domain="[[selectedDomain]]"
+          chart-extents="[[chartExtents]]"
+          complete-series-config="[[completeSeriesConfig]]">
+        </px-vis-scale>
+        <px-vis-tooltip
+          class$="{{_getHideClass(hideTooltip)}}"
+          tooltip-data="[[tooltipData]]"
+          chart-data="[[chartData]]"
+          muted-series="[[mutedSeries]]"
+          px-svg-elem="[[pxSvgElem]]"
+          x-axis-type="[[xAxisType]]"
+          y-axis-type="[[yAxisType]]"
+          margin="[[margin]]"
+          complete-series-config="[[completeSeriesConfig]]">
+        </px-vis-tooltip>
+        <px-vis-svg
+          id="svg"
+          width="[[width]]"
+          height="[[height]]"
+          margin="[[margin]]"
+          svg="{{svg}}"
+          px-svg-elem="{{pxSvgElem}}">
+        </px-vis-svg>
+        <px-vis-clip-path
+          svg="[[svg]]"
+          x="[[x]]"
+          y="[[y]]"
+          width="[[width]]"
+          height="[[height]]"
+          margin="[[margin]]"
+          clip-path="{{clipPath}}">
+        </px-vis-clip-path>
+        <!-- scatter series -->
+        <template is="dom-repeat" items="[[_returnKeys(completeSeriesConfig)]]">
+          <template is="dom-if" if="[[_chartTypeScatter(item, completeSeriesConfig)]]">
+            <px-vis-scatter
+              svg="[[svg]]"
+              series-id="[[item]]"
+              chart-data="[[chartData]]"
+              x="[[x]]"
+              y="[[y]]"
+              current-domain-x="[[currentDomainX]]"
+              current-domain-y="[[currentDomainY]]"
+              muted-series="[[mutedSeries]]"
+              clip-path="[[seriesClipPath]]"
+              complete-series-config="[[completeSeriesConfig]]">
+            </px-vis-scatter>
+          </template>
+          <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]">
+            <px-vis-line
+              svg="[[svg]]"
+              series-id="[[item]]"
+              chart-data="[[chartData]]"
+              x="[[x]]"
+              y="[[y]]"
+              current-domain-x="[[currentDomainX]]"
+              current-domain-y="[[currentDomainY]]"
+              muted-series="[[mutedSeries]]"
+              clip-path="[[seriesClipPath]]"
+              complete-series-config="[[completeSeriesConfig]]">
+            </px-vis-line>
+          </template>
         </template>
-        <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]">
-          <px-vis-line
-            svg="[[svg]]"
-            series-id="[[item]]"
-            chart-data="[[chartData]]"
-            x="[[x]]"
-            y="[[y]]"
-            current-domain-x="[[currentDomainX]]"
-            current-domain-y="[[currentDomainY]]"
-            muted-series="[[mutedSeries]]"
-            clip-path="[[seriesClipPath]]"
-            complete-series-config="[[completeSeriesConfig]]">
-          </px-vis-line>
-        </template>
-      </template>
-      <px-vis-cursor
-        horizontal-line="full"
-        vertical-line="full"
-        circle-point="yes"
-        svg="[[svg]]"
-        width="[[width]]"
-        height="[[height]]"
-        margin="[[margin]]"
-        chart-data="[[chartData]]"
-        tooltip-data="[[tooltipData]]"
-        complete-series-config="[[completeSeriesConfig]]">
-      </px-vis-cursor>
+        <px-vis-cursor
+          horizontal-line="full"
+          vertical-line="full"
+          circle-point="yes"
+          svg="[[svg]]"
+          width="[[width]]"
+          height="[[height]]"
+          margin="[[margin]]"
+          chart-data="[[chartData]]"
+          tooltip-data="[[tooltipData]]"
+          complete-series-config="[[completeSeriesConfig]]">
+        </px-vis-cursor>
+      </div>
     </div>
     <!-- X axis -->
     <px-vis-axis
@@ -242,7 +246,6 @@ Element providing solution to no problem in particular.
        * Most interesting properties include:
        * -width
        * -height
-       * -units (array)
        *
        */
       tooltipConfig: {
@@ -255,7 +258,6 @@ Element providing solution to no problem in particular.
        * Most interesting properties include:
        * -width
        * -height
-       * -units (array)
        *
        */
       registerConfig: {

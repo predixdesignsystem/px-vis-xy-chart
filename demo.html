@@ -33,8 +33,8 @@
         handle-as="json"
         last-response="{{eventData}}" auto>
       </iron-ajax>
-      <div style="display:flex; justify-content: flex-start">
-        <div style="display:flex; flex-direction:column">
+      <div style="display:flex">
+
           <px-vis-xy-chart
             id="chart"
             chart-data="{{dataOrdinal}}"
@@ -50,23 +50,21 @@
             series-config='{
               "y": {
                 "type": "scatter",
-                "markerSymbol": "square",
+                "markerSymbol": "triangle-up",
                 "name": "serie 1",
                 "x": "x",
-                "y":"y"
+                "y":"y",
+                "color": "rgb(96,189,104)"
               }
             }'>
           </px-vis-xy-chart>
-        </div>
-        <div style="display:flex; flex-direction:column">
+
           <px-vis-xy-chart
             id="chart"
             chart-data="{{data}}"
-            width="500"
+            width="700"
             height="400"
             margin='{ "top": "30", "bottom": "60", "left": "50", "right": "10" }'
-            x-axis-title="X"
-            y-axis-title="Y"
             x-axis-config='{"title": "X",
              "labelPosition": "center",
              "orientation": "bottom"}'
@@ -77,37 +75,41 @@
               "height": 50,
               "type": "horizontal"}'
             series-config='{
-              "y1": {
-                "type": "line",
-                "name": "serie 1",
-                "xAxisUnit": "Oranges",
-                "yAxisUnit": "Velocity",
-                "x": "x",
-                "y":"y1"
-              },
-              "y2": {
+              "firstSerie": {
                 "type": "scatter",
-                "name": "helter scatter",
-                "xAxisUnit": "Ghz",
-                "yAxisUnit": "Velociraptor",
-                "x": "x",
-                "y":"y2"
+                "name": "Data",
+                "xAxisUnit": "Hz",
+                "yAxisUnit": "Hz",
+                "x": "T48A",
+                "y":"T48B"
+              },"secondSerie": {
+                "type": "line",
+                "name": "Trend",
+                "x": "T48A",
+                "y":"Line"
               }
             }'
+            default-series-config='{
+              "x": "T48A",
+              "xMin": "dynamic",
+              "xMax": "dynamic",
+              "yMin": "dynamic",
+              "yMax": "dynamic"
+            }'
             event-config='{
-            	"Recalibrate": {
+            	"Fa Icon": {
             		"color": "blue",
             		"icon": "fa-camera",
             		"type": "fa",
             		"offset": [0, 0]
             	},
-            	"Fan start": {
+            	"Unicode": {
             		"color": "green",
             		"icon": "\uf015",
             		"type": "unicode",
             		"offset": [1, 0]
             	},
-            	"Fan stop": {
+            	"Event Png": {
             		"icon": "ge_logo.png",
             		"type": "image",
             		"offset": [0, -20],
@@ -116,7 +118,7 @@
             }'
             event-data="{{eventData}}">
           </px-vis-xy-chart>
-        </div>
+
       </div>
     </template>
   </body>
