@@ -9,7 +9,7 @@ function runCustomTests() {
   suite('register position', function() {
 
     test('register horizontal position', function() {
-        var svg = Polymer.dom(hor.root).querySelector('px-vis-svg'),
+        var svg = Polymer.dom(hor.root).querySelector('#svgWrapper'),
             register = Polymer.dom(hor.root).querySelector('px-vis-register'),
             svgRect = svg.getBoundingClientRect(),
             regRect = register.getBoundingClientRect();
@@ -19,7 +19,7 @@ function runCustomTests() {
     });
 
     test('register vertical position', function() {
-        var svg = Polymer.dom(vert.root).querySelector('px-vis-svg'),
+        var svg = Polymer.dom(vert.root).querySelector('#svgWrapper'),
             register = Polymer.dom(vert.root).querySelector('px-vis-register'),
             svgRect = svg.getBoundingClientRect(),
             regRect = register.getBoundingClientRect();
@@ -34,6 +34,6 @@ function runCustomTests() {
       assert.equal('', hor._getHideClass(false));
     });
 
-    
+
   });
 };
