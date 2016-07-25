@@ -76,65 +76,67 @@
               <!-- demo -->
               <div class="flex flex--col">
                 <div class="flex__item demo u-ph+ u-pb+ u-mt++">
-                  <px-vis-xy-chart
-                    id="chart"
-                    chart-data="{{data}}"
-                    width="{{item.width}}"
-                    height="{{item.height}}"
-                    margin='{ "top": "30", "bottom": "60", "left": "50", "right": "10" }'
-                    x-axis-config='{"title": "X",
-                     "labelPosition": "center",
-                     "orientation": "bottom"}'
-                    y-axis-config='{"title": "Y",
-                      "labelPosition": "center",
-                      "orientation": "left"}'
-                    register-config='{
-                      "height": 50,
-                      "type": "horizontal"}'
-                    series-config='{
-                        "firstSerie": {
-                          "type": "scatter",
-                          "name": "Data",
-                          "xAxisUnit": "Hz",
-                          "yAxisUnit": "Hz",
-                          "x": "T48A",
-                          "y":"T48B"
-                        },"secondSerie": {
-                          "type": "line",
-                          "name": "Trend",
-                          "x": "T48A",
-                          "y":"Line"
-                        }
+                  <div class="u-m+">
+                    <px-vis-xy-chart
+                      id="chart"
+                      chart-data="{{data}}"
+                      width="{{item.width}}"
+                      height="{{item.height}}"
+                      margin='{ "top": "30", "bottom": "60", "left": "50", "right": "10" }'
+                      x-axis-config='{"title": "X",
+                       "labelPosition": "center",
+                       "orientation": "bottom"}'
+                      y-axis-config='{"title": "Y",
+                        "labelPosition": "center",
+                        "orientation": "left"}'
+                      register-config='{
+                        "height": 50,
+                        "type": "horizontal"}'
+                      series-config='{
+                          "firstSerie": {
+                            "type": "scatter",
+                            "name": "Data",
+                            "xAxisUnit": "Hz",
+                            "yAxisUnit": "Hz",
+                            "x": "T48A",
+                            "y":"T48B"
+                          },"secondSerie": {
+                            "type": "line",
+                            "name": "Trend",
+                            "x": "T48A",
+                            "y":"Line"
+                          }
+                        }'
+                      default-series-config='{
+                        "x": "T48A",
+                        "xMin": "dynamic",
+                        "xMax": "dynamic",
+                        "yMin": "dynamic",
+                        "yMax": "dynamic"
                       }'
-                    default-series-config='{
-                      "x": "T48A",
-                      "xMin": "dynamic",
-                      "xMax": "dynamic",
-                      "yMin": "dynamic",
-                      "yMax": "dynamic"
-                    }'
-                    event-config='{
-                    	"Fa Icon": {
-                    		"color": "blue",
-                    		"icon": "fa-camera",
-                    		"type": "fa",
-                    		"offset": [0, 0]
-                    	},
-                    	"Unicode": {
-                    		"color": "green",
-                    		"icon": "\uf015",
-                    		"type": "unicode",
-                    		"offset": [1, 0]
-                    	},
-                    	"Event Png": {
-                    		"icon": "ge_logo.png",
-                    		"type": "image",
-                    		"offset": [0, -20],
-                    		"size": "20"
-                    	}
-                    }'
-                    event-data="{{eventData}}">
-                  </px-vis-xy-chart>
+                      event-config='{
+                      	"Fa Icon": {
+                      		"color": "blue",
+                      		"icon": "fa-camera",
+                      		"type": "fa",
+                      		"offset": [0, 0]
+                      	},
+                      	"Unicode": {
+                      		"color": "green",
+                      		"icon": "\uf015",
+                      		"type": "unicode",
+                      		"offset": [1, 0]
+                      	},
+                      	"Event Png": {
+                      		"icon": "ge_logo.png",
+                      		"type": "image",
+                      		"offset": [0, -20],
+                      		"size": "20"
+                      	}
+                      }'
+                      event-data="{{eventData}}">
+                    </px-vis-xy-chart>
+                  </div>
                 </div>
                 <div class="flex__item">
                   <px-demo-snippet
@@ -184,7 +186,7 @@ window.addEventListener('WebComponentsReady', function() {
   var optionsArray = [
     {
 
-      "width": 800,
+      "width": 550,
       "height": 400,
       "margin":'{ "top": "30", "bottom": "60", "left": "50", "right": "10" }',
       "x-axis-config":{"title": "X",
