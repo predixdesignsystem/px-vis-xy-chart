@@ -33,7 +33,7 @@
         handle-as="json"
         last-response="{{eventData}}" auto>
       </iron-ajax>
-      <div style="display:flex">
+      <div style="resize: both;">
 
           <px-vis-xy-chart
             id="chart"
@@ -47,6 +47,9 @@
             x-axis-config='{"title": "X"}'
             y-axis-config='{"title": "Y",
                             "orientation": "left"}'
+            register-config='{
+              "height": 50,
+              "type": "horizontal"}'
             series-config='{
               "y": {
                 "type": "scatter",
@@ -58,7 +61,7 @@
               }
             }'>
           </px-vis-xy-chart>
-
+<!--
           <px-vis-xy-chart
             id="chart"
             chart-data="{{data}}"
@@ -117,7 +120,7 @@
             	}
             }'
             event-data="{{eventData}}">
-          </px-vis-xy-chart>
+          </px-vis-xy-chart> -->
 
       </div>
     </template>
