@@ -19,6 +19,7 @@
 <link rel="import" href="../px-vis/px-vis-cursor.html"/>
 <link rel="import" href="../px-vis/px-vis-clip-path.html"/>
 <link rel="import" href="../px-vis/px-vis-event.html"/>
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html" />
 
 
 <!--
@@ -36,6 +37,7 @@ Element providing solution to no problem in particular.
 <dom-module id="px-vis-xy-chart">
   <link rel="import" type="css" href="css/px-vis-xy-chart.css"/>
   <template>
+    <div id="wrapper">
     <px-vis-zoom
       extents-data="[[extentsData]]"
       margin="[[margin]]"
@@ -161,6 +163,8 @@ Element providing solution to no problem in particular.
     <!-- Y axis -->
     <px-vis-axis
       id="yAxis"
+      width="[[width]]"
+      height="[[height]]"
       svg="[[svg]]"
       axis="[[y]]"
       margin="[[margin]]"
@@ -198,6 +202,7 @@ Element providing solution to no problem in particular.
         >
       </px-vis-event>
     </template>
+  </div>
   </template>
 </dom-module>
 
@@ -219,7 +224,8 @@ Element providing solution to no problem in particular.
       PxVisBehavior.axisTypes,
       PxVisBehavior.events,
       PxVisBehavior.completeSeriesConfig,
-      PxVisBehaviorChart.chartCommon
+      PxVisBehaviorChart.chartCommon,
+      Polymer.IronResizableBehavior
     ],
     properties: {
       /**
@@ -286,6 +292,9 @@ Element providing solution to no problem in particular.
     },
     observer: ['_xAxisConfigChanged(xAxisConfig.*)',
                '_yAxisConfigChanged(yAxisConfig.*)'],
+    listeners: {
+     'iron-resize': '_onIronResize'
+    },
     _xAxisConfigChanged: function(conf) {
 
       this._applyConfigToElement(this.xAxisConfig, this.$.xAxis);
@@ -340,6 +349,21 @@ Element providing solution to no problem in particular.
         classList += "flex--col";
       }
       return classList;
+    },
+    _onIronResize: function() {
+      this.debounce('ironresize', function() {
+        var wrapperRect = this.$.wrapper.getBoundingClientRect(),
+            registerRect = this.$.register.getBoundingClientRect();
+
+        if(this.$.register.type === 'horizontal') {
+          this.set('width', wrapperRect.width);
+          this.set('height', wrapperRect.height - registerRect.height);
+        } else {
+          this.set('width', wrapperRect.width - registerRect.width);
+          this.set('height', wrapperRect.height);
+        }
+      },50);
+
     }
   });
 </script>
