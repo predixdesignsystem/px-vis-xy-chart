@@ -1,3 +1,7 @@
+v0.0.5
+==================
+* Added vulcanize index and demo
+
 v0.0.4
 ==================
 * Make demo smaller
