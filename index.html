@@ -13,10 +13,10 @@
   <link rel="import" href="../iron-ajax/iron-ajax.html" />
   <link rel="import" href="../iron-component-page/iron-component-page.html"/>
   <link rel="import" href="px-vis-xy-chart.html"/>
-  <link rel="icon" href="px-favicon.png" type="image/x-icon"/>
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 
   <link rel="import" href="../px-demo-snippet/px-demo-snippet.html">
-  <link rel="import" href="../polymer-font-awesome/polymer-font-awesome.html">
+  <link rel="import" href="../px-polymer-font-awesome/polymer-font-awesome.html" />
   <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
 
   </head>
@@ -40,16 +40,16 @@
         last-response="{{eventData}}" auto></iron-ajax>
     <!-- discription -->
     <div class="hero u-p++ text--shadow">
+      <a class="actionable flex flex--right flex--middle" href="https://github.com/PredixDev/px-vis-xy-chart" target="_blank"><iron-icon class="menu__open" icon="fa:fa-github"></iron-icon>View on Github</a>
   		<h1 class="delta">px-vis-xy-chart</h1>
   		<p>
-  			The	<code>px-vis-xy-chart</code> component allows to draw lines or scatter against an X and Y axis. Initial height and width can be set but the component will try to 
+  			The	<code>px-vis-xy-chart</code> component allows to draw lines or scatter against an X and Y axis. Initial height and width can be set but the component will try to
         fill its parent container on resize. It can be manually notified to recalculate its size by using notifyResize().
   		</p>
   		<div class="flex">
   			<img class="u-mr--" src="https://img.shields.io/travis/PredixDev/px-vis-xy-chart.svg?style=flat-square" alt="Travis" onerror="this.style.display='none'"/>
   			<img class="u-mr--" src="https://img.shields.io/bower/v/px-vis-xy-chart.svg?style=flat-square" alt="Bower" onerror="this.style.display='none'"/>
   			<img class="u-mr--" src="https://img.shields.io/github/issues-raw/PredixDev/px-vis-xy-chart.svg?style=flat-square" alt="Issues" onerror="this.style.display='none'"/>
-  			<img class="u-mr--" src="https://img.shields.io/github/watchers/PredixDev/px-vis-xy-chart.svg?style=social&label=Watch" onerror="this.style.display='none'"/>
   		</div>
   	</div>
     <br />

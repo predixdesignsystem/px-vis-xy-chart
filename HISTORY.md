@@ -1,3 +1,7 @@
+v0.0.6
+==================
+* removed watch, added view on github
+
 v0.0.5
 ==================
 * Added vulcanize index and demo
