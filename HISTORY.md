@@ -1,3 +1,7 @@
+v0.0.7
+==================
+* fixed typo in the gh-pages script that was breaking the build, and fixed width on api container
+
 v0.0.6
 ==================
 * removed watch, added view on github

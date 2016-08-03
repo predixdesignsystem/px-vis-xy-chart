@@ -1158,7 +1158,7 @@ textarea {
   margin-left: 0; }
 
 .api {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   max-width: 80rem; }
 
@@ -1172,7 +1172,8 @@ textarea {
 
 .apiContainer {
   background-color: white;
-  margin: 0 auto; }
+  margin: 0 auto;
+  width: 80%; }
 
 .footer {
   background-color: #7c7c84; }
