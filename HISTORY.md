@@ -1,3 +1,7 @@
+v0.0.8
+==================
+* updated mega demo styles and bower px-demo-snippet to ^
+
 v0.0.7
 ==================
 * fixed typo in the gh-pages script that was breaking the build, and fixed width on api container
