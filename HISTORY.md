@@ -1,3 +1,7 @@
+v0.0.9
+==================
+* adding feature to export chart to image
+
 v0.0.8
 ==================
 * updated mega demo styles and bower px-demo-snippet to ^
