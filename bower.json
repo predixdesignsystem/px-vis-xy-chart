@@ -1,6 +1,6 @@
 {
   "name": "px-vis-xy-chart",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "main": [
     "px-vis-xy-chart.html"
   ],
@@ -11,7 +11,11 @@
     "sass",
     "bower_components",
     "node_modules",
-    "test"
+    "test",
+    "OSS_Notice.pdf",
+    "scripts",
+    ".github",
+    "px-vis-xy-chart.png"
   ],
   "dependencies": {
     "polymer": "^1.5.0",
@@ -20,7 +24,6 @@
     "iron-resizable-behavior": "^1.0.4"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#~v1.1.6",
     "iron-ajax": "PolymerElements/iron-ajax#~1.1.1",
     "px-demo-data": "~0.0.1",
     "px-layout-design": "~0.3.13",
@@ -28,10 +31,16 @@
     "px-forms-design": "#~0.3.15",
     "px-tables-design": "#~0.3.12",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#~1.2.3",
-    "polymer-font-awesome": "~0.1.5",
+    "px-polymer-font-awesome":"^0.1.8",
     "px-tabs": "~0.4.0",
-    "px-api-viewer": "~0.0.1",
-    "px-demo-snippet": "~0.0.1",
-    "px-list-inline-design": "^0.2.11"
+    "px-api-viewer": "~0.0.3",
+    "px-demo-snippet": "^0.1.0",
+    "px-list-inline-design": "^0.2.11",
+    "px-toggle-design": "^0.2.12",
+    "px-headings-design": "^0.2.14",
+    "px-actionable-text-icons-design": "^0.0.3",
+    "px-code-design": "~0.2.11",
+    "px-dropdown": "^0.10.2",
+    "px-polymer-font-awesome":"^0.1.8"
   }
 }

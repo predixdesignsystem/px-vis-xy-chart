@@ -1,4 +1,5 @@
-#Px-Vis-Xy-Chart
+#Px-Vis-Xy-Chart [![Build Status](https://travis-ci.org/PredixDev/px-vis-xy-chart.svg?branch=master)](https://travis-ci.org/PredixDev/px-vis-xy-chart)
+
 
 ## Overview
 
