@@ -65,7 +65,7 @@
       <px-tab-pages selected="{{selected}}">
         <template is="dom-repeat" items="{{optionsArray}}">
           <section class="tab-page">
-            <div class="mega-demo flex flex--wrap u-ph++ u-pb++">
+            <div class="mega-demo flex u-ph++ u-pb++">
               <!-- Properties -->
               <div class="properties u-ph+ u-pb+ u-mt+" id="properties">
                 <p class="epsilon">Properties</p>
@@ -76,7 +76,7 @@
               <div class="demoContainer u-mt+">
                 <!-- demo -->
                 <div class="flex flex--col">
-                  <div class="flex__item demo u-p+">
+                  <div class="demo u-p+">
 
                       <px-vis-xy-chart
                         id="chart"
@@ -139,7 +139,7 @@
                       </px-vis-xy-chart>
 
                   </div>
-                  <div class="flex__item">
+                  <div>
                     <px-demo-snippet
                       element-properties={{item}}
                       element-name="px-vis-xy-chart">
@@ -182,13 +182,13 @@
   </template>
 <script>
 window.addEventListener('WebComponentsReady', function() {
-  var template = document.querySelector('template[is=dom-bind]');
+  var template = document.querySelector('template[is=dom-bind]'),
       year = new Date(),
       optionsArray = [
         {
           "width": 550,
           "height": 300,
-          "margin":'{ "top": "30", "bottom": "60", "left": "50", "right": "10" }',
+          "margin":{ "top": "30", "bottom": "60", "left": "50", "right": "10" },
           "x-axis-config":{"title": "X",
            "labelPosition": "center",
            "orientation": "bottom"},
