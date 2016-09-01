@@ -71,6 +71,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
             chart-data="[[chartData]]"
             x="{{x}}"
             y="{{y}}"
+            domain-changed="{{domainChanged}}"
             current-domain-x="{{currentDomainX}}"
             current-domain-y="{{currentDomainY}}"
             selected-domain="[[selectedDomain]]"
@@ -155,10 +156,14 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       <!-- X axis -->
       <px-vis-axis
         id="xAxis"
-        height="[[height]]"
         svg="[[svg]]"
         axis="[[x]]"
+        height="[[height]]"
         margin="[[margin]]"
+        orientation="bottom"
+        complete-series-config="[[completeSeriesConfig]]"
+        prevent-series-bar
+        domain-changed="[[domainChanged]]"
         current-domain="[[currentDomainX]]"
         muted-series="[[mutedSeries]]"
         >
@@ -166,15 +171,19 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       <!-- Y axis -->
       <px-vis-axis
         id="yAxis"
-        width="[[width]]"
-        height="[[height]]"
         svg="[[svg]]"
         axis="[[y]]"
+        width="[[width]]"
+        height="[[height]]"
         margin="[[margin]]"
+        orientation="left"
+        complete-series-config="[[completeSeriesConfig]]"
+        domain-changed="[[domainChanged]]"
         current-domain="[[currentDomainY]]"
         muted-series="[[mutedSeries]]"
         >
       </px-vis-axis>
+
       <px-vis-interaction-space
         svg="[[svg]]"
         width="[[width]]"
@@ -229,7 +238,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehavior.completeSeriesConfig,
       PxVisBehaviorChart.chartCommon,
       Polymer.IronResizableBehavior,
-      PxVisBehaviorChart.saveImage
+      PxVisBehaviorChart.saveImage,
+      PxVisBehaviorChart.subConfiguration
     ],
     properties: {
       /**
@@ -294,8 +304,10 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         type: String
       }
     },
-    observer: ['_xAxisConfigChanged(xAxisConfig.*)',
-               '_yAxisConfigChanged(yAxisConfig.*)'],
+    observer: [
+      '_xAxisConfigChanged(xAxisConfig.*)',
+      '_yAxisConfigChanged(yAxisConfig.*)'
+    ],
     listeners: {
      'iron-resize': '_onIronResize'
     },
@@ -316,27 +328,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       this._applyConfigToElement(this.registerConfig, this.$.register);
     },
 
-    /**
-     * Applies the config object to the element. Each key in the config object
-     * is the name of the property to be applied
-     *
-     */
-    _applyConfigToElement: function(config, element) {
-      if(typeof(config) !== 'object') {
-        console.error('Configuration object must be valid JSON: ' + config);
-        return;
-      }
-      if(!element) {
-        console.error('Cannot apply config to undefined element');
-        return;
-      }
-
-      var keys = Object.keys(config);
-      for(var i = 0; i < keys.length; i++){
-        var key = keys[i];
-        element.set(key, config[key])
-      }
-    },
     _getHideClass: function(hide) {
       if(hide === true) {
         return 'visuallyhidden';

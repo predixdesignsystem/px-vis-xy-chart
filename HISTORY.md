@@ -1,3 +1,7 @@
+v0.0.11
+==================
+* update to px-vis 2.0
+
 v0.0.10
 ==================
 * added overflow to demoContainer and removed flex__wrap from mega-demo
