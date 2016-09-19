@@ -1,0 +1,205 @@
+<!doctype html>
+
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      px-vis-xy-chart Demo</title>
+    <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
+    <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+    <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+    <link rel="import" href="px-vis-xy-chart.html" />
+    <link rel="import" href="../iron-ajax/iron-ajax.html" />
+    <link rel="import" href="../px-vis/px-vis-data-converter.html"/>
+    <link rel="import" href="../px-vis/px-vis-chart-navigator.html"/>
+    <link rel="import" href="../px-theme/px-theme.html" />
+  </head>
+
+  <body>
+
+    <template id="demo" is="dom-bind">
+      <h3>Demo</h3>
+      <iron-ajax
+             url="demo_data.json"
+             handle-as="json"
+             last-response="{{data}}" auto></iron-ajax>
+     <iron-ajax
+            url="demo_data_ordinal.json"
+            handle-as="json"
+            last-response="{{dataOrdinal}}" auto></iron-ajax>
+      <iron-ajax
+        url="events.json"
+        handle-as="json"
+        last-response="{{eventData}}" auto>
+      </iron-ajax>
+      <button id="btnInc">Increase wrapper width</button>
+      <button id="btnDec">Decrease wrapper width</button>
+      <button id="btnIH">Increase wrapper height</button>
+      <button id="btnDH">Decrease wrapper height</button>
+      <div id="wrap" style="height:300px">
+
+          <px-vis-xy-chart
+            id="chart"
+            chart-data="{{dataOrdinal}}"
+            margin='{ "top": "20", "bottom": "50", "left": "50", "right": "10" }'
+            x-axis-title="X"
+            y-axis-title="Y"
+            x-axis-type="ordinal"
+            x-axis-config='{"title": "X"}'
+            y-axis-config='{"title": "Y",
+                            "orientation": "left"}'
+            register-config='{
+              "height": 50,
+              "type": "horizontal"}'
+            series-config='{
+              "y": {
+                "type": "scatter",
+                "markerSymbol": "triangle-up",
+                "name": "serie 1",
+                "x": "x",
+                "y":"y",
+                "color": "rgb(96,189,104)"
+              }
+            }'
+          </px-vis-xy-chart>
+          
+        </div>
+
+        <px-vis-xy-chart
+          id="chart"
+          chart-data="{{data}}"
+          width="700"
+          height="400"
+          margin='{ "top": "30", "bottom": "60", "left": "50", "right": "10" }'
+          x-axis-config='{"title": "X",
+            "labelPosition": "center",
+            "orientation": "bottom"}'
+          y-axis-config='{"title": "Y",
+            "labelPosition": "center",
+            "orientation": "left"}'
+          register-config='{
+            "height": 50,
+            "type": "horizontal"}'
+          series-config='{
+            "firstSerie": {
+              "type": "scatter",
+              "name": "Data",
+              "xAxisUnit": "Hz",
+              "yAxisUnit": "Hz",
+              "x": "T48A",
+              "y":"T48B"
+            },"secondSerie": {
+              "type": "line",
+              "name": "Trend",
+              "x": "T48A",
+              "y":"T48B"
+            }
+          }'
+          default-series-config='{
+            "x": "T48A",
+            "xMin": "dynamic",
+            "xMax": "dynamic",
+            "yMin": "dynamic",
+            "yMax": "dynamic"
+          }'
+          event-config='{
+            "Fa Icon": {
+              "color": "blue",
+              "icon": "fa-camera",
+              "type": "fa",
+              "offset": [0, 0]
+            },
+            "Unicode": {
+              "color": "green",
+              "icon": "\uf015",
+              "type": "unicode",
+              "offset": [1, 0]
+            },
+            "Event Png": {
+              "icon": "ge_logo.png",
+              "type": "image",
+              "offset": [0, -20],
+              "size": "20"
+            }
+          }'
+          event-data="{{eventData}}"
+          time-domain="[[selectedDomain]]"
+          time-data="Date">
+        </px-vis-xy-chart> 
+        <div style="height:100px">
+            <px-vis-chart-navigator
+                id="navigator"
+                x-axis-type="time"
+                y-axis-type="linear"
+                margin='{
+                "top": 5,
+                "right": 10,
+                "bottom": 20,
+                "left": 10
+                }'
+                chart-data="[[data]]"
+                default-series-config='{
+                    "x": "T48A",
+                    "xMin": "dynamic",
+                    "xMax": "dynamic",
+                    "yMin": "dynamic",
+                    "yMax": "dynamic"
+                }'
+                series-config='{
+                "T48A": {
+                "type": "line",
+                "name": "Trend",
+                "x": "Date",
+                "y":"T48A"
+                }}'
+                selected-domain="{{selectedDomain}}">
+            </px-vis-chart-navigator>
+        </div>
+    </template>
+  </body>
+  <script>
+    document.addEventListener('WebComponentsReady', function() {
+      var chart = document.getElementById('chart'),
+          xConfigText = document.getElementById('xConfig'),
+          yConfigText = document.getElementById('yConfig'),
+          btnInc = document.getElementById('btnInc'),
+          btnDec = document.getElementById('btnDec'),
+          btnIH = document.getElementById('btnIH'),
+          btnDH = document.getElementById('btnDH'),
+          wrap = document.getElementById('wrap'),
+          chart = document.getElementById('chart');
+
+      btnInc.addEventListener('click', function() {
+        var width = window.getComputedStyle(wrap).getPropertyValue("width");
+        var cur = width.substr(0, width.length-2);
+        wrap.style['width'] = Number(cur) + 10 + 'px';
+        chart.notifyResize();
+      });
+
+      btnDec.addEventListener('click', function() {
+        var width = window.getComputedStyle(wrap).getPropertyValue("width");
+        var cur = width.substr(0, width.length-2);
+        wrap.style['width'] = Number(cur) - 10 + 'px';
+        chart.notifyResize();
+      });
+
+      btnIH.addEventListener('click', function() {
+
+        var width = window.getComputedStyle(wrap).getPropertyValue("height");
+        var cur = width.substr(0, width.length-2);
+        wrap.style['height'] = Number(cur) + 10 + 'px';
+        chart.notifyResize();
+      });
+
+      btnDH.addEventListener('click', function() {
+        var width = window.getComputedStyle(wrap).getPropertyValue("height");
+        var cur = width.substr(0, width.length-2);
+        wrap.style['height'] = Number(cur) - 10 + 'px';
+        chart.notifyResize();
+      });
+    });
+  </script>
+
+</html>

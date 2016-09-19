@@ -1,3 +1,7 @@
+v0.0.14
+==================
+* adding integration with navigator
+
 v0.0.13
 ==================
 * use new tooltip

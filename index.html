@@ -11,6 +11,7 @@
   <link rel="import" href="../px-api-viewer/px-api-viewer.html" />
   <link rel="import" href="../px-tabs/px-tab-set.html" />
   <link rel="import" href="../iron-ajax/iron-ajax.html" />
+  <link rel="import" href="../px-vis/px-vis-chart-navigator.html" />
   <link rel="import" href="px-vis-xy-chart.html"/>
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 
@@ -135,8 +136,40 @@
                         		"size": "20"
                         	}
                         }'
-                        event-data="{{eventData}}">
+                        event-data="{{eventData}}"
+                        time-domain="[[selectedDomain]]"
+                        time-data="Date">
                       </px-vis-xy-chart>
+
+                      <div style="height:100px">
+                        <px-vis-chart-navigator
+                            id="navigator"
+                            x-axis-type="time"
+                            y-axis-type="linear"
+                            margin='{
+                            "top": 5,
+                            "right": 10,
+                            "bottom": 20,
+                            "left": 10
+                            }'
+                            chart-data="[[data]]"
+                            default-series-config='{
+                                "x": "T48A",
+                                "xMin": "dynamic",
+                                "xMax": "dynamic",
+                                "yMin": "dynamic",
+                                "yMax": "dynamic"
+                            }'
+                            series-config='{
+                              "T48A": {
+                              "type": "line",
+                              "name": "Trend",
+                              "x": "Date",
+                              "y":"T48A"
+                            }}'
+                            selected-domain="{{selectedDomain}}">
+                        </px-vis-chart-navigator>
+                    </div>
 
                   </div>
                   <div>
@@ -239,7 +272,8 @@ window.addEventListener('WebComponentsReady', function() {
               "offset": [0, -20],
               "size": "20"
             }
-          }
+          },
+          "timeData": "Date"
         }
     ];
 

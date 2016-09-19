@@ -1,6 +1,6 @@
 {
   "name": "px-vis-xy-chart",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "main": [
     "px-vis-xy-chart.html"
   ],

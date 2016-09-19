@@ -51,7 +51,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           id="register"
           class$="{{_getHideClass(hideRegister)}}"
           tooltip-data="[[tooltipData]]"
-          chart-data="[[chartData]]"
+          chart-data="[[_filteredData]]"
           complete-series-config="[[completeSeriesConfig]]"
           muted-series={{mutedSeries}}
           type="{{_registerType}}"
@@ -81,7 +81,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           <px-vis-tooltip
             class$="{{_getHideClass(hideTooltip)}}"
             tooltip-data="[[tooltipData]]"
-            chart-data="[[chartData]]"
+            chart-data="[[_filteredData]]"
             muted-series="[[mutedSeries]]"
             x-axis-type="[[xAxisType]]"
             y-axis-type="[[yAxisType]]"
@@ -115,7 +115,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               <px-vis-scatter
                 svg="[[svg]]"
                 series-id="[[item]]"
-                chart-data="[[chartData]]"
+                chart-data="[[_filteredData]]"
                 x="[[x]]"
                 y="[[y]]"
                 current-domain-x="[[currentDomainX]]"
@@ -129,7 +129,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               <px-vis-line
                 svg="[[svg]]"
                 series-id="[[item]]"
-                chart-data="[[chartData]]"
+                chart-data="[[_filteredData]]"
                 x="[[x]]"
                 y="[[y]]"
                 current-domain-x="[[currentDomainX]]"
@@ -148,7 +148,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
             width="[[width]]"
             height="[[height]]"
             margin="[[margin]]"
-            chart-data="[[chartData]]"
+            chart-data="[[_filteredData]]"
             tooltip-data="[[tooltipData]]"
             complete-series-config="[[completeSeriesConfig]]">
           </px-vis-cursor>
@@ -194,7 +194,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         y="[[y]]"
         current-domain-x="[[currentDomainX]]"
         current-domain-y="[[currentDomainY]]"
-        chart-data="[[chartData]]"
+        chart-data="[[_filteredData]]"
         tooltip-data="{{tooltipData}}"
         extents-data="{{extentsData}}"
         x-axis-type="[[xAxisType]]"
@@ -310,6 +310,30 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       },
       mousePosition:{
         type: Array
+      },
+      /**
+       * Can be used to define a time domain to be used, typically to restrain/filter the amount
+       * of data displayed. Can be used in combination with a px-vis-chart-navigator
+       */
+      timeDomain: {
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
+      /**
+       * Name of the variable holding the time stamp in the data
+       */
+      timeData: {
+        type: String,
+        value: 'Timestamp'
+      },
+      /**
+       * Data that has been time filtered
+       */
+      _filteredData: {
+        type: Object,
+        computed: '_filterData(chartData, timeDomain, timeData)'
       }
     },
     observer: [
@@ -369,6 +393,19 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           this.set('height', wrapperRect.height);
         }
       },50);
+    },
+    _filterData: function(chartData, timeDomain, timeData) {
+
+      if(timeDomain.x && timeDomain.x.length === 2) {
+        var min = Number(timeDomain.x[0]),
+            max = Number(timeDomain.x[1]);
+        return chartData.filter(function(val) {
+                  var timeVal = Number(val[timeData]);
+                  return timeVal >= min && timeVal <= max;
+                });
+      } else {
+        return chartData;
+      }
     }
   });
 </script>
