@@ -1,3 +1,7 @@
+v0.0.16
+==================
+* fix typo on bower.json
+
 v0.0.15
 ==================
 * Bump px-vis to 0.3.X
