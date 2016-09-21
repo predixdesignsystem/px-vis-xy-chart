@@ -1,3 +1,7 @@
+v0.0.15
+==================
+* Bump px-vis to 0.3.X
+
 v0.0.14
 ==================
 * adding integration with navigator
