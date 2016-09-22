@@ -1,6 +1,6 @@
 {
   "name": "px-vis-xy-chart",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "main": [
     "px-vis-xy-chart.html"
   ],
@@ -42,5 +42,8 @@
     "px-code-design": "~0.2.11",
     "px-dropdown": "^0.10.2",
     "px-polymer-font-awesome":"^0.1.8"
+  },
+  "resolutions": {
+    "px-tooltip": "vis-tooltip"
   }
 }

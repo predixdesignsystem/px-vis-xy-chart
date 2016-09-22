@@ -1,3 +1,7 @@
+v0.0.17
+==================
+* Add bower resolution for tooltip
+
 v0.0.16
 ==================
 * fix typo on bower.json
