@@ -34,9 +34,12 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 @homepage index.html
 @demo demo.html
 -->
+<link rel="import" href="css/px-vis-xy-chart-styles.html"/>
+
 <dom-module id="px-vis-xy-chart">
-  <link rel="import" type="css" href="css/px-vis-xy-chart.css"/>
   <template>
+    <style include="px-vis-xy-chart-styles"></style>
+    <style include="px-theme-styles"></style>
     <div id="wrapper" class="wrapper" on-mousemove="_calcMousePos">
       <px-vis-zoom
         extents-data="[[extentsData]]"

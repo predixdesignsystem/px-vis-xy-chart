@@ -9,12 +9,15 @@
       px-vis-xy-chart Demo</title>
     <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
     <script src="../webcomponentsjs/webcomponents-lite.min.js"></script>
+
+    <link rel="import" href="../px-theme/px-theme-styles.html">
+    <style include="px-theme-styles" is="custom-style"></style>
+
     <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
     <link rel="import" href="px-vis-xy-chart.html" />
     <link rel="import" href="../iron-ajax/iron-ajax.html" />
     <link rel="import" href="../px-vis/px-vis-data-converter.html"/>
     <link rel="import" href="../px-vis/px-vis-chart-navigator.html"/>
-    <link rel="import" href="../px-theme/px-theme.html" />
   </head>
 
   <body>
@@ -64,7 +67,7 @@
               }
             }'
           </px-vis-xy-chart>
-          
+
         </div>
 
         <px-vis-xy-chart
@@ -127,7 +130,7 @@
           event-data="{{eventData}}"
           time-domain="[[selectedDomain]]"
           time-data="Date">
-        </px-vis-xy-chart> 
+        </px-vis-xy-chart>
         <div style="height:100px">
             <px-vis-chart-navigator
                 id="navigator"
