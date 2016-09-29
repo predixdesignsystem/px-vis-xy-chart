@@ -123,6 +123,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
                 y="[[y]]"
                 current-domain-x="[[currentDomainX]]"
                 current-domain-y="[[currentDomainY]]"
+                domain-changed="[[domainChanged]]"
                 muted-series="[[mutedSeries]]"
                 clip-path="[[seriesClipPath]]"
                 complete-series-config="[[completeSeriesConfig]]">
@@ -137,6 +138,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
                 y="[[y]]"
                 current-domain-x="[[currentDomainX]]"
                 current-domain-y="[[currentDomainY]]"
+                domain-changed="[[domainChanged]]"
                 muted-series="[[mutedSeries]]"
                 clip-path="[[seriesClipPath]]"
                 complete-series-config="[[completeSeriesConfig]]">
@@ -244,7 +246,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.chartCommon,
       Polymer.IronResizableBehavior,
       PxVisBehaviorChart.saveImage,
-      PxVisBehaviorChart.subConfiguration
+      PxVisBehaviorChart.subConfiguration,
+      PxVisBehaviorD3.domainUpdate
     ],
     properties: {
       /**
