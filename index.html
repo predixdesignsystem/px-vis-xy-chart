@@ -112,6 +112,7 @@
                               "y":"Line"
                             }
                           }'
+                        show-tooltip
                         default-series-config='{
                           "x": "T48A",
                           "xMin": "dynamic",
@@ -222,6 +223,7 @@ window.addEventListener('WebComponentsReady', function() {
       year = new Date(),
       optionsArray = [
         {
+          "show-tooltip": true,
           "width": 550,
           "height": 300,
           "margin":{ "top": "30", "bottom": "60", "left": "50", "right": "10" },

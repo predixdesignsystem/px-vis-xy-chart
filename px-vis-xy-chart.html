@@ -81,18 +81,19 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
             chart-extents="[[chartExtents]]"
             complete-series-config="[[completeSeriesConfig]]">
           </px-vis-scale>
-          <px-vis-tooltip
-            class$="{{_getHideClass(hideTooltip)}}"
-            tooltip-data="[[tooltipData]]"
-            chart-data="[[_filteredData]]"
-            muted-series="[[mutedSeries]]"
-            x-axis-type="[[xAxisType]]"
-            y-axis-type="[[yAxisType]]"
-            complete-series-config="[[completeSeriesConfig]]"
-            mouse-position="[[mousePosition]]"
-            hover-target="[[mouseRect]]"
-            tooltip-style="light">
-          </px-vis-tooltip>
+          <template is="dom-if" if="{{showTooltip}}">
+            <px-vis-tooltip
+              tooltip-data="[[tooltipData]]"
+              chart-data="[[_filteredData]]"
+              muted-series="[[mutedSeries]]"
+              x-axis-type="[[xAxisType]]"
+              y-axis-type="[[yAxisType]]"
+              complete-series-config="[[completeSeriesConfig]]"
+              mouse-position="[[mousePosition]]"
+              hover-target="[[mouseRect]]"
+              tooltip-style="light">
+            </px-vis-tooltip>
+          </template>
           <px-vis-svg
             class="inline--flex"
             id="svg"
@@ -161,6 +162,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       <px-vis-axis
         id="xAxis"
         svg="[[svg]]"
+        axis-type="[[xAxisType]]"
         axis="[[x]]"
         height="[[height]]"
         margin="[[margin]]"
@@ -291,9 +293,9 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       },
       /**
        *
-       * Allows to hide the tooltip
+       * Allows to show the tooltip
        */
-      hideTooltip: {
+      showTooltip: {
         type: Boolean,
         value: false
       },
@@ -365,12 +367,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 
     _calcMousePos: function(evt) {
       this.set('mousePosition',[evt.pageX,evt.pageY]);
-    },
-    _getHideClass: function(hide) {
-      if(hide === true) {
-        return 'visuallyhidden';
-      }
-      return '';
     },
     _getWrapperClass: function() {
       var classList = "flex ";
