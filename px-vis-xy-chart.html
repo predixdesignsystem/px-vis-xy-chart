@@ -246,7 +246,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.chartCommon,
       Polymer.IronResizableBehavior,
       PxVisBehaviorChart.saveImage,
-      PxVisBehaviorChart.subConfiguration
+      PxVisBehaviorChart.subConfiguration,
+      PxVisBehaviorChart.timeFiltering,
     ],
     properties: {
       /**
@@ -315,30 +316,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       },
       mousePosition:{
         type: Array
-      },
-      /**
-       * Can be used to define a time domain to be used, typically to restrain/filter the amount
-       * of data displayed. Can be used in combination with a px-vis-chart-navigator
-       */
-      timeDomain: {
-        type: Array,
-        value: function() {
-          return [];
-        }
-      },
-      /**
-       * Name of the variable holding the time stamp in the data
-       */
-      timeData: {
-        type: String,
-        value: 'Timestamp'
-      },
-      /**
-       * Data that has been time filtered
-       */
-      _filteredData: {
-        type: Object,
-        computed: '_filterData(chartData, timeDomain, timeData)'
       }
     },
     observer: [
