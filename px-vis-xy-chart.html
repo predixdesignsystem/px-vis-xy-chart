@@ -341,7 +341,12 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 
       this._applyConfigToElement(this.registerConfig, this.$.register);
     },
-
+    _getHideClass: function(hide) {
+      if(hide === true) {
+        return 'visuallyhidden';
+      }
+      return '';
+    },
     _calcMousePos: function(evt) {
       this.set('mousePosition',[evt.pageX,evt.pageY]);
     },
@@ -369,19 +374,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           this.set('height', wrapperRect.height);
         }
       },50);
-    },
-    _filterData: function(chartData, timeDomain, timeData) {
-
-      if(timeDomain.x && timeDomain.x.length === 2) {
-        var min = Number(timeDomain.x[0]),
-            max = Number(timeDomain.x[1]);
-        return chartData.filter(function(val) {
-                  var timeVal = Number(val[timeData]);
-                  return timeVal >= min && timeVal <= max;
-                });
-      } else {
-        return chartData;
-      }
     }
   });
 </script>
