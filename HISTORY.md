@@ -1,3 +1,7 @@
+v0.1.3
+==================
+* fix clip path and axis title redraw 
+
 v0.1.2
 ==================
 * use latest version of px-vis
