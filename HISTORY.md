@@ -1,3 +1,8 @@
+v0.2.0
+==================
+* moved to px-vis 0.0.6
+* ensure muted series are muted in tooltip
+
 v0.1.3
 ==================
 * fix clip path and axis title redraw 
