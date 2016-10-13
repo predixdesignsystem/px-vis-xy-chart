@@ -1,3 +1,7 @@
+v0.2.1
+==================
+* Added math.max check to width and height
+
 v0.2.0
 ==================
 * moved to px-vis 0.0.6
@@ -5,7 +9,7 @@ v0.2.0
 
 v0.1.3
 ==================
-* fix clip path and axis title redraw 
+* fix clip path and axis title redraw
 
 v0.1.2
 ==================
