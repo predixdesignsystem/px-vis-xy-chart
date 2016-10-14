@@ -115,7 +115,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         </px-vis-clip-path>
         <!-- scatter series -->
         <template is="dom-repeat" items="[[_seriesKeys]]">
-          <template is="dom-if" if="[[_chartTypeScatter(item, completeSeriesConfig)]]">
+          <template is="dom-if" if="[[_chartTypeScatter(item, completeSeriesConfig)]]" restamp>
             <px-vis-scatter
               svg="[[svg]]"
               series-id="[[item]]"
@@ -130,7 +130,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               complete-series-config="[[completeSeriesConfig]]">
             </px-vis-scatter>
           </template>
-          <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]">
+          <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]" restamp>
             <px-vis-line
               svg="[[svg]]"
               series-id="[[item]]"
