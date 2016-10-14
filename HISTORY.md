@@ -1,3 +1,7 @@
+v0.2.1
+==================
+* make sure addition/removal of series to seriesConfig are correctly processed
+
 v0.2.0
 ==================
 * moved to px-vis 0.0.6
