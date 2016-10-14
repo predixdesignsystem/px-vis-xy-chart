@@ -1,6 +1,10 @@
-v0.2.1
+v0.2.2
 ==================
 * make sure addition/removal of series to seriesConfig are correctly processed
+
+v0.2.1
+==================
+* Added math.max check to width and height
 
 v0.2.0
 ==================
@@ -9,7 +13,7 @@ v0.2.0
 
 v0.1.3
 ==================
-* fix clip path and axis title redraw 
+* fix clip path and axis title redraw
 
 v0.1.2
 ==================
