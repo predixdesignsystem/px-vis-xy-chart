@@ -1,3 +1,7 @@
+v0.2.3
+==================
+* fix height resizing issue
+
 v0.2.2
 ==================
 * make sure addition/removal of series to seriesConfig are correctly processed
