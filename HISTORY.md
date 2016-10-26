@@ -1,3 +1,7 @@
+v0.2.5
+==================
+* Update dependencies
+
 v0.2.4
 ==================
 * restamp on scatter and lines dom-if
