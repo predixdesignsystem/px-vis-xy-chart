@@ -48,7 +48,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         selected-domain="{{selectedDomain}}">
       </px-vis-zoom>
       <!-- Legend -->
-      <div class$="{{_getWrapperClass(_registerType)}}">
+      <div class$="{{_registerWrapperClass}}">
 
         <px-vis-register
           id="register"
@@ -202,6 +202,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         y="[[y]]"
         current-domain-x="[[currentDomainX]]"
         current-domain-y="[[currentDomainY]]"
+        series-keys="[[_seriesKeys]]"
         chart-data="[[_filteredData]]"
         tooltip-data="{{tooltipData}}"
         extents-data="{{extentsData}}"
@@ -251,7 +252,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.saveImage,
       PxVisBehaviorChart.subConfiguration,
       PxVisBehaviorChart.timeFiltering,
-      PxVisBehaviorD3.domainUpdate
+      PxVisBehaviorD3.domainUpdate,
+      PxVisBehaviorChart.registerPositioning
     ],
     properties: {
       /**
@@ -304,17 +306,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         type: Boolean,
         value: false
       },
-      /**
-       *
-       * Allows to hide the register
-       */
-      hideRegister: {
-        type: Boolean,
-        value: false
-      },
-      _registerType: {
-        type: String
-      },
       mouseRect: {
         type: Object
       },
@@ -345,25 +336,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 
       this._applyConfigToElement(this.registerConfig, this.$.register);
     },
-    _getHideClass: function(hide) {
-      if(hide === true) {
-        return 'visuallyhidden';
-      }
-      return '';
-    },
     _calcMousePos: function(evt) {
       this.set('mousePosition',[evt.pageX,evt.pageY]);
-    },
-    _getWrapperClass: function() {
-      var classList = "flex ";
-
-      if(this._registerType === 'vertical') {
-        classList += "flex--row--rev";
-      }
-      else {
-        classList += "flex--col";
-      }
-      return classList;
     },
     _onIronResize: function() {
       this.debounce('ironresize', function() {
