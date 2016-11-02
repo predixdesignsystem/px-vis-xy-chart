@@ -224,23 +224,22 @@ window.addEventListener('WebComponentsReady', function() {
       year = new Date(),
       optionsArray = [
         {
-          "chartData" : [{
-          	"Date": 1468213850000, "T48A": 1332, "Line": 1340, "T48B": 1346
-          }, {
-          	"Date": 1468213968000, "T48A": 1336, "Line": 1343, "T48B": 1346
-          }, {
-          	"Date": 1468214133000, "T48A": 1341, "Line": 1345, "T48B": 1346
-          }, {
-          	"Date": 1468214253000, "T48A": 1348, "Line": 1350, "T48B": 1344
-          }, {
-          	"Date": 1468214374000, "T48A": 1352, "Line": 1357, "T48B": 1346
-          }, {
-          	"Date": 1468214564000, "T48A": 1341, "T48B": 1342
-          }, {
-          	"Date": 1468214682000, "T48A": 1348, "T48B": 1353
-          }, {
-          	"Date": 1468214852000, "T48A": 1346, "T48B": 1348
-          }],
+          "chartData" : [
+          	{"Date": 1468213850000, "T48A": 1332, "Line": 1340, "T48B": 1346},
+            {"Date": 1468213968000, "T48A": 1336, "Line": 1343, "T48B": 1346},
+            {"Date": 1468214133000, "T48A": 1341, "Line": 1345, "T48B": 1346},
+            {"Date": 1468214253000, "T48A": 1348, "Line": 1350, "T48B": 1344},
+            {"Date": 1468214374000, "T48A": 1352, "Line": 1357, "T48B": 1346},
+            {"Date": 1468214564000, "T48A": 1341, "T48B": 1342},
+            {"Date": 1468214682000, "T48A": 1348, "T48B": 1353},
+            {"Date": 1468214852000, "T48A": 1346, "T48B": 1348}
+          ],
+          "eventData" : [
+          	{"id": "123", "label": "Fa Icon"},
+            {"id": "456", "label": "Unicode"},
+            {"id": "789", "label": "Event Png"},
+            {"id": "333", "label": "Default"},
+          ],
           "show-tooltip": true,
           "width": 550,
           "height": 300,
@@ -255,20 +254,20 @@ window.addEventListener('WebComponentsReady', function() {
             "height": 50,
             "type": "horizontal"},
           "series-config":{
-                "firstSeries": {
-                  "type": "scatter",
-                  "name": "Series1",
-                  "xAxisUnit": "Hz",
-                  "yAxisUnit": "Hz",
-                  "x": "T48A",
-                  "y":"T48B"
-                },"secondSeries": {
-                  "type": "line",
-                  "name": "Series2",
-                  "x": "T48A",
-                  "y":"Line"
-                }
-              },
+            "firstSeries": {
+              "type": "scatter",
+              "name": "Series1",
+              "xAxisUnit": "Hz",
+              "yAxisUnit": "Hz",
+              "x": "T48A",
+              "y":"T48B"
+            },"secondSeries": {
+              "type": "line",
+              "name": "Series2",
+              "x": "T48A",
+              "y":"Line"
+            }
+          },
           "default-series-config":{
             "x": "T48A",
             "xMin": "dynamic",
