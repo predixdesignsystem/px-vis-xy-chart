@@ -89,8 +89,8 @@
                         height="{{item.height}}"
                         margin='{ "top": "30", "bottom": "60", "left": "75", "right": "20" }'
                         x-axis-config='{"title": "X",
-                         "labelPosition": "center",
-                         "orientation": "bottom"}'
+                          "labelPosition": "center",
+                          "orientation": "bottom"}'
                         y-axis-config='{"title": "Y",
                           "labelPosition": "center",
                           "orientation": "left"}'
@@ -100,14 +100,14 @@
                         series-config='{
                             "firstSerie": {
                               "type": "scatter",
-                              "name": "Serie1",
+                              "name": "Series1",
                               "xAxisUnit": "Hz",
                               "yAxisUnit": "Hz",
                               "x": "T48A",
                               "y":"T48B"
                             },"secondSerie": {
                               "type": "line",
-                              "name": "Serie2",
+                              "name": "Series2",
                               "x": "T48A",
                               "y":"Line"
                             }
@@ -147,39 +147,40 @@
 
                       <div style="height:100px">
                         <px-vis-chart-navigator
-                            id="navigator"
-                            x-axis-type="time"
-                            y-axis-type="linear"
-                            margin='{
+                          id="navigator"
+                          x-axis-type="time"
+                          y-axis-type="linear"
+                          margin='{
                             "top": 5,
                             "right": 10,
                             "bottom": 20,
                             "left": 10
-                            }'
-                            chart-data="[[data]]"
-                            default-series-config='{
-                                "x": "T48A",
-                                "xMin": "dynamic",
-                                "xMax": "dynamic",
-                                "yMin": "dynamic",
-                                "yMax": "dynamic"
-                            }'
-                            series-config='{
-                              "T48A": {
-                              "type": "line",
-                              "name": "Trend",
-                              "x": "Date",
-                              "y":"T48A"
-                            }}'
-                            selected-domain="{{selectedDomain}}">
+                          }'
+                          chart-data="[[data]]"
+                          default-series-config='{
+                            "x": "T48A",
+                            "xMin": "dynamic",
+                            "xMax": "dynamic",
+                            "yMin": "dynamic",
+                            "yMax": "dynamic"
+                          }'
+                          series-config='{
+                            "T48A": {
+                            "type": "line",
+                            "name": "Trend",
+                            "x": "Date",
+                            "y":"T48A"
+                          }}'
+                          selected-domain="{{selectedDomain}}">
                         </px-vis-chart-navigator>
-                    </div>
+                      </div>
 
                   </div>
                   <div>
                     <px-demo-snippet
                       element-properties={{item}}
-                      element-name="px-vis-xy-chart">
+                      element-name="px-vis-xy-chart"
+                      links-includes="[[linksIncludes]]">
                     </px-demo-snippet>
                   </div>
                 </div>
@@ -223,6 +224,23 @@ window.addEventListener('WebComponentsReady', function() {
       year = new Date(),
       optionsArray = [
         {
+          "chartData" : [{
+          	"Date": 1468213850000, "T48A": 1332, "Line": 1340, "T48B": 1346
+          }, {
+          	"Date": 1468213968000, "T48A": 1336, "Line": 1343, "T48B": 1346
+          }, {
+          	"Date": 1468214133000, "T48A": 1341, "Line": 1345, "T48B": 1346
+          }, {
+          	"Date": 1468214253000, "T48A": 1348, "Line": 1350, "T48B": 1344
+          }, {
+          	"Date": 1468214374000, "T48A": 1352, "Line": 1357, "T48B": 1346
+          }, {
+          	"Date": 1468214564000, "T48A": 1341, "T48B": 1342
+          }, {
+          	"Date": 1468214682000, "T48A": 1348, "T48B": 1353
+          }, {
+          	"Date": 1468214852000, "T48A": 1346, "T48B": 1348
+          }],
           "show-tooltip": true,
           "width": 550,
           "height": 300,
@@ -237,16 +255,16 @@ window.addEventListener('WebComponentsReady', function() {
             "height": 50,
             "type": "horizontal"},
           "series-config":{
-                "firstSerie": {
+                "firstSeries": {
                   "type": "scatter",
-                  "name": "Serie1",
+                  "name": "Series1",
                   "xAxisUnit": "Hz",
                   "yAxisUnit": "Hz",
                   "x": "T48A",
                   "y":"T48B"
-                },"secondSerie": {
+                },"secondSeries": {
                   "type": "line",
-                  "name": "Serie2",
+                  "name": "Series2",
                   "x": "T48A",
                   "y":"Line"
                 }
@@ -291,6 +309,9 @@ window.addEventListener('WebComponentsReady', function() {
     template.optionsArray = optionsArray;
     template.indexPlusOne = indexPlusOne;
     template.year = year;
+
+    template.linksIncludes = ['px-vis/px-polygit-imports-vis.html', 'px-datetime-common/px-polygit-imports-datetime.html'];
+
 });
 </script>
 
