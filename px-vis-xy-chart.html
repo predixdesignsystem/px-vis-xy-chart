@@ -209,7 +209,9 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         x-axis-type="[[xAxisType]]"
         y-axis-type="[[yAxisType]]"
         complete-series-config="[[completeSeriesConfig]]"
-        mouse-rect="{{mouseRect}}">
+        mouse-rect="{{mouseRect}}"
+        series-keys="[[_seriesKeys]]" 
+        >
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event

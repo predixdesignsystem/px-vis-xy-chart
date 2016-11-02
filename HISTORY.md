@@ -1,3 +1,7 @@
+v0.2.6
+==================
+* Added key series, added links to demo snippet
+
 v0.2.5
 ==================
 * Update dependencies
