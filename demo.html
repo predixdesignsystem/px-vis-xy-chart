@@ -41,6 +41,7 @@
       <button id="btnDec">Decrease wrapper width</button>
       <button id="btnIH">Increase wrapper height</button>
       <button id="btnDH">Decrease wrapper height</button>
+      <button id="btnSnap">Go</button>
       <div id="wrap" style="height:300px">
 
           <px-vis-xy-chart
@@ -51,9 +52,11 @@
             x-axis-config='{"title": "X"}'
             y-axis-config='{"title": "Y",
                             "orientation": "left"}'
+            show-tooltip
             register-config='{
               "height": 50,
               "type": "horizontal"}'
+            time-data='date'
             series-config='{
               "y": {
                 "type": "scatter",
@@ -62,6 +65,12 @@
                 "x": "x",
                 "y":"y",
                 "color": "rgb(96,189,104)"
+              },
+              "y2": {
+                "type": "scatter",
+                "name": "serie 1",
+                "x": "x",
+                "y":"y2"
               }
             }'
           </px-vis-xy-chart>
@@ -69,7 +78,7 @@
         </div>
 
         <px-vis-xy-chart
-          id="chart"
+          id="chart2"
           chart-data="{{data}}"
           width="700"
           height="400"
@@ -82,7 +91,12 @@
             "orientation": "left"}'
           register-config='{
             "height": 50,
-            "type": "horizontal"}'
+            "type": "horizontal",
+            "forceDateTimeDisplay": true}'
+              show-tooltip
+            tooltip-config='{
+              "forceDateTimeDisplay": true
+            }'
           series-config='{
             "firstSerie": {
               "type": "scatter",
@@ -163,6 +177,7 @@
   <script>
     document.addEventListener('WebComponentsReady', function() {
       var chart = document.getElementById('chart'),
+          chart2 = document.getElementById('chart2'),
           xConfigText = document.getElementById('xConfig'),
           yConfigText = document.getElementById('yConfig'),
           btnInc = document.getElementById('btnInc'),
@@ -170,7 +185,7 @@
           btnIH = document.getElementById('btnIH'),
           btnDH = document.getElementById('btnDH'),
           wrap = document.getElementById('wrap'),
-          chart = document.getElementById('chart');
+          btnSnap = document.getElementById('btnSnap');
 
       btnInc.addEventListener('click', function() {
         var width = window.getComputedStyle(wrap).getPropertyValue("width");
@@ -199,6 +214,12 @@
         var cur = width.substr(0, width.length-2);
         wrap.style['height'] = Number(cur) - 10 + 'px';
         chart.notifyResize();
+      });
+
+      btnSnap.addEventListener('click', function() {
+        chart2.getImage(function(result) {
+          window.open().location = result.image;
+        });
       });
     });
   </script>

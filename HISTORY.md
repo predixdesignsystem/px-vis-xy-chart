@@ -1,3 +1,7 @@
+v0.2.8
+==================
+* ensure tooltip config is passed down even when tooltip was disabled
+
 v0.2.7
 ==================
 * fixed codepen
