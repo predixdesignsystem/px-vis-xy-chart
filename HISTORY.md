@@ -1,3 +1,8 @@
+
+v0.2.9
+==================
+* bower updating px-demo-snippet
+
 v0.2.8
 ==================
 * ensure tooltip config is passed down even when tooltip was disabled
