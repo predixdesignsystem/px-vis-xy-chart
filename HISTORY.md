@@ -5,6 +5,18 @@
 * added chartHorizontalAlignment and chartVerticalAlignment to alignt the chart drawing when smaller than its container
 * alignment of the chart is now centered by default
 
+v0.2.9
+==================
+* bower updating px-demo-snippet
+
+v0.2.8
+==================
+* ensure tooltip config is passed down even when tooltip was disabled
+
+v0.2.7
+==================
+* fixed codepen
+
 v0.2.6
 ==================
 * Added key series, added links to demo snippet
