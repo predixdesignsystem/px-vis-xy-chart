@@ -1,13 +1,13 @@
 {
     "name": "px-vis-xy-chart",
-    "version": "0.2.9",
+    "version": "0.2.10",
     "main": [
         "px-vis-xy-chart.html"
     ],
     "ignore": [
         ".*",
         "npm-debug.log",
-        "Gruntfile.js",
+        "gulpfile.js",
         "sass",
         "bower_components",
         "node_modules",
