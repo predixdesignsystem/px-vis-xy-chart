@@ -1,6 +1,6 @@
 {
     "name": "px-vis-xy-chart",
-    "version": "0.2.11",
+    "version": "0.2.12",
     "main": [
         "px-vis-xy-chart.html"
     ],
@@ -40,6 +40,6 @@
         "px-headings-design": "^0.2.14",
         "px-actionable-text-icons-design": "^0.1.0",
         "px-code-design": "~0.2.11",
-        "px-dropdown": "^0.12.2"
+        "px-dropdown": "~2.0.0"
     }
 }
