@@ -39,7 +39,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 <dom-module id="px-vis-xy-chart">
   <template>
     <style include="px-vis-xy-chart-styles"></style>
-    <style include="px-theme-styles"></style>
     <div id="wrapper" class$="{{_chartWrapperClass}}" on-mousemove="_calcMousePos">
       <px-vis-zoom
         extents-data="[[extentsData]]"
@@ -127,7 +126,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               domain-changed="[[domainChanged]]"
               muted-series="[[mutedSeries]]"
               clip-path="[[seriesClipPath]]"
-              complete-series-config="[[completeSeriesConfig]]">
+              complete-series-config="[[completeSeriesConfig]]"
+              serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
             </px-vis-scatter>
           </template>
           <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]" restamp>
@@ -142,7 +142,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               domain-changed="[[domainChanged]]"
               muted-series="[[mutedSeries]]"
               clip-path="[[seriesClipPath]]"
-              complete-series-config="[[completeSeriesConfig]]">
+              complete-series-config="[[completeSeriesConfig]]"
+              serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
             </px-vis-line>
           </template>
         </template>

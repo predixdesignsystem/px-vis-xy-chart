@@ -5,6 +5,27 @@
 * added chartHorizontalAlignment and chartVerticalAlignment to alignt the chart drawing when smaller than its container
 * alignment of the chart is now centered by default
 
+v0.2.14
+==================
+* changing all devDeps to ^
+
+v0.2.13
+==================
+* Update px-theme to 2.0.1 and update test fixtures
+
+v0.2.12
+==================
+* update dependencies for dropdown
+
+v0.2.11
+==================
+* removing px-theme style call
+
+
+v0.2.10
+==================
+* changing Gruntfile.js to gulpfile.js
+
 v0.2.9
 ==================
 * bower updating px-demo-snippet
