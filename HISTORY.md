@@ -1,3 +1,7 @@
+v0.2.16
+==================
+* Use vis 0.7.0
+
 v0.2.15
 ==================
 * Fixed height resizing issue that crept back in
