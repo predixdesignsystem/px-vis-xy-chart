@@ -1,3 +1,7 @@
+v0.2.15
+==================
+* Fixed height resizing issue that crept back in
+
 v0.2.14
 ==================
 * changing all devDeps to ^
@@ -14,11 +18,9 @@ v0.2.11
 ==================
 * removing px-theme style call
 
-
 v0.2.10
 ==================
 * changing Gruntfile.js to gulpfile.js
-
 
 v0.2.9
 ==================
