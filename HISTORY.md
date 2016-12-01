@@ -4,6 +4,8 @@
 * added preventResize
 * added chartHorizontalAlignment and chartVerticalAlignment to alignt the chart drawing when smaller than its container
 * alignment of the chart is now centered by default
+* Added layers
+* Changed line to line-svg
 
 v0.2.17
 ==================

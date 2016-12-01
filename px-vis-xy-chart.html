@@ -4,13 +4,13 @@
     'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
 -->
 <link rel="import" href="../polymer/polymer.html"/>
-<link rel="import" href="../px-vis/px-vis-behavior-chart.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-common.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-d3.html"/>
+<link rel="import" href="../px-vis/px-vis-behavior-chart.html"/>
 <link rel="import" href="../px-vis/px-vis-scale.html"/>
 <link rel="import" href="../px-vis/px-vis-svg.html"/>
 <link rel="import" href="../px-vis/px-vis-scatter.html"/>
-<link rel="import" href="../px-vis/px-vis-line.html"/>
+<link rel="import" href="../px-vis/px-vis-line-svg.html"/>
 <link rel="import" href="../px-vis/px-vis-axis.html"/>
 <link rel="import" href="../px-vis/px-vis-tooltip.html"/>
 <link rel="import" href="../px-vis/px-vis-interaction-space.html"/>
@@ -105,7 +105,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           px-svg-elem="{{pxSvgElem}}">
         </px-vis-svg>
         <px-vis-clip-path
-          svg="[[svg]]"
+          svg="[[layer.1]]"
           x="[[x]]"
           y="[[y]]"
           width="[[width]]"
@@ -119,7 +119,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         <template is="dom-repeat" items="[[_seriesKeys]]">
           <template is="dom-if" if="[[_chartTypeScatter(item, completeSeriesConfig)]]" restamp>
             <px-vis-scatter
-              svg="[[svg]]"
+              svg="[[layer.1]]"
               series-id="[[item]]"
               chart-data="[[_filteredData]]"
               x="[[x]]"
@@ -134,8 +134,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
             </px-vis-scatter>
           </template>
           <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]" restamp>
-            <px-vis-line
-              svg="[[svg]]"
+            <px-vis-line-svg
+              svg="[[layer.1]]"
               series-id="[[item]]"
               chart-data="[[_filteredData]]"
               x="[[x]]"
@@ -147,14 +147,14 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               clip-path="[[seriesClipPath]]"
               complete-series-config="[[completeSeriesConfig]]"
               serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
-            </px-vis-line>
+            </px-vis-line-svg>
           </template>
         </template>
         <px-vis-cursor
           horizontal-line="full"
           vertical-line="full"
           circle-point="yes"
-          svg="[[svg]]"
+          svg="[[layer.2]]"
           width="[[width]]"
           height="[[height]]"
           margin="[[margin]]"
@@ -167,7 +167,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       <!-- X axis -->
       <px-vis-axis
         id="xAxis"
-        svg="[[svg]]"
+        svg="[[layer.0]]"
         axis-type="[[xAxisType]]"
         axis="[[x]]"
         height="[[height]]"
@@ -184,7 +184,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       <!-- Y axis -->
       <px-vis-axis
         id="yAxis"
-        svg="[[svg]]"
+        svg="[[layer.0]]"
         axis="[[y]]"
         width="[[width]]"
         height="[[height]]"
@@ -198,7 +198,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       </px-vis-axis>
 
       <px-vis-interaction-space
-        svg="[[svg]]"
+        svg="[[layer.3]]"
         width="[[width]]"
         height="[[height]]"
         margin="[[margin]]"
@@ -214,13 +214,13 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         y-axis-type="[[yAxisType]]"
         complete-series-config="[[completeSeriesConfig]]"
         mouse-rect="{{mouseRect}}"
-        series-keys="[[_seriesKeys]]" 
+        series-keys="[[_seriesKeys]]"
         time-data="[[timeData]]"
         >
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
-          svg="[[svg]]"
+          svg="[[layer.0]]"
           event-id="[[item.id]]"
           event-data="[[item]]"
           x="[[x]]"
@@ -260,7 +260,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.timeFiltering,
       PxVisBehaviorD3.domainUpdate,
       PxVisBehaviorChart.registerPositioning,
-      PxVisBehaviorChart.chartAutoResize
+      PxVisBehaviorChart.chartAutoResize,
+      PxVisBehaviorChart.layers
     ],
     properties: {
       /**
@@ -322,11 +323,17 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
     observers: [
       '_xAxisConfigChanged(xAxisConfig.*)',
       '_yAxisConfigChanged(yAxisConfig.*)',
-      '_chartDataChanged(chartData.*)'
+      '_chartDataChanged(chartData.*)',
+      '_createLayersOnce(svg, numberOfLayers)'
     ],
     listeners: {
      'iron-resize': '_onIronResize'
     },
+
+    ready: function() {
+      this.set('numberOfLayers',4);
+    },
+
     _xAxisConfigChanged: function(conf) {
 
       this._applyConfigToElement(this.xAxisConfig, this.$.xAxis);
