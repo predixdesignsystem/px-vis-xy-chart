@@ -39,8 +39,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 <dom-module id="px-vis-xy-chart">
   <template>
     <style include="px-vis-xy-chart-styles"></style>
-    
-    <div id="wrapper" class="wrapper" on-mousemove="_calcMousePos">
+    <div id="wrapper" class$="{{_chartWrapperClass}}" on-mousemove="_calcMousePos">
       <px-vis-zoom
         id="zoom"
         extents-data="[[extentsData]]"
@@ -51,8 +50,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         height="[[height]]">
       </px-vis-zoom>
       <!-- Legend -->
-      <div class$="{{_getWrapperClass(_registerType)}}">
-
+      <div class$="{{_registerWrapperClass}}">
         <px-vis-register
           id="register"
           class$="{{_getHideClass(hideRegister)}}"
@@ -131,7 +129,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               domain-changed="[[domainChanged]]"
               muted-series="[[mutedSeries]]"
               clip-path="[[seriesClipPath]]"
-              complete-series-config="[[completeSeriesConfig]]">
+              complete-series-config="[[completeSeriesConfig]]"
+              serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
             </px-vis-scatter>
           </template>
           <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]" restamp>
@@ -146,7 +145,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               domain-changed="[[domainChanged]]"
               muted-series="[[mutedSeries]]"
               clip-path="[[seriesClipPath]]"
-              complete-series-config="[[completeSeriesConfig]]">
+              complete-series-config="[[completeSeriesConfig]]"
+              serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
             </px-vis-line>
           </template>
         </template>
@@ -206,6 +206,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         y="[[y]]"
         current-domain-x="[[currentDomainX]]"
         current-domain-y="[[currentDomainY]]"
+        series-keys="[[_seriesKeys]]"
         chart-data="[[_filteredData]]"
         tooltip-data="{{tooltipData}}"
         extents-data="{{extentsData}}"
@@ -254,11 +255,12 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehavior.events,
       PxVisBehavior.completeSeriesConfig,
       PxVisBehaviorChart.chartCommon,
-      Polymer.IronResizableBehavior,
       PxVisBehaviorChart.saveImage,
       PxVisBehaviorChart.subConfiguration,
       PxVisBehaviorChart.timeFiltering,
-      PxVisBehaviorD3.domainUpdate
+      PxVisBehaviorD3.domainUpdate,
+      PxVisBehaviorChart.registerPositioning,
+      PxVisBehaviorChart.chartAutoResize
     ],
     properties: {
       /**
@@ -310,17 +312,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         value: false,
         observer: '_showTooltipChanged'
       },
-      /**
-       *
-       * Allows to hide the register
-       */
-      hideRegister: {
-        type: Boolean,
-        value: false
-      },
-      _registerType: {
-        type: String
-      },
       mouseRect: {
         type: Object
       },
@@ -353,27 +344,13 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 
       this._applyConfigToElement(this.registerConfig, this.$.register);
     },
-    _getHideClass: function(hide) {
-      if(hide === true) {
-        return 'visuallyhidden';
-      }
-      return '';
-    },
     _calcMousePos: function(evt) {
       this.set('mousePosition',[evt.pageX,evt.pageY]);
     },
-    _getWrapperClass: function() {
-      var classList = "flex ";
-
-      if(this._registerType === 'vertical') {
-        classList += "flex--row--rev";
-      }
-      else {
-        classList += "flex--col";
-      }
-      return classList;
-    },
     _onIronResize: function() {
+      if(this.preventResize) {
+        return;
+      }
       this.debounce('ironresize', function() {
         var wrapperRect = this.$.wrapper.getBoundingClientRect(),
             registerRect = this.$.register.getBoundingClientRect();

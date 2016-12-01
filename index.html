@@ -18,12 +18,12 @@
   <link rel="import" href="px-vis-xy-chart.html"/>
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
 
+  <link rel="import" href="../px-dropdown/px-dropdown.html">
   <link rel="import" href="../px-demo-snippet/px-demo-snippet.html">
   <link rel="import" href="../px-polymer-font-awesome/polymer-font-awesome.html" />
   <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
 
   </head>
-
 <body>
 
   <!-- Wrap elements with auto-binding template to -->
@@ -75,6 +75,35 @@
                 <p class="epsilon">Properties</p>
                 <div class="u-mb-">Width: <input id="width" class="text-input" type="text" placeholder="{{item.width}}" value="{{item.width::input}}" /></div>
                 <div class="u-mb-">Height: <input id="height" class="text-input" type="text" placeholder="{{item.height}}" value="{{item.height::input}}" /></div>
+                <div class="flex u-mb-">
+                  <input id="preventResize{{indexPlusOne(index)}}" class="toggle__input toggle__input--small" type="checkbox" checked="{{item.preventResize::change}}">
+                  <label for$="preventResize{{indexPlusOne(index)}}" class="toggle__label toggle__label--small"></label>
+                  <div class="u-ml-">Prevent Resize</div>
+                </div>
+                <div class="u-mb-">Horizontal Alignment:
+                  <div style="width: 100%;">
+                    <px-dropdown id="chartHorizontalAlignment" value="{{item.chartHorizontalAlignment}}" display-value="{{item.chartHorizontalAlignment}}" bound-target="properties">
+                      <px-dropdown-content
+                        items='[
+                          {"key":"one", "val": "left"},
+                          {"key":"two", "val": "center"},
+                          {"key":"three", "val": "right"}]'>
+                      </px-dropdown-content>
+                    </px-dropdown>
+                  </div>
+                </div>
+                <div class="u-mb-">Vertical Alignment:
+                  <div style="width: 100%;">
+                    <px-dropdown id="chartVerticalAlignment" value="{{item.chartVerticalAlignment}}" display-value="{{item.chartVerticalAlignment}}" bound-target="properties">
+                      <px-dropdown-content
+                        items='[
+                          {"key":"one", "val": "top"},
+                          {"key":"two", "val": "center"},
+                          {"key":"three", "val": "bottom"}]'>
+                      </px-dropdown-content>
+                    </px-dropdown>
+                  </div>
+                </div>
               </div>
 
               <div class="demoContainer u-mt+">
@@ -87,6 +116,9 @@
                         chart-data="{{data}}"
                         width="{{item.width}}"
                         height="{{item.height}}"
+                        prevent-resize = "{{item.preventResize}}"
+                        chart-horizontal-alignment="{{item.chartHorizontalAlignment}}"
+                        chart-vertical-alignment="{{item.chartVerticalAlignment}}"
                         margin='{ "top": "30", "bottom": "60", "left": "75", "right": "20" }'
                         x-axis-config='{"title": "X",
                           "labelPosition": "center",
@@ -248,6 +280,9 @@ window.addEventListener('WebComponentsReady', function() {
           "showTooltip": true,
           "width": 550,
           "height": 300,
+          "chartHorizontalAlignment": "center",
+          "chartVerticalAlignment": "center",
+          "preventResize": false,
           "margin":{ "top": "30", "bottom": "60", "left": "70", "right": "10" },
           "xAxisConfig":{"title": "X",
            "labelPosition": "center",
