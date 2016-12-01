@@ -42,10 +42,13 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
     
     <div id="wrapper" class="wrapper" on-mousemove="_calcMousePos">
       <px-vis-zoom
+        id="zoom"
         extents-data="[[extentsData]]"
         margin="[[margin]]"
         px-svg-elem="[[pxSvgElem]]"
-        selected-domain="{{selectedDomain}}">
+        selected-domain="{{selectedDomain}}"
+        width="[[width]]"
+        height="[[height]]">
       </px-vis-zoom>
       <!-- Legend -->
       <div class$="{{_getWrapperClass(_registerType)}}">
@@ -264,8 +267,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
        *
        */
       xAxisConfig: {
-        type: Object,
-        observer: '_xAxisConfigChanged'
+        type: Object
       },
       /**
        * Configuration object used to customize the Y axis cosmetic properties.
@@ -273,8 +275,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
        *
        */
       yAxisConfig: {
-        type: Object,
-        observer: '_yAxisConfigChanged'
+        type: Object
       },
       /**
        * Configuration object used to customize the tooltip.
@@ -327,9 +328,10 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         type: Array
       }
     },
-    observer: [
+    observers: [
       '_xAxisConfigChanged(xAxisConfig.*)',
-      '_yAxisConfigChanged(yAxisConfig.*)'
+      '_yAxisConfigChanged(yAxisConfig.*)',
+      '_chartDataChanged(chartData.*)'
     ],
     listeners: {
      'iron-resize': '_onIronResize'
@@ -393,6 +395,12 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       if(this.showTooltip && this.tooltipConfig) {
         this._tooltipConfigChanged();
       }
+    },
+    /**
+     * When data changes ensure zoom is reset
+     */
+    _chartDataChanged: function() {
+      this.$.zoom.resetZoom();
     }
   });
 </script>

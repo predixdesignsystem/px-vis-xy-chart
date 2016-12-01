@@ -1,3 +1,9 @@
+v0.2.17
+==================
+* Ensure zoom button reposition on resize
+* Ensure zoom is reset when changing chart data
+* Zoom is now preserved when chart is resizing
+
 v0.2.16
 ==================
 * Use vis 0.7.0
