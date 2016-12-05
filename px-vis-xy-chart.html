@@ -39,16 +39,16 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 <dom-module id="px-vis-xy-chart">
   <template>
     <style include="px-vis-xy-chart-styles"></style>
+    <px-vis-zoom
+      id="zoom"
+      extents-data="[[extentsData]]"
+      margin="[[margin]]"
+      px-svg-elem="[[pxSvgElem]]"
+      selected-domain="{{selectedDomain}}"
+      width="[[width]]"
+      height="[[height]]">
+    </px-vis-zoom>
     <div id="wrapper" class$="{{_chartWrapperClass}}" on-mousemove="_calcMousePos">
-      <px-vis-zoom
-        id="zoom"
-        extents-data="[[extentsData]]"
-        margin="[[margin]]"
-        px-svg-elem="[[pxSvgElem]]"
-        selected-domain="{{selectedDomain}}"
-        width="[[width]]"
-        height="[[height]]">
-      </px-vis-zoom>
       <!-- Legend -->
       <div class$="{{_registerWrapperClass}}">
         <px-vis-register
@@ -78,6 +78,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           current-domain-y="{{currentDomainY}}"
           selected-domain="[[selectedDomain]]"
           chart-extents="[[chartExtents]]"
+          data-extents="[[dataExtents]]"
           complete-series-config="[[completeSeriesConfig]]">
         </px-vis-scale>
         <template id="tooltipTemplate" is="dom-if" if="{{showTooltip}}">
@@ -261,7 +262,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorD3.domainUpdate,
       PxVisBehaviorChart.registerPositioning,
       PxVisBehaviorChart.chartAutoResize,
-      PxVisBehaviorChart.layers
+      PxVisBehaviorChart.layers,
+      PxVisBehavior.serieToRedrawOnTop
     ],
     properties: {
       /**
@@ -332,6 +334,11 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 
     ready: function() {
       this.set('numberOfLayers',4);
+      console.log('ready')
+    },
+    attached: function() {
+console.log('attached')
+this._isAttached = true;
     },
 
     _xAxisConfigChanged: function(conf) {
@@ -384,7 +391,9 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
      * When data changes ensure zoom is reset
      */
     _chartDataChanged: function() {
-      this.$.zoom.resetZoom();
+      if(this._isAttached) {
+        this.$.zoom.resetZoom();
+      }
     }
   });
 </script>
