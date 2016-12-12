@@ -1,3 +1,7 @@
+v0.3.0
+==================
+* Updated dependencies
+
 v0.2.17
 ==================
 * Ensure zoom button reposition on resize
