@@ -1,3 +1,7 @@
+v0.3.1
+==================
+* Themeable
+
 v0.3.0
 ==================
 * Updated dependencies
