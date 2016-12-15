@@ -6,6 +6,15 @@
 * alignment of the chart is now centered by default
 * Added layers
 * Changed line to line-svg
+* Added gridlines
+
+v0.3.1
+==================
+* Themeable
+
+v0.3.0
+==================
+* Updated dependencies
 
 v0.2.17
 ==================
