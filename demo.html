@@ -169,6 +169,10 @@
                 id="navigator"
                 x-axis-type="time"
                 y-axis-type="linear"
+                chart-extents='{
+                  "x":["dynamic","dynamic"],
+                  "y":["dynamic","dynamic"]
+                }'
                 margin='{
                 "top": 5,
                 "right": 10,
@@ -231,7 +235,7 @@
             'icon': 'fa-arrow-up'
           }
         ];
-        
+
       chart2.set('dynamicMenuConfig', menuConfig);
 
       btnInc.addEventListener('click', function() {
