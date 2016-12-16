@@ -55,6 +55,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         <px-vis-register
           id="register"
           class$="{{_getHideClass(hideRegister)}}"
+          dynamic-menu-config="[[dynamicMenuConfig]]"
           tooltip-data="[[tooltipData]]"
           chart-data="[[_filteredData]]"
           complete-series-config="[[completeSeriesConfig]]"
@@ -291,7 +292,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.chartAutoResize,
       PxVisBehaviorChart.layers,
       PxVisBehaviorChart.dataVisColorTheming,
-      PxVisBehavior.serieToRedrawOnTop
+      PxVisBehavior.serieToRedrawOnTop,
+      PxVisBehavior.dynamicMenuConfig
     ],
     properties: {
       /**

@@ -208,6 +208,32 @@
           wrap = document.getElementById('wrap'),
           btnSnap = document.getElementById('btnSnap');
 
+      var menuConfig = [
+          {
+            'name': 'Delete',
+            'action': function(itemConfig, additionalDetail) {
+              var conf = this.seriesConfig;
+              delete conf[additionalDetail.name];
+              this.set('seriesConfig', {});
+              this.set('seriesConfig', conf);
+            },
+            'actionContext': chart2,
+            'eventName': 'delete',
+            'icon': 'fa-trash',
+          },
+          {
+            'name': 'Bring To Front',
+            'action': function(itemConfig, additionalDetail) {
+              this.set('serieToRedrawOnTop', additionalDetail.name);
+            },
+            'actionContext': chart2,
+            'eventName': 'bring-to-front',
+            'icon': 'fa-arrow-up'
+          }
+        ];
+        
+      chart2.set('dynamicMenuConfig', menuConfig);
+
       btnInc.addEventListener('click', function() {
         var width = window.getComputedStyle(wrap).getPropertyValue("width");
         var cur = width.substr(0, width.length-2);
