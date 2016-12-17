@@ -20,6 +20,7 @@
 <link rel="import" href="../px-vis/px-vis-clip-path.html"/>
 <link rel="import" href="../px-vis/px-vis-event.html"/>
 <link rel="import" href="../px-vis/px-vis-gridlines.html"/>
+<link rel="import" href="../px-colors-design/colors.html"/>
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html" />
 
 
@@ -123,7 +124,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         <template is="dom-repeat" items="[[_seriesKeys]]">
           <template is="dom-if" if="[[_chartTypeScatter(item, completeSeriesConfig)]]" restamp>
             <px-vis-scatter
-              svg="[[layer.2]]"
+              svg="[[layer.3]]"
               series-id="[[item]]"
               chart-data="[[_filteredData]]"
               x="[[x]]"
@@ -139,7 +140,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           </template>
           <template is="dom-if" if="[[_chartTypeLine(item, completeSeriesConfig)]]" restamp>
             <px-vis-line-svg
-              svg="[[layer.2]]"
+              svg="[[layer.3]]"
               series-id="[[item]]"
               chart-data="[[_filteredData]]"
               x="[[x]]"
@@ -158,7 +159,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           horizontal-line="full"
           vertical-line="full"
           circle-point="yes"
-          svg="[[layer.3]]"
+          svg="[[layer.2]]"
           width="[[width]]"
           height="[[height]]"
           margin="[[margin]]"
@@ -291,7 +292,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.registerPositioning,
       PxVisBehaviorChart.chartAutoResize,
       PxVisBehaviorChart.layers,
-      PxVisBehaviorChart.dataVisColorTheming,
+      PxColorsBehavior.dataVisColorTheming,
       PxVisBehavior.serieToRedrawOnTop,
       PxVisBehavior.dynamicMenuConfig
     ],
