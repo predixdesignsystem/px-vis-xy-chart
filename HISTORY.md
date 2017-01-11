@@ -1,3 +1,7 @@
+v1.0.1
+==================
+* changing ghp.sh to account for Alpha releases
+
 1.0.0
 ==================
 * modified internal mechanism for resizing
