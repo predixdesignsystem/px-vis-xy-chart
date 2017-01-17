@@ -1,3 +1,7 @@
+v0.3.2
+==================
+* Updated to cool grays
+
 v0.3.1
 ==================
 * Themeable
