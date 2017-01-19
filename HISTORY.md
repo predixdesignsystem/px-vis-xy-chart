@@ -11,6 +11,7 @@ v1.0.1
 * Added layers
 * Changed line to line-svg
 * Added gridlines
+* Added toolbar, advanced zooming and panning
 
 v0.3.1
 ==================

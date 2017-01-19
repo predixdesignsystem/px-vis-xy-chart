@@ -15,11 +15,11 @@
 <link rel="import" href="../px-vis/px-vis-tooltip.html"/>
 <link rel="import" href="../px-vis/px-vis-interaction-space.html"/>
 <link rel="import" href="../px-vis/px-vis-register.html"/>
-<link rel="import" href="../px-vis/px-vis-zoom.html"/>
 <link rel="import" href="../px-vis/px-vis-cursor.html"/>
 <link rel="import" href="../px-vis/px-vis-clip-path.html"/>
 <link rel="import" href="../px-vis/px-vis-event.html"/>
 <link rel="import" href="../px-vis/px-vis-gridlines.html"/>
+<link rel="import" href="../px-vis/px-vis-toolbar.html"/>
 <link rel="import" href="../px-colors-design/colors.html"/>
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html" />
 
@@ -41,15 +41,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 <dom-module id="px-vis-xy-chart">
   <template>
     <style include="px-vis-xy-chart-styles"></style>
-    <px-vis-zoom
-      id="zoom"
-      extents-data="[[extentsData]]"
-      margin="[[margin]]"
-      px-svg-elem="[[pxSvgElem]]"
-      selected-domain="{{selectedDomain}}"
-      width="[[width]]"
-      height="[[height]]">
-    </px-vis-zoom>
     <div id="wrapper" class$="{{_chartWrapperClass}}" on-mousemove="_calcMousePos">
       <!-- Legend -->
       <div class$="{{_registerWrapperClass}}">
@@ -65,50 +56,60 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           x-axis-type="[[xAxisType]]"
           y-axis-type="[[yAxisType]]">
         </px-vis-register>
-        <!-- Core -->
-        <px-vis-scale
-          id="scale"
-          x-axis-type="[[xAxisType]]"
-          y-axis-type="[[yAxisType]]"
-          width="[[width]]"
-          height="[[height]]"
-          margin="[[margin]]"
-          chart-data="[[chartData]]"
-          data-extents="[[dataExtents]]"
-          x="{{x}}"
-          y="{{y}}"
-          domain-changed="{{domainChanged}}"
-          current-domain-x="{{currentDomainX}}"
-          current-domain-y="{{currentDomainY}}"
-          selected-domain="[[selectedDomain]]"
-          chart-extents="[[chartExtents]]"
-          data-extents="[[dataExtents]]"
-          complete-series-config="[[completeSeriesConfig]]">
-        </px-vis-scale>
-        <template id="tooltipTemplate" is="dom-if" if="{{showTooltip}}">
-          <px-vis-tooltip
-            id="tooltip"
-            tooltip-data="[[tooltipData]]"
-            chart-data="[[_filteredData]]"
-            muted-series="[[mutedSeries]]"
+        <div id="drawingWrapper" class="flex--col flex__item inline--flex">
+          <px-vis-toolbar
+            id="toolbar"
+            toolbar-config='[[toolbarConfig]]'
+            current-sub-config='[[toolbarSubConfig]]'
+            action-config='{{actionConfig}}'
+            within-chart
+            chart-margin="[[margin]]">
+          </px-vis-toolbar>
+          <!-- Core -->
+          <px-vis-scale
+            id="scale"
             x-axis-type="[[xAxisType]]"
             y-axis-type="[[yAxisType]]"
-            complete-series-config="[[completeSeriesConfig]]"
-            mouse-position="[[mousePosition]]"
-            hover-target="[[mouseRect]]"
-            tooltip-style="light"
-            muted-series="[[mutedSeries]]">
-          </px-vis-tooltip>
-        </template>
-        <px-vis-svg
-          class="inline--flex"
-          id="svg"
-          width="[[width]]"
-          height="[[height]]"
-          margin="[[margin]]"
-          svg="{{svg}}"
-          px-svg-elem="{{pxSvgElem}}">
-        </px-vis-svg>
+            width="[[width]]"
+            height="[[height]]"
+            margin="[[margin]]"
+            chart-data="[[chartData]]"
+            data-extents="[[dataExtents]]"
+            x="{{x}}"
+            y="{{y}}"
+            domain-changed="{{domainChanged}}"
+            current-domain-x="{{currentDomainX}}"
+            current-domain-y="{{currentDomainY}}"
+            selected-domain="[[selectedDomain]]"
+            chart-extents="[[chartExtents]]"
+            data-extents="[[dataExtents]]"
+            complete-series-config="[[completeSeriesConfig]]">
+          </px-vis-scale>
+          <template id="tooltipTemplate" is="dom-if" if="{{showTooltip}}">
+            <px-vis-tooltip
+              id="tooltip"
+              tooltip-data="[[tooltipData]]"
+              chart-data="[[_filteredData]]"
+              muted-series="[[mutedSeries]]"
+              x-axis-type="[[xAxisType]]"
+              y-axis-type="[[yAxisType]]"
+              complete-series-config="[[completeSeriesConfig]]"
+              mouse-position="[[mousePosition]]"
+              hover-target="[[mouseRect]]"
+              tooltip-style="light"
+              muted-series="[[mutedSeries]]">
+            </px-vis-tooltip>
+          </template>
+          <px-vis-svg
+            class="inline--flex"
+            id="svg"
+            width="[[width]]"
+            height="[[height]]"
+            margin="[[margin]]"
+            svg="{{svg}}"
+            px-svg-elem="{{pxSvgElem}}">
+          </px-vis-svg>
+        </div>
         <px-vis-clip-path
           svg="[[layer.2]]"
           x="[[x]]"
@@ -191,6 +192,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         id="yAxis"
         svg="[[layer.1]]"
         axis="[[y]]"
+        axis-type="[[yAxisType]]"
         width="[[width]]"
         height="[[height]]"
         margin="[[margin]]"
@@ -245,6 +247,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         mouse-rect="{{mouseRect}}"
         series-keys="[[_seriesKeys]]"
         time-data="[[timeData]]"
+        action-config="{{actionConfig}}"
         >
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
@@ -294,7 +297,13 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.layers,
       PxColorsBehavior.dataVisColorTheming,
       PxVisBehavior.serieToRedrawOnTop,
-      PxVisBehavior.dynamicMenuConfig
+      PxVisBehavior.dynamicMenuConfig,
+      PxVisBehavior.actionConfig,
+      PxVisBehaviorChart.zooming,
+      PxVisBehaviorChart.actionRequest,
+      PxVisBehaviorChart.toolbarSubConfig,
+      PxVisBehaviorChart.noDebounceOnPanning,
+      PxVisBehavior.toolbarConfig
     ],
     properties: {
       /**
@@ -370,7 +379,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
     observers: [
       '_xAxisConfigChanged(xAxisConfig.*)',
       '_yAxisConfigChanged(yAxisConfig.*)',
-      '_chartDataChanged(chartData.*)',
       '_createLayersOnce(svg, numberOfLayers)'
     ],
     listeners: {
@@ -379,6 +387,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 
     ready: function() {
       this.set('numberOfLayers',5);
+      this.set('toolbarConfig', {"zoom": true, "pan": true, "tooltip": true});
     },
     attached: function() {
       this._isAttached = true;
@@ -410,15 +419,22 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       }
       this.debounce('ironresize', function() {
         var wrapperRect = this.$.wrapper.getBoundingClientRect(),
-            registerRect = this.$.register.getBoundingClientRect();
+            registerRect = this.$.register.getBoundingClientRect(),
+            toolbarRect = this.$.toolbar.getBoundingClientRect(),
+            heightDeduct = 0,
+            widthDeduct = 0;
+
 
         if(this.$.register.type === 'horizontal') {
-          this.set('width', Math.max(wrapperRect.width,0));
-          this.set('height', Math.max(wrapperRect.height - registerRect.height,0));
+          heightDeduct += registerRect.height;
         } else {
-          this.set('width', Math.max(wrapperRect.width - registerRect.width,0));
-          this.set('height', Math.max(wrapperRect.height,0));
+          widthDeduct += registerRect.width;
         }
+
+        heightDeduct += toolbarRect.height;
+
+        this.set('width', Math.max(wrapperRect.width - widthDeduct, 0));
+        this.set('height', Math.max(wrapperRect.height - heightDeduct, 0));
       },50);
     },
     _showTooltipChanged: function() {
@@ -428,14 +444,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 
       if(this.showTooltip && this.tooltipConfig) {
         this._tooltipConfigChanged();
-      }
-    },
-    /**
-     * When data changes ensure zoom is reset
-     */
-    _chartDataChanged: function() {
-      if(this._isAttached) {
-        this.$.zoom.resetZoom();
       }
     }
   });
