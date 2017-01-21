@@ -182,7 +182,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         margin="[[margin]]"
         orientation="bottom"
         complete-series-config="[[completeSeriesConfig]]"
-        prevent-series-bar
+        prevent-series-bar="[[preventSeriesBarOnXAxis]]"
         domain-changed="[[domainChanged]]"
         current-domain="[[currentDomainX]]"
         muted-series="[[mutedSeries]]"
@@ -199,7 +199,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         margin="[[margin]]"
         orientation="left"
         complete-series-config="[[completeSeriesConfig]]"
-        prevent-series-bar
+        prevent-series-bar="[[preventSeriesBarOnYAxis]]"
         domain-changed="[[domainChanged]]"
         current-domain="[[currentDomainY]]"
         muted-series="[[mutedSeries]]"
@@ -308,6 +308,14 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehavior.toolbarConfig
     ],
     properties: {
+      preventSeriesBarOnXAxis: {
+        type: Boolean,
+        value: true
+      },
+      preventSeriesBarOnYAxis: {
+        type: Boolean,
+        value: false
+      },
       /**
        * Configuration object used to customize the X axis cosmetic properties.
        * Please refer to px-vis-axis (https://github.com/PredixDev/px-vis) for a list of supported proerties
