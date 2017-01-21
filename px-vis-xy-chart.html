@@ -182,7 +182,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         margin="[[margin]]"
         orientation="bottom"
         complete-series-config="[[completeSeriesConfig]]"
-        prevent-series-bar
+        prevent-series-bar="[[preventSeriesBarOnXaxis]]"
         domain-changed="[[domainChanged]]"
         current-domain="[[currentDomainX]]"
         muted-series="[[mutedSeries]]"
@@ -199,6 +199,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         margin="[[margin]]"
         orientation="left"
         complete-series-config="[[completeSeriesConfig]]"
+        prevent-series-bar="[[preventSeriesBarOnYaxis]]"
         domain-changed="[[domainChanged]]"
         current-domain="[[currentDomainY]]"
         muted-series="[[mutedSeries]]"
@@ -307,6 +308,24 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehavior.toolbarConfig
     ],
     properties: {
+      /**
+       * property to bind to px-vis-axis's prevent-resize-bar
+       * visit https://www.predix-ui.com/px-vis/px-vis/#px-vis-axis-x-anchor
+       * note that this has to be Object and not Boolean
+       * visit https://github.com/Polymer/polymer/issues/1812
+       */
+      preventSeriesBarOnXaxis: {
+        type: Object,
+        value: true
+      },
+      /**
+       * property to bind to px-vis-axis's prevent-resize-bar
+       * this one is for y axis
+       */
+      preventSeriesBarOnYaxis: {
+        type: Object,
+        value: false
+      },
       /**
        * Configuration object used to customize the X axis cosmetic properties.
        * Please refer to px-vis-axis (https://github.com/PredixDev/px-vis) for a list of supported proerties
