@@ -119,69 +119,20 @@
                         prevent-resize = "{{item.preventResize}}"
                         chart-horizontal-alignment="{{item.chartHorizontalAlignment}}"
                         chart-vertical-alignment="{{item.chartVerticalAlignment}}"
-                        margin='{ "top": "30", "bottom": "60", "left": "75", "right": "20" }'
-                        x-axis-config='{"title": "X",
-                          "labelPosition": "center",
-                          "orientation": "bottom"}'
-                        y-axis-config='{"title": "Y",
-                          "labelPosition": "center",
-                          "orientation": "left"}'
-                        register-config='{
-                          "width": 250,
-                          "type": "vertical",
-                          "forceDateTimeDisplay": true}'
-                        tooltip-config='{
-                          "forceDateTimeDisplay": true}'
-                        series-config='{
-                            "firstSeries": {
-                              "type": "scatter",
-                              "name": "Series1",
-                              "xAxisUnit": "Hz",
-                              "yAxisUnit": "Hz",
-                              "x": "T48A",
-                              "y":"T48B"
-                            },"secondSeries": {
-                              "type": "line",
-                              "name": "Series2",
-                              "x": "T48A",
-                              "y":"Line"
-                            }
-                          }'
+                        margin='{{item.margin}}'
+                        x-axis-config='{{item.xAxisConfig}}'
+                        y-axis-config='{{item.yAxisConfig}}'
+                        register-config='{{item.registerConfig}}'
+                        tooltip-config='{{item.tooltipConfig}}'
+                        series-config='{{item.seriesConfig}}'
+                        dynamic-menu-config='{{item.dynamicMenuConfig}}'
                         show-tooltip
-                        default-series-config='{
-                          "x": "T48A",
-                          "xMin": "dynamic",
-                          "xMax": "dynamic",
-                          "yMin": "dynamic",
-                          "yMax": "dynamic"
-                        }'
-                        event-config='{
-                        	"Fa Icon": {
-                        		"color": "blue",
-                        		"icon": "fa-camera",
-                        		"type": "fa",
-                        		"offset": [0, 0]
-                        	},
-                        	"Unicode": {
-                        		"color": "green",
-                        		"icon": "\uf015",
-                        		"type": "unicode",
-                        		"offset": [1, 0]
-                        	},
-                        	"Event Png": {
-                        		"icon": "ge_logo.png",
-                        		"type": "image",
-                        		"offset": [0, -20],
-                        		"size": "20"
-                        	}
-                        }'
+                        default-series-config='{{item.defaultSeriesConfig}}'
+                        event-config='{{item.eventConfig}}'
                         event-data="{{eventData}}"
-                        chart-extents='{
-                          "x": ["dynamic","dynamic"],
-                          "y": ["dynamic","dynamic"]
-                        }'
+                        chart-extents='{{item.chartExtents}}'
                         time-domain="[[selectedDomain]]"
-                        time-data="Date">
+                        time-data="{{item.timeData}}">
                       </px-vis-xy-chart>
                       </div>
                       <div style="height:100px">
@@ -268,6 +219,27 @@
 window.addEventListener('WebComponentsReady', function() {
   var template = document.querySelector('template[is=dom-bind]'),
       year = new Date(),
+      menuConfig = [
+        {
+          'name': 'Delete',
+          'action': function(data) {
+            var conf = this.seriesConfig;
+            delete conf[data.additionalDetail.name];
+            this.set('seriesConfig', {});
+            this.set('seriesConfig', conf);
+          },
+          'eventName': 'delete',
+          'icon': 'fa-trash',
+        },
+        {
+          'name': 'Bring To Front',
+          'action': function(data) {
+            this.set('serieToRedrawOnTop', data.additionalDetail.name);
+          },
+          'eventName': 'bring-to-front',
+          'icon': 'fa-arrow-up'
+        }
+      ],
       optionsArray = [
         {
           "chartData" : [
@@ -289,7 +261,6 @@ window.addEventListener('WebComponentsReady', function() {
           "chartHorizontalAlignment": "center",
           "chartVerticalAlignment": "center",
           "preventResize": false,
-          "margin":{ "top": "30", "bottom": "60", "left": "70", "right": "10" },
           "xAxisConfig":{"title": "X",
            "labelPosition": "center",
            "orientation": "bottom"},
@@ -297,7 +268,8 @@ window.addEventListener('WebComponentsReady', function() {
             "labelPosition": "center",
             "orientation": "left"},
           "registerConfig":{
-            "type": "vertical"},
+            "type": "vertical",
+            "width": 220},
           "seriesConfig":{
             "firstSeries": {
               "type": "scatter",
@@ -340,7 +312,13 @@ window.addEventListener('WebComponentsReady', function() {
               "size": "20"
             }
           },
+          "chartExtents": {
+            "x": ["dynamic","dynamic"],
+            "y": ["dynamic","dynamic"]
+          },
+          "margin": { "top": "30", "bottom": "60", "left": "75", "right": "20" },
           "timeData": "Date",
+          "dynamicMenuConfig": menuConfig,
           "parentComponent": ["<div style='width:1000px'>","</div>"]
         }
     ];
