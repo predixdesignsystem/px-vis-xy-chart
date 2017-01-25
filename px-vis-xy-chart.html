@@ -56,14 +56,14 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           x-axis-type="[[xAxisType]]"
           y-axis-type="[[yAxisType]]">
         </px-vis-register>
-        <div id="drawingWrapper" class="flex--col flex__item inline--flex">
+        <div id="drawingWrapper" class="flex--col inline--flex">
           <px-vis-toolbar
             id="toolbar"
-            toolbar-config='[[toolbarConfig]]'
             current-sub-config='[[toolbarSubConfig]]'
             action-config='{{actionConfig}}'
             within-chart
-            chart-margin="[[margin]]">
+            chart-margin="[[margin]]"
+            show-tooltip="{{_internalShowTooltip}}">
           </px-vis-toolbar>
           <!-- Core -->
           <px-vis-scale
@@ -85,21 +85,19 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
             data-extents="[[dataExtents]]"
             complete-series-config="[[completeSeriesConfig]]">
           </px-vis-scale>
-          <template id="tooltipTemplate" is="dom-if" if="{{showTooltip}}">
-            <px-vis-tooltip
-              id="tooltip"
-              tooltip-data="[[tooltipData]]"
-              chart-data="[[_filteredData]]"
-              muted-series="[[mutedSeries]]"
-              x-axis-type="[[xAxisType]]"
-              y-axis-type="[[yAxisType]]"
-              complete-series-config="[[completeSeriesConfig]]"
-              mouse-position="[[mousePosition]]"
-              hover-target="[[mouseRect]]"
-              tooltip-style="light"
-              muted-series="[[mutedSeries]]">
-            </px-vis-tooltip>
-          </template>
+          <px-vis-tooltip
+            id="tooltip"
+            tooltip-data="[[tooltipData]]"
+            chart-data="[[_filteredData]]"
+            muted-series="[[mutedSeries]]"
+            x-axis-type="[[xAxisType]]"
+            y-axis-type="[[yAxisType]]"
+            complete-series-config="[[completeSeriesConfig]]"
+            mouse-position="[[mousePosition]]"
+            hover-target="[[mouseRect]]"
+            tooltip-style="light"
+            muted-series="[[mutedSeries]]">
+          </px-vis-tooltip>
           <px-vis-svg
             class="inline--flex"
             id="svg"
@@ -249,6 +247,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         series-keys="[[_seriesKeys]]"
         time-data="[[timeData]]"
         action-config="{{actionConfig}}"
+        show-tooltip="{{_computedShowTooltip}}"
         >
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
@@ -304,7 +303,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.actionRequest,
       PxVisBehaviorChart.toolbarSubConfig,
       PxVisBehaviorChart.noDebounceOnPanning,
-      PxVisBehavior.toolbarConfig
+      PxVisBehaviorChart.chartToolbarConfig,
+      PxVisBehaviorChart.showTooltip
     ],
     properties: {
       /**
@@ -325,7 +325,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       },
       /**
        * Configuration object used to customize the tooltip.
-       * Please refer to px-vis-tooltip (https://github.com/PredixDev/px-vis) for a list of supported proerties.
+       * Please refer to px-vis-tooltip (https://github.com/PredixDev/px-vis) for a list of supported properties.
        * Most interesting properties include:
        * -width
        * -height
@@ -346,15 +346,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       registerConfig: {
         type: Object,
         observer: '_registerConfigChanged'
-      },
-      /**
-       *
-       * Allows to show the tooltip
-       */
-      showTooltip: {
-        type: Boolean,
-        value: false,
-        observer: '_showTooltipChanged'
       },
       mouseRect: {
         type: Object
@@ -380,6 +371,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
     observers: [
       '_xAxisConfigChanged(xAxisConfig.*)',
       '_yAxisConfigChanged(yAxisConfig.*)',
+      '_toolbarConfigChanged(toolbarConfig.*)',
       '_createLayersOnce(svg, numberOfLayers)'
     ],
     listeners: {
@@ -388,7 +380,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 
     ready: function() {
       this.set('numberOfLayers',5);
-      this.set('toolbarConfig', {"zoom": true, "pan": true, "tooltip": true});
     },
     attached: function() {
       this._isAttached = true;
@@ -403,13 +394,14 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       this._applyConfigToElement(this.yAxisConfig, this.$.yAxis);
     },
     _tooltipConfigChanged: function(conf) {
-      if(this.$$('px-vis-tooltip')) {
-        this._applyConfigToElement(this.tooltipConfig, this.$$('px-vis-tooltip'));
-      }
+      this._applyConfigToElement(this.tooltipConfig, this.$.tooltip);
     },
     _registerConfigChanged: function(conf) {
 
       this._applyConfigToElement(this.registerConfig, this.$.register);
+    },
+    _toolbarConfigChanged: function(conf) {
+      this._applyConfigToElement(this.toolbarConfig, this.$.toolbar);
     },
     _calcMousePos: function(evt) {
       this.set('mousePosition',[evt.pageX,evt.pageY]);
@@ -437,15 +429,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         this.set('width', Math.max(wrapperRect.width - widthDeduct, 0));
         this.set('height', Math.max(wrapperRect.height - heightDeduct, 0));
       },50);
-    },
-    _showTooltipChanged: function() {
-
-      //make sure the dom if is processed....
-      this.$.tooltipTemplate.render();
-
-      if(this.showTooltip && this.tooltipConfig) {
-        this._tooltipConfigChanged();
-      }
     }
   });
 </script>
