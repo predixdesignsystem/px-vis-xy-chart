@@ -1,7 +1,3 @@
-v1.0.1
-==================
-* changing ghp.sh to account for Alpha releases
-
 1.0.0
 ==================
 * modified internal mechanism for resizing
@@ -13,6 +9,8 @@ v1.0.1
 * Added gridlines
 * added dynamic menus on registers
 * Added toolbar, advanced zooming and panning
+* Multi-y
+* changing ghp.sh to account for Alpha releases
 
 v0.3.1
 ==================
