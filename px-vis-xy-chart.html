@@ -1,17 +1,13 @@
-<!--
-    Relative paths assume component is being run from inside an app or another component, where dependencies are flat
-    siblings. When this component is run from its own repo (e.g. tests, examples), we assume the server is started with
-    'grunt depserve' (or similar server setup) to enable correct finding of bower dependencies for local runs.
--->
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-common.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-d3.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-chart.html"/>
-<link rel="import" href="../px-vis/px-vis-scale.html"/>
+<link rel="import" href="../px-vis/px-vis-behavior-scale.html"/>
 <link rel="import" href="../px-vis/px-vis-svg.html"/>
 <link rel="import" href="../px-vis/px-vis-scatter.html"/>
 <link rel="import" href="../px-vis/px-vis-line-svg.html"/>
 <link rel="import" href="../px-vis/px-vis-axis.html"/>
+<link rel="import" href="../px-vis/px-vis-multi-axis.html"/>
 <link rel="import" href="../px-vis/px-vis-tooltip.html"/>
 <link rel="import" href="../px-vis/px-vis-interaction-space.html"/>
 <link rel="import" href="../px-vis/px-vis-register.html"/>
@@ -62,29 +58,10 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
             current-sub-config='[[toolbarSubConfig]]'
             action-config='{{actionConfig}}'
             within-chart
-            chart-margin="[[margin]]"
+            chart-margin="[[_internalMargin]]"
             show-tooltip="{{_internalShowTooltip}}">
           </px-vis-toolbar>
           <!-- Core -->
-          <px-vis-scale
-            id="scale"
-            x-axis-type="[[xAxisType]]"
-            y-axis-type="[[yAxisType]]"
-            width="[[width]]"
-            height="[[height]]"
-            margin="[[margin]]"
-            chart-data="[[chartData]]"
-            data-extents="[[dataExtents]]"
-            x="{{x}}"
-            y="{{y}}"
-            domain-changed="{{domainChanged}}"
-            current-domain-x="{{currentDomainX}}"
-            current-domain-y="{{currentDomainY}}"
-            selected-domain="[[selectedDomain]]"
-            chart-extents="[[chartExtents]]"
-            data-extents="[[dataExtents]]"
-            complete-series-config="[[completeSeriesConfig]]">
-          </px-vis-scale>
           <px-vis-tooltip
             id="tooltip"
             tooltip-data="[[tooltipData]]"
@@ -103,7 +80,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
             id="svg"
             width="[[width]]"
             height="[[height]]"
-            margin="[[margin]]"
+            margin="[[_internalMargin]]"
             svg="{{svg}}"
             px-svg-elem="{{pxSvgElem}}">
           </px-vis-svg>
@@ -114,7 +91,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           y="[[y]]"
           width="[[width]]"
           height="[[height]]"
-          margin="[[margin]]"
+          margin="[[_internalMargin]]"
           clip-path="{{clipPath}}"
           series-clip-path-y-offset="-5"
           series-clip-path="{{seriesClipPath}}">
@@ -127,9 +104,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               series-id="[[item]]"
               chart-data="[[_filteredData]]"
               x="[[x]]"
-              y="[[y]]"
-              current-domain-x="[[currentDomainX]]"
-              current-domain-y="[[currentDomainY]]"
+              y="[[_returnYScale(item, completeSeriesConfig, domainChanged)]]"
               domain-changed="[[domainChanged]]"
               muted-series="[[mutedSeries]]"
               clip-path="[[seriesClipPath]]"
@@ -143,13 +118,12 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               series-id="[[item]]"
               chart-data="[[_filteredData]]"
               x="[[x]]"
-              y="[[y]]"
-              current-domain-x="[[currentDomainX]]"
-              current-domain-y="[[currentDomainY]]"
+              y="[[_returnYScale(item, completeSeriesConfig, domainChanged)]]"
               domain-changed="[[domainChanged]]"
               muted-series="[[mutedSeries]]"
               clip-path="[[seriesClipPath]]"
               complete-series-config="[[completeSeriesConfig]]"
+              interpolation-function="[[interpolationFunction]]"
               serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
             </px-vis-line-svg>
           </template>
@@ -161,7 +135,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
           svg="[[layer.2]]"
           width="[[width]]"
           height="[[height]]"
-          margin="[[margin]]"
+          margin="[[_internalMargin]]"
           chart-data="[[_filteredData]]"
           tooltip-data="[[tooltipData]]"
           complete-series-config="[[completeSeriesConfig]]"
@@ -177,65 +151,69 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         axis="[[x]]"
         height="[[height]]"
         width="[[width]]"
-        margin="[[margin]]"
+        margin="[[_internalMargin]]"
         orientation="bottom"
         complete-series-config="[[completeSeriesConfig]]"
         prevent-series-bar
         domain-changed="[[domainChanged]]"
-        current-domain="[[currentDomainX]]"
-        muted-series="[[mutedSeries]]"
-        >
+        muted-series="[[mutedSeries]]">
       </px-vis-axis>
       <!-- Y axis -->
-      <px-vis-axis
-        id="yAxis"
+      <px-vis-multi-axis
+        id="yAxes"
         svg="[[layer.1]]"
-        axis="[[y]]"
-        axis-type="[[yAxisType]]"
         width="[[width]]"
         height="[[height]]"
-        margin="[[margin]]"
-        orientation="left"
-        complete-series-config="[[completeSeriesConfig]]"
-        domain-changed="[[domainChanged]]"
-        current-domain="[[currentDomainY]]"
-        muted-series="[[mutedSeries]]"
-        >
-      </px-vis-axis>
+        margin="[[_internalMargin]]"
+        left-axis-size="[[_leftAxisSize]]"
+        right-axis-size="[[_rightAxisSize]]"
+        x="[[_axisX]]"
+        y="[[y]]"
+        domain-changed="[[_bothDomainsSet(_axisDomainChanged, domainChanged)]]"
+        complete-series-config="[[_multiAxisSeriesConfig]]"
+        chart-data="[[chartData]]"
+        dimensions="[[dimensions]]"
+        axes="[[axes]]"
+        axis-config="[[yAxisConfig]]"
+        append-unit-in-title
+        orientation-from-dimensions
+        disable-brush
+        cartesian-drag-behavior
+        allow-empty-title
+        series-to-axes="[[seriesToAxes]]"
+        muted-series=[[mutedSeries]]>
+      </px-vis-multi-axis>
 
       <template is="dom-if" if="[[!hideGridlinesX]]" restamp>
-      <px-vis-gridlines
-        svg="[[layer.0]]"
-        axis="[[x]]"
-        margin="[[margin]]"
-        length="[[height]]"
-        orientation="bottom"
-        current-domain="[[currentDomainX]]"
-        domain-changed="[[domainChanged]]">
-      </px-vis-gridlines>
-    </template>
+        <px-vis-gridlines
+          svg="[[layer.0]]"
+          axis="[[x]]"
+          margin="[[_internalMargin]]"
+          length="[[height]]"
+          orientation="bottom"
+          domain-changed="[[domainChanged]]">
+        </px-vis-gridlines>
+      </template>
 
-    <template is="dom-if" if="[[!hideGridlinesY]]" restamp>
-      <px-vis-gridlines
-        svg="[[layer.0]]"
-        axis="[[y]]"
-        margin="[[margin]]"
-        length="[[width]]"
-        orientation="left"
-        current-domain="[[currentDomainY]]"
-        domain-changed="[[domainChanged]]">
-      </px-vis-gridlines>
-    </template>
+      <template is="dom-if" if="[[_showHorizontalGrid(hideGridlinesY, axes, y, matchTicks)]]" restamp>
+        <px-vis-gridlines
+          svg="[[layer.0]]"
+          axis="[[_returnGridAxis(domainChanged)]]"
+          margin="[[_internalMargin]]"
+          length="[[width]]"
+          orientation="left"
+          domain-changed="[[domainChanged]]">
+        </px-vis-gridlines>
+      </template>
 
       <px-vis-interaction-space
         svg="[[layer.4]]"
         width="[[width]]"
         height="[[height]]"
-        margin="[[margin]]"
+        margin="[[_internalMargin]]"
         x="[[x]]"
         y="[[y]]"
-        current-domain-x="[[currentDomainX]]"
-        current-domain-y="[[currentDomainY]]"
+        domain-changed="[[domainChanged]]"
         series-keys="[[_seriesKeys]]"
         chart-data="[[_filteredData]]"
         tooltip-data="{{tooltipData}}"
@@ -247,21 +225,20 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         series-keys="[[_seriesKeys]]"
         time-data="[[timeData]]"
         action-config="{{actionConfig}}"
-        show-tooltip="{{_computedShowTooltip}}"
-        >
+        show-tooltip="{{_computedShowTooltip}}">
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
           svg="[[layer.1]]"
           event-id="[[item.id]]"
           event-data="[[item]]"
+          height="[[height]]"
+          margin="[[_internalMargin]]"
           x="[[x]]"
           y="[[y]]"
+          domain-changed="[[domainChanged]]"
           event-config="[[eventConfig]]"
-          current-domain-x="[[currentDomainX]]"
-          current-domain-y="[[currentDomainY]]"
-          clip-path="[[clipPath]]"
-          >
+          clip-path="[[clipPath]]">
         </px-vis-event>
       </template>
     </div>
@@ -274,6 +251,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
     is: 'px-vis-xy-chart',
 
     behaviors: [
+      PxVisBehaviorScale.scale,
       PxVisBehaviorD3.svg,
       PxVisBehaviorD3.axes,
       PxVisBehaviorD3.selectedDomain,
@@ -304,6 +282,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.toolbarSubConfig,
       PxVisBehaviorChart.noDebounceOnPanning,
       PxVisBehaviorChart.chartToolbarConfig,
+      PxVisBehaviorChart.multiAxis,
+      PxVisBehaviorD3.lineGaps,
       PxVisBehaviorChart.showTooltip
     ],
     properties: {
@@ -366,13 +346,35 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       hideGridlinesY: {
         type: Boolean,
         value: false
+      },
+
+      _internalMargin: {
+        type: Object,
+        notify: true
+      },
+
+      /**
+       * A boolean to specify if the axis ticks should align (which affects their individual range). Default (false) is for each have their own ranges and tick marks may not align
+       *
+       */
+      matchTicks: {
+        type: Boolean,
+        value: false
       }
     },
     observers: [
       '_xAxisConfigChanged(xAxisConfig.*)',
-      '_yAxisConfigChanged(yAxisConfig.*)',
       '_toolbarConfigChanged(toolbarConfig.*)',
-      '_createLayersOnce(svg, numberOfLayers)'
+      '_createLayersOnce(svg, numberOfLayers)',
+
+      '_calcAxes(completeSeriesConfig.*, _leftAxisSize, _rightAxisSize)',
+      '_calcMargins(margin.*, _numRightAxes, _numLeftAxes)',
+      '_setXScale(width, _internalMargin)',
+      '_setMultiYScale(height, _internalMargin, axes.*)',
+      '_setDomainCaller(_chartDataHasChanged.*, x, y, dataExtents, seriesToAxes.*)',
+      '_setDomainCaller(x, y, chartExtents, dataExtents)',
+      '_updateDomain(selectedDomain)',
+      '_chartDataChanged(chartData.*)'
     ],
     listeners: {
      'iron-resize': '_onIronResize'
@@ -386,13 +388,9 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
     },
 
     _xAxisConfigChanged: function(conf) {
-
       this._applyConfigToElement(this.xAxisConfig, this.$.xAxis);
     },
-    _yAxisConfigChanged: function(conf) {
 
-      this._applyConfigToElement(this.yAxisConfig, this.$.yAxis);
-    },
     _tooltipConfigChanged: function(conf) {
       this._applyConfigToElement(this.tooltipConfig, this.$.tooltip);
     },
@@ -429,6 +427,94 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         this.set('width', Math.max(wrapperRect.width - widthDeduct, 0));
         this.set('height', Math.max(wrapperRect.height - heightDeduct, 0));
       },50);
+    },
+
+    /**
+     * Overwrites default margins based on settings
+     *
+     * @method _calcMargins
+     */
+    _calcMargins:function() {
+      this.debounce('_calcMargin', function() {
+        var margin,
+            topMargin = 25,
+            rightMargin = 10,
+            bottomMargin = 10,
+            leftMargin = 10;
+
+        // if the dev didnt set the margin, then calc it
+        if(JSON.stringify(this._defaultMargin) === JSON.stringify(this.margin)) {
+          if(this.xAxisLocation === 'bottom') {
+            bottomMargin = 40;
+          } else if(this.xAxisLocation === 'top') {
+            topMargin = 40;
+          }
+
+          if(this.yAxisLocation === 'left') {
+            leftMargin = 50;
+          } else if(this.yAxisLocation === 'right') {
+            rightMargin = 50;
+          }
+
+          margin = {
+            'top': topMargin,
+            'right': rightMargin,
+            'bottom': bottomMargin,
+            'left': leftMargin
+          };
+
+          this._calcMultiMargins(margin, 50, 50);
+
+        } else { //is dev set, use it
+          margin = {
+            'top': Number(this.margin.top) || Number(this.margin.top) === 0 ? Number(this.margin.top) : topMargin,
+            'right': Number(this.margin.right) || Number(this.margin.right) === 0 ? Number(this.margin.right) : rightMargin,
+            'bottom': Number(this.margin.bottom) || Number(this.margin.bottom) === 0 ? Number(this.margin.bottom) : bottomMargin,
+            'left':  Number(this.margin.left) || Number(this.margin.left) === 0 ? Number(this.margin.left) : leftMargin
+          };
+
+          // FIXME
+          // assume the margin is the side for one axis. Might not be a good assumption. Rethink this
+          this._calcMultiMargins(margin, margin.left, margin.right);
+        }
+
+        this.set('_internalMargin', margin);
+
+      }, 5);
+    },
+
+    _showHorizontalGrid: function(hideGrid, axes, y, matchTicks) {
+      if(hideGrid) {
+        return false;
+      }
+
+      if(this.axes.length > 1 && !matchTicks) {
+        return false;
+      }
+
+      return true;
+    },
+
+    _returnGridAxis: function() {
+        return this.y[this.axes[0]];
+    },
+
+    _returnXDomain: function() {
+      if(this.domainChanged !== null) {
+        return this.x.domain();
+      }
+    },
+
+    _setDomainCaller: function() {
+      if(this._doesObjHaveValues(this.seriesToAxes)) {
+        this._setDomain();
+      }
+    },
+
+    _bothDomainsSet: function() {
+      if(this.domainChanged !== null & this._axisDomainChanged !== null) {
+        return !this.$.yAxes.domainChanged;
+      }
     }
   });
 </script>

@@ -86,13 +86,10 @@
           chart-data="{{data}}"
           width="700"
           height="400"
-          margin='{ "top": "30", "bottom": "60", "left": "70", "right": "10" }'
+          margin='{ "top": "30", "bottom": "60", "left": "80", "right": "100" }'
           x-axis-config='{"title": "X",
             "labelPosition": "center",
             "orientation": "bottom"}'
-          y-axis-config='{"title": "Y",
-            "labelPosition": "center",
-            "orientation": "left"}'
           register-config='{
             "height": 50,
             "type": "horizontal",
@@ -108,34 +105,47 @@
               "xAxisUnit": "Hz",
               "yAxisUnit": "Hz",
               "x": "T48A",
-              "y":"T48B"
+              "y":"T48B",
+              "axis": {
+                "id": "axis1",
+                "number": 1,
+                "side": "left"
+              }
             },
             "secondSerie": {
               "type": "line",
               "name": "Serie2",
               "x": "T48A",
-              "y":"T48B"
+              "y":"T48B",
+              "axis": {
+                "id": "axis2",
+                "number": 1,
+                "side": "right"
+              }
             },
             "third": {
               "type": "scatter",
               "name": "Serie3",
               "x": "T48A",
-              "y":"T48C"
+              "y":"T48C",
+              "axis": {
+                "id": "axis3",
+                "number": 2,
+                "side": "right"
+              }
             },
             "fourth": {
               "type": "scatter",
               "markerSymbol": "diamond",
               "name": "Serie4",
               "x": "T48A",
-              "y":"T48D"
+              "y":"T48D",
+              "axis": {
+                "id": "axis3",
+                "number": 2,
+                "side": "right"
+              }
             }
-          }'
-          default-series-config='{
-            "x": "T48A",
-            "xMin": "dynamic",
-            "xMax": "dynamic",
-            "yMin": "dynamic",
-            "yMax": "dynamic"
           }'
           event-config='{
             "Fa Icon": {
@@ -199,7 +209,7 @@
             </px-vis-chart-navigator>
         </div>
     </template>
-  
+
   <script>
     document.addEventListener('WebComponentsReady', function() {
       var chart = document.getElementById('chart'),
