@@ -7,7 +7,7 @@
 <link rel="import" href="../px-vis/px-vis-behavior-common.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-d3.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-chart.html"/>
-<link rel="import" href="../px-vis/px-vis-scale.html"/>
+<link rel="import" href="../px-vis/px-vis-behavior-scale.html"/>
 <link rel="import" href="../px-vis/px-vis-svg.html"/>
 <link rel="import" href="../px-vis/px-vis-scatter.html"/>
 <link rel="import" href="../px-vis/px-vis-line-svg.html"/>
@@ -66,25 +66,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
             show-tooltip="{{_internalShowTooltip}}">
           </px-vis-toolbar>
           <!-- Core -->
-          <px-vis-scale
-            id="scale"
-            x-axis-type="[[xAxisType]]"
-            y-axis-type="[[yAxisType]]"
-            width="[[width]]"
-            height="[[height]]"
-            margin="[[margin]]"
-            chart-data="[[chartData]]"
-            data-extents="[[dataExtents]]"
-            x="{{x}}"
-            y="{{y}}"
-            domain-changed="{{domainChanged}}"
-            current-domain-x="{{currentDomainX}}"
-            current-domain-y="{{currentDomainY}}"
-            selected-domain="[[selectedDomain]]"
-            chart-extents="[[chartExtents]]"
-            data-extents="[[dataExtents]]"
-            complete-series-config="[[completeSeriesConfig]]">
-          </px-vis-scale>
           <px-vis-tooltip
             id="tooltip"
             tooltip-data="[[tooltipData]]"
@@ -128,8 +109,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               chart-data="[[_filteredData]]"
               x="[[x]]"
               y="[[y]]"
-              current-domain-x="[[currentDomainX]]"
-              current-domain-y="[[currentDomainY]]"
               domain-changed="[[domainChanged]]"
               muted-series="[[mutedSeries]]"
               clip-path="[[seriesClipPath]]"
@@ -144,8 +123,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
               chart-data="[[_filteredData]]"
               x="[[x]]"
               y="[[y]]"
-              current-domain-x="[[currentDomainX]]"
-              current-domain-y="[[currentDomainY]]"
               domain-changed="[[domainChanged]]"
               muted-series="[[mutedSeries]]"
               clip-path="[[seriesClipPath]]"
@@ -182,7 +159,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         complete-series-config="[[completeSeriesConfig]]"
         prevent-series-bar
         domain-changed="[[domainChanged]]"
-        current-domain="[[currentDomainX]]"
         muted-series="[[mutedSeries]]"
         >
       </px-vis-axis>
@@ -198,7 +174,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         orientation="left"
         complete-series-config="[[completeSeriesConfig]]"
         domain-changed="[[domainChanged]]"
-        current-domain="[[currentDomainY]]"
         muted-series="[[mutedSeries]]"
         >
       </px-vis-axis>
@@ -210,7 +185,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         margin="[[margin]]"
         length="[[height]]"
         orientation="bottom"
-        current-domain="[[currentDomainX]]"
         domain-changed="[[domainChanged]]">
       </px-vis-gridlines>
     </template>
@@ -222,7 +196,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         margin="[[margin]]"
         length="[[width]]"
         orientation="left"
-        current-domain="[[currentDomainY]]"
         domain-changed="[[domainChanged]]">
       </px-vis-gridlines>
     </template>
@@ -234,8 +207,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         margin="[[margin]]"
         x="[[x]]"
         y="[[y]]"
-        current-domain-x="[[currentDomainX]]"
-        current-domain-y="[[currentDomainY]]"
+        domain-changed="[[domainChanged]]"
         series-keys="[[_seriesKeys]]"
         chart-data="[[_filteredData]]"
         tooltip-data="{{tooltipData}}"
@@ -247,21 +219,20 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         series-keys="[[_seriesKeys]]"
         time-data="[[timeData]]"
         action-config="{{actionConfig}}"
-        show-tooltip="{{_computedShowTooltip}}"
-        >
+        show-tooltip="{{_computedShowTooltip}}">
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
           svg="[[layer.1]]"
           event-id="[[item.id]]"
           event-data="[[item]]"
+          height="[[height]]"
+          margin="[[margin]]"
           x="[[x]]"
           y="[[y]]"
+          domain-changed="[[domainChanged]]"
           event-config="[[eventConfig]]"
-          current-domain-x="[[currentDomainX]]"
-          current-domain-y="[[currentDomainY]]"
-          clip-path="[[clipPath]]"
-          >
+          clip-path="[[clipPath]]">
         </px-vis-event>
       </template>
     </div>
@@ -274,6 +245,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
     is: 'px-vis-xy-chart',
 
     behaviors: [
+      PxVisBehaviorScale.scale,
       PxVisBehaviorD3.svg,
       PxVisBehaviorD3.axes,
       PxVisBehaviorD3.selectedDomain,
@@ -372,7 +344,15 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       '_xAxisConfigChanged(xAxisConfig.*)',
       '_yAxisConfigChanged(yAxisConfig.*)',
       '_toolbarConfigChanged(toolbarConfig.*)',
-      '_createLayersOnce(svg, numberOfLayers)'
+      '_createLayersOnce(svg, numberOfLayers)',
+
+      '_xAxisConfigChanged(xAxisConfig.*)',
+      '_setXScale(width, margin, xAxisType)',
+      '_setYScale(height, margin, yAxisType)',
+      '_setDomain(_chartDataHasChanged.*, x, y, completeSeriesConfig, dataExtents)',
+      '_setDomain(chartExtents, dataExtents)',
+      '_updateDomain(selectedDomain)',
+      '_chartDataChanged(chartData.*)'
     ],
     listeners: {
      'iron-resize': '_onIronResize'
