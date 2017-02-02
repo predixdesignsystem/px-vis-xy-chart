@@ -183,7 +183,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         series-to-axes="[[seriesToAxes]]"
         muted-series=[[mutedSeries]]>
       </px-vis-multi-axis>
-<!--
+
       <template is="dom-if" if="[[!hideGridlinesX]]" restamp>
         <px-vis-gridlines
           svg="[[layer.0]]"
@@ -195,16 +195,16 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         </px-vis-gridlines>
       </template>
 
-      <template is="dom-if" if="[[!hideGridlinesY]]" restamp>
+      <template is="dom-if" if="[[_showHorizontalGrid(hideGridlinesY, axes, y, matchTicks)]]" restamp>
         <px-vis-gridlines
           svg="[[layer.0]]"
-          axis="[[y]]"
+          axis="[[_returnGridAxis(domainChanged)]]"
           margin="[[_internalMargin]]"
           length="[[width]]"
           orientation="left"
           domain-changed="[[domainChanged]]">
         </px-vis-gridlines>
-      </template> -->
+      </template>
 
       <px-vis-interaction-space
         svg="[[layer.4]]"
@@ -352,6 +352,15 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         type: Object,
         notify: true
       },
+
+      /**
+       * A boolean to specify if the axis ticks should align (which affects their individual range). Default (false) is for each have their own ranges and tick marks may not align
+       *
+       */
+      matchTicks: {
+        type: Boolean,
+        value: false
+      }
     },
     observers: [
       '_xAxisConfigChanged(xAxisConfig.*)',
@@ -474,7 +483,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       }, 5);
     },
 
-    _showHorizontalGrid: function(hideGrid, axes, matchTicks) {
+    _showHorizontalGrid: function(hideGrid, axes, y, matchTicks) {
       if(hideGrid) {
         return false;
       }
