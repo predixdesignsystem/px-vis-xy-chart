@@ -165,8 +165,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         width="[[width]]"
         height="[[height]]"
         margin="[[_internalMargin]]"
-        left-axis-size="[[_leftAxisSize]]"
-        right-axis-size="[[_rightAxisSize]]"
+        left-axis-size="[[leftAxisSize]]"
+        right-axis-size="[[rightAxisSize]]"
         x="[[_axisX]]"
         y="[[y]]"
         domain-changed="[[_bothDomainsSet(_axisDomainChanged, domainChanged)]]"
@@ -367,8 +367,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       '_toolbarConfigChanged(toolbarConfig.*)',
       '_createLayersOnce(svg, numberOfLayers)',
 
-      '_calcAxes(completeSeriesConfig.*, _leftAxisSize, _rightAxisSize)',
-      '_calcMargins(margin.*, _numRightAxes, _numLeftAxes)',
+      '_calcAxes(completeSeriesConfig.*, leftAxisSize, rightAxisSize)',
+      '_calcMargins(margin.*, numRightAxes, numLeftAxes)',
       '_setXScale(width, _internalMargin)',
       '_setMultiYScale(height, _internalMargin, axes.*)',
       '_setDomainCaller(_chartDataHasChanged.*, x, y, dataExtents, seriesToAxes.*)',
