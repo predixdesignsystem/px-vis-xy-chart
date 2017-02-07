@@ -59,7 +59,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
             action-config='{{actionConfig}}'
             within-chart
             chart-margin="[[_internalMargin]]"
-            show-tooltip="{{_internalShowTooltip}}">
+            show-tooltip="{{_internalShowTooltip}}"
+            config='{"zoom": true, "pan": true, "tooltip": true}'>
           </px-vis-toolbar>
           <!-- Core -->
           <px-vis-tooltip
@@ -284,7 +285,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.chartToolbarConfig,
       PxVisBehaviorChart.multiAxis,
       PxVisBehaviorD3.lineGaps,
-      PxVisBehaviorChart.showTooltip
+      PxVisBehaviorChart.showTooltip,
+      PxVisBehavior.muteUnmuteSeries
     ],
     properties: {
       /**
