@@ -84,7 +84,6 @@
         <px-vis-xy-chart
           id="chart2"
           chart-data="{{data}}"
-          width="700"
           height="400"
           margin='{ "top": "30", "bottom": "60", "left": "80", "right": "100" }'
           x-axis-config='{"title": "X",
@@ -92,12 +91,11 @@
             "orientation": "bottom"}'
           register-config='{
             "height": 50,
-            "type": "horizontal",
+            "type": "vertical",
             "forceDateTimeDisplay": true}'
-              show-tooltip
-            tooltip-config='{
-              "forceDateTimeDisplay": true
-            }'
+          tooltip-config='{
+            "forceDateTimeDisplay": true
+          }'
           series-config='{
             "firstSerie": {
               "type": "scatter",
@@ -191,23 +189,16 @@
                 "left": 10
                 }'
                 chart-data="[[data]]"
-                default-series-config='{
-                    "x": "T48A",
-                    "xMin": "dynamic",
-                    "xMax": "dynamic",
-                    "yMin": "dynamic",
-                    "yMax": "dynamic"
-                }'
                 series-config='{
-                "T48A": {
-                "type": "line",
-                "name": "Serie2",
-                "x": "Date",
-                "y":"T48A"
+                  "T48A": {
+                  "type": "line",
+                  "name": "Serie2",
+                  "x": "Date",
+                  "y":"T48A"
                 }}'
                 selected-domain="{{selectedDomain}}">
             </px-vis-chart-navigator>
-        </div>
+          </div>
     </template>
 
   <script>

@@ -43,6 +43,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
         <px-vis-register
           id="register"
           class$="{{_getHideClass(hideRegister)}}"
+          height="[[_verticalRegisterHeight]]"
           dynamic-menu-config="[[dynamicMenuConfig]]"
           tooltip-data="[[tooltipData]]"
           chart-data="[[_filteredData]]"
@@ -286,7 +287,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorChart.multiAxis,
       PxVisBehaviorD3.lineGaps,
       PxVisBehaviorChart.showTooltip,
-      PxVisBehavior.muteUnmuteSeries
+      PxVisBehavior.muteUnmuteSeries,
+      PxVisBehaviorChart.sizeVerticalRegister 
     ],
     properties: {
       /**
@@ -384,6 +386,9 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 
     ready: function() {
       this.set('numberOfLayers',5);
+      this.set('_verticalRegisterDrawingCanvasId', 'svg');
+      this.set('_verticalRegisterHeightDeductions', ['toolbar']);
+
     },
     attached: function() {
       this._isAttached = true;
@@ -428,6 +433,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 
         this.set('width', Math.max(wrapperRect.width - widthDeduct, 0));
         this.set('height', Math.max(wrapperRect.height - heightDeduct, 0));
+        this._computeVerticalRegisterHeight([toolbarRect.height]);
       },50);
     },
 
