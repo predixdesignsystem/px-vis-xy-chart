@@ -37,7 +37,7 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
 <dom-module id="px-vis-xy-chart">
   <template>
     <style include="px-vis-xy-chart-styles"></style>
-    <div id="wrapper" class$="{{_chartWrapperClass}}" on-mousemove="_calcMousePos">
+    <div id="wrapper" class$="{{_chartWrapperClass}}">
       <!-- Legend -->
       <div class$="{{_registerWrapperClass}}">
         <px-vis-register
@@ -288,7 +288,8 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       PxVisBehaviorD3.lineGaps,
       PxVisBehaviorChart.showTooltip,
       PxVisBehavior.muteUnmuteSeries,
-      PxVisBehaviorChart.sizeVerticalRegister 
+      PxVisBehaviorChart.sizeVerticalRegister,
+      PxVisBehaviorChart.tooltipFollowMouseCalculation
     ],
     properties: {
       /**
@@ -333,9 +334,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
       },
       mouseRect: {
         type: Object
-      },
-      mousePosition:{
-        type: Array
       },
       /**
        * Whether to hide the gridlines perpendicular to the X axis
@@ -383,12 +381,13 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
     listeners: {
      'iron-resize': '_onIronResize'
     },
-
+    created: function() {
+      this._tooltipCalcHoverTargetId = 'wrapper';
+    },
     ready: function() {
       this.set('numberOfLayers',5);
       this.set('_verticalRegisterDrawingCanvasId', 'svg');
       this.set('_verticalRegisterHeightDeductions', ['toolbar']);
-
     },
     attached: function() {
       this._isAttached = true;
@@ -407,9 +406,6 @@ A chart which allows line drawing or scatter on arbitrary X and Y axis
     },
     _toolbarConfigChanged: function(conf) {
       this._applyConfigToElement(this.toolbarConfig, this.$.toolbar);
-    },
-    _calcMousePos: function(evt) {
-      this.set('mousePosition',[evt.pageX,evt.pageY]);
     },
     _onIronResize: function() {
       if(this.preventResize) {
