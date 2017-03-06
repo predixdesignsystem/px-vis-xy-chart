@@ -11,6 +11,8 @@
 * Added toolbar, advanced zooming and panning
 * Multi-y
 * changing ghp.sh to account for Alpha releases
+* fix resize timing issue
+* ensure selectionType works
 
 v0.3.1
 ==================
