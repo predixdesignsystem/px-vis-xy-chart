@@ -313,7 +313,8 @@ Custom property | Description | Default
         series-keys="[[_seriesKeys]]"
         time-data="[[timeData]]"
         action-config="{{actionConfig}}"
-        show-tooltip="{{_computedShowTooltip}}">
+        show-tooltip="{{_computedShowTooltip}}"
+        selection-type="{{selectionType}}">
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
@@ -375,6 +376,7 @@ Custom property | Description | Default
       PxVisBehaviorChart.showTooltip,
       PxVisBehavior.muteUnmuteSeries,
       PxVisBehaviorChart.sizeVerticalRegister,
+      PxVisBehavior.zoomSelection,
       PxVisBehaviorChart.tooltipFollowMouseCalculation
     ],
     properties: {
@@ -442,8 +444,10 @@ Custom property | Description | Default
       },
 
       /**
-       * A boolean to specify if the axis ticks should align (which affects their individual range). Default (false) is for each have their own ranges and tick marks may not align
-       *
+       * A boolean to specify if the axis ticks should align (which affects 
+       * their individual range). Default (false) is for each have their own 
+       * ranges and tick marks may not align
+       * Only useful if using multiple axis
        */
       matchTicks: {
         type: Boolean,
@@ -494,10 +498,17 @@ Custom property | Description | Default
       this._applyConfigToElement(this.toolbarConfig, this.$.toolbar);
     },
     _onIronResize: function() {
+
       if(this.preventResize) {
-        return;
-      }
+          return;
+        }
+      
       this.debounce('ironresize', function() {
+
+        //make sure we are not preventing resize in case it changed while debouncing
+        if(this.preventResize) {
+          return;
+        }
         var wrapperRect = this.$.wrapper.getBoundingClientRect(),
             registerRect = this.$.register.getBoundingClientRect(),
             toolbarRect = this.$.toolbar.getBoundingClientRect(),

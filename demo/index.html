@@ -36,13 +36,13 @@
       <px-demo-configs configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
 
       <!-- Props -->
-      <px-demo-props props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
+      <px-demo-props id="inputDemoProps" props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
 
       <!-- Code Editor -->
       <px-demo-code-editor props="{{props}}"></px-demo-code-editor>
 
       <!-- Component ---------------------------------------------------------->
-      <px-demo-component class="flex__item flex">
+      <px-demo-component class="flex__item flex" style="width:100%">
         <!-- <iron-ajax
           url="../../px-demo-data/demo_data.json"
           handle-as="json"
@@ -56,37 +56,46 @@
             handle-as="json"
             last-response="{{eventData}}" auto></iron-ajax> -->
 
-        <div style="width:100%;">
-          <px-vis-xy-chart
-            id="chart"
-            chart-data="{{props.chartData.value}}"
-            width="{{props.width.value}}"
-            height="{{props.height.value}}"
-            prevent-resize = "{{props.preventResize.value}}"
-            chart-horizontal-alignment="{{props.chartHorizontalAlignment.value}}"
-            chart-vertical-alignment="{{props.chartVerticalAlignment.value}}"
-            margin='{{props.margin.value}}'
-            x-axis-config='{{props.xAxisConfig.value}}'
-            y-axis-config='{{props.yAxisConfig.value}}'
-            register-config='{{props.registerConfig.value}}'
-            tooltip-config='{{props.tooltipConfig.value}}'
-            series-config='{{props.seriesConfig.value}}'
-            dynamic-menu-config='{{props.dynamicMenuConfig.value}}'
-            show-tooltip="{{props.showTooltip.value}}"
-            event-config='{{props.eventConfig.value}}'
-            event-data="{{props.eventData.value}}"
-            chart-extents='{{props.chartExtents.value}}'
-            time-domain="[[selectedDomain]]"
-            time-data="{{props.timeData.value}}">
-          </px-vis-xy-chart>
-          <div style="height:100px">
+        <div class="flex--column flex__item" style="width:100%; height:500px">
+          <div style="height:90%">
+            <px-vis-xy-chart
+              id="chart"
+              chart-data="{{props.chartData.value}}"
+              width="{{appliedWidth}}"
+              height="{{appliedHeight}}"
+              prevent-resize = "{{props.preventResize.value}}"
+              chart-horizontal-alignment="{{props.chartHorizontalAlignment.value}}"
+              chart-vertical-alignment="{{props.chartVerticalAlignment.value}}"
+              margin='{{props.margin.value}}'
+              x-axis-config='{{props.xAxisConfig.value}}'
+              y-axis-config='{{props.yAxisConfig.value}}'
+              register-config='{{props.registerConfig.value}}'
+              tooltip-config='{{props.tooltipConfig.value}}'
+              show-tooltip='{{props.showTooltip.value}}'
+              hide-register='{{props.hideRegister.value}}'
+              hide-gridlines-x='{{props.hideGridlinesX.value}}'
+              hide-gridlines-y='{{props.hideGridlinesY.value}}'
+              series-config='{{props.seriesConfig.value}}'
+              dynamic-menu-config='{{props.dynamicMenuConfig.value}}'
+              show-tooltip="{{props.showTooltip.value}}"
+              event-config='{{props.eventConfig.value}}'
+              event-data="{{props.eventData.value}}"
+              chart-extents='{{props.chartExtents.value}}'
+              time-domain="[[selectedDomain]]"
+              time-data="{{props.timeData.value}}"
+              toolbar-config="{{props.toolbarConfig.value}}"
+              match-ticks="{{props.matchTicks.value}}"
+            </px-vis-xy-chart>
+          </div>
+          <div style="height:10%">
             <px-vis-chart-navigator
               id="navigator"
               x-axis-type="time"
               y-axis-type="linear"
               chart-extents='{{props.chartExtents.value}}'
-              width="{{props.width.value}}"
+              width="[[props.width.value]]"
               height="{{props.navHeight.value}}"
+              prevent-resize
               margin='{{props.navMargin.value}}'
               chart-data="{{props.chartData.value}}"
               series-config='{{props.navSeriesConfig.value}}'
@@ -94,15 +103,16 @@
             </px-vis-chart-navigator>
           </div>
         </div>
+
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
 
       <px-demo-component-snippet
-          element-properties="{{props}}"
-          element-name="px-vis-xy-chart"
-          links-includes="[[linksIncludes]]"
-          scripts-includes="[[scriptsIncludes]]"
-          polygit-includes="[[polygitIncludes]]">
+        element-properties="{{props}}"
+        element-name="px-vis-xy-chart"
+        links-includes="[[linksIncludes]]"
+        scripts-includes="[[scriptsIncludes]]"
+        polygit-includes="[[polygitIncludes]]">
       </px-demo-component-snippet>
     </px-demo-interactive>
 
@@ -252,7 +262,6 @@
         value: function(){
           return [
             { configName: "Default",
-              configReset: true,
               width: 700,
               height: 400 }
           ]
@@ -343,7 +352,16 @@
         value: function() {
           return ['numbro*+MeTaNoV+*'];
         }
-      }
+      },
+      appliedWidth: {
+        type: Number,
+        defaultValue: 400
+      },
+
+      appliedHeight: {
+        type: Number,
+        defaultValue: 400
+      },
     },
 
     /**
@@ -354,18 +372,21 @@
       preventResize: {
         type: Boolean,
         defaultValue: false,
-        inputType: 'toggle'
+        inputType: 'toggle',
+        inputLabel: 'Prevent Resize [currently the chart is wrapped in a 500px height so won\'t resize more than that]'
       },
 
       width: {
         type: Number,
-        defaultValue: 0,
+        defaultValue: 400,
+        nputDisabled: false,
         inputType: 'text'
       },
 
       height: {
         type: Number,
-        defaultValue: 0,
+        defaultValue: 400,
+        inputDisabled: false,
         inputType: 'text'
       },
 
@@ -389,41 +410,52 @@
         inputType: 'code:JSON'
       },
 
-      includeAllSeries: {
-        type: Boolean,
-        defaultValue: true
-      },
-
       showTooltip: {
         type: Boolean,
-        defaultValue: false
+        defaultValue: false,
+        inputType: 'toggle'
       },
 
-      selectionType: {
-        type: String,
-        defaultValue: 'xy',
-        inputType: 'dropdown',
-        inputChoices: ['xy', 'xAxis', 'yAxis']
+      tooltipConfig: {
+        type: Object,
+        defaultValue: { "forceDateTimeDisplay": true,},
+        inputType: 'code:JSON'
       },
 
-      registerLocation: {
-        type: String,
-        defaultValue: 'top',
-        inputType: 'dropdown',
-        inputChoices: ['none', 'top', 'side', 'both']
+      hideRegister: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
+
+      registerConfig: {
+        type: Object,
+        defaultValue: { "type": "vertical", "width": 220, "forceDateTimeDisplay": true},
+        inputType: 'code:JSON'
       },
 
       chartData: {
         type: Array,
         defaultValue: [
-          {"Date": 1468213850000, "T48A": 1332, "T48B": 1346, "Line": 1340,},
-          {"Date": 1468213968000, "T48A": 1336, "T48B": 1346, "Line": 1343,},
-          {"Date": 1468214133000, "T48A": 1341, "T48B": 1346, "Line": 1345,},
-          {"Date": 1468214253000, "T48A": 1348, "T48B": 1344, "Line": 1350,},
-          {"Date": 1468214374000, "T48A": 1352, "T48B": 1346, "Line": 1357,},
-          {"Date": 1468214564000, "T48A": 1341, "T48B": 1342},
-          {"Date": 1468214682000, "T48A": 1348, "T48B": 1353},
-          {"Date": 1468214852000, "T48A": 1346, "T48B": 1348}
+          {"Date": 1468213850000, "T48A": 1332, "T48B": 1346, "T48C": 1330, "T48D": 1342, "Line": 1340,},
+          {"Date": 1468213968000, "T48A": 1336, "T48B": 1343, "T48C": 1336, "T48D": 1340, "Line": 1343,},
+          {"Date": 1468214133000, "T48A": 1341, "T48B": 1345, "T48C": 1331, "T48D": 1333, "Line": 1345,},
+          {"Date": 1468214253000, "T48A": 1348, "T48B": 1344, "T48C": 1343, "T48D": 1339, "Line": 1350,},
+          {"Date": 1468214374000, "T48A": 1352, "T48B": 1346, "T48C": 1335, "T48D": 1342, "Line": 1357,},
+          {"Date": 1468214564000, "T48A": 1341, "T48B": 1342, "T48C": 1344, "T48D": 1346},
+          {"Date": 1468214682000, "T48A": 1348, "T48B": 1353, "T48C": 1337, "T48D": 1331},
+          {"Date": 1468214852000, "T48A": 1346, "T48B": 1348, "T48C": 1339, "T48D": 1335},
+          {"Date": 1468231470000,"T48A": 1353,"T48B": 1355},
+          {"Date": 1468231590000,"T48A": 1359,"T48B": 1359},
+          {"Date": 1468232041000,"T48A": 1357,"T48B": 1359},
+          {"Date": 1468232184000,"T48A": 1357,"T48B": 1359},
+          {"Date": 1468232301000,"T48A": 1353,"T48B": 1359},
+          {"Date": 1468232417000,"T48A": 1353,"T48B": 1357},
+          {"Date": 1468232576000,"T48A": 1353,"T48B": 1355},
+          {"Date": 1468232693000,"T48A": 1355,"T48B": 1360},
+          {"Date": 1468232845000,"T48A": 1355,"T48B": 1355},
+          {"Date": 1468232966000,"T48A": 1353,"T48B": 1359},
+          {"Date": 1468233083000,"T48A": 1355,"T48B": 1357}
         ],
         inputType: 'code:JSON'
       },
@@ -431,19 +463,52 @@
       seriesConfig: {
         type: Object,
         defaultValue: {
-          "firstSeries": {
+          "firstSerie": {
             "type": "scatter",
-            "name": "Series1",
+            "name": "Serie1",
             "xAxisUnit": "Hz",
             "yAxisUnit": "Hz",
             "x": "T48A",
-            "y": "T48B"
-          },"secondSeries": {
+            "y":"T48B",
+            "axis": {
+              "id": "axis1",
+              "number": 1,
+              "side": "left"
+            }
+          },
+          "secondSerie": {
             "type": "line",
-            "name": "Series2",
+            "name": "Serie2",
             "x": "T48A",
-            "y": "Line"
+            "y":"Line",
+            "axis": {
+              "id": "axis2",
+              "number": 2,
+              "side": "left"
+            }
+          },
+          "thirdSerie": {
+            "type": "scatter",
+            "name": "Serie1",
+            "xAxisUnit": "Hz",
+            "yAxisUnit": "Hz",
+            "x": "T48A",
+            "y": "T48B",
+            "axis": {
+              "id": "axis1",
+              "number": 1,
+              "side": "left"
+            }
           }
+        },
+        inputType: 'code:JSON'
+      },
+
+      chartExtents: {
+        type: Object,
+        defaultValue: {
+          "x": ["dynamic","dynamic"],
+          "y": ["dynamic","dynamic"]
         },
         inputType: 'code:JSON'
       },
@@ -483,6 +548,12 @@
         inputType: 'code:JSON'
       },
 
+      matchTicks: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
+
       xAxisConfig: {
         type: Object,
         defaultValue: {"title": "X", "labelPosition": "center", "orientation": "bottom"},
@@ -495,19 +566,16 @@
         inputType: 'code:JSON'
       },
 
-      registerConfig: {
-        type: Object,
-        defaultValue: { "type": "vertical", "width": 220},
-        inputType: 'code:JSON'
+      hideGridlinesX: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
       },
 
-      chartExtents: {
-        type: Object,
-        defaultValue: {
-          "x": ["dynamic","dynamic"],
-          "y": ["dynamic","dynamic"]
-        },
-        inputType: 'code:JSON'
+      hideGridlinesY: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
       },
 
       timeData: {
@@ -542,6 +610,46 @@
         inputType: 'code:JSON'
       },
 
+      toolbarConfig: {
+        type: Array,
+        defaultValue:{"config": {
+            "advancedZoom": true,
+            "pan": true,
+            "tooltip": true,
+            "logHover": {
+              "buttonGroup": 2,
+              "tooltipLabel": "The submenu item of this menu will define custome mouse interaction",
+              "icon": "fa-leaf",
+              "subConfig": {
+                "customClick": {
+                  "icon": "fa-coffee",
+                  "buttonGroup": 3,
+                  "tooltipLabel": "define some custom mouse interactions on chart",
+                  "eventName": "my-custom-click",
+                  "actionConfig": {
+                    "mousedown": "function(mousePos) { console.log('custom click on chart. Context is the chart. Mouse pos is available: ' + JSON.stringify(mousePos))}",
+                    "mouseup": "function(mousePos) { console.log('custom action on mouse up the chart ' + JSON.stringify(mousePos));}",
+                    "mouseout": "function(mousePos) { console.log('custom action on mouse out the chart ' + JSON.stringify(mousePos));}",
+                    "mousemove": "function(mousePos) { console.log('custom action on hovering the chart ');}"
+                  }
+                },
+                "customClick2": {
+                  "buttonGroup": 3,
+                  "icon": "fa-fire-extinguisher",
+                  "tooltipLabel": "Remove all custom interactions",
+                  "actionConfig": {
+                    "mousedown": null,
+                    "mouseup": null,
+                    "mouseout": null,
+                    "mousemove": null
+                  }
+                }
+              }
+            }
+          }},
+        inputType: 'code:JSON'
+      },
+
       navHeight: {
         type: Number,
         defaultValue: 100
@@ -573,7 +681,34 @@
     listeners: {
       'px-demo-component-light-dom-loaded' : '_handleDemoLoaded'
     },
+    observers: [
+      '_preventResizeChanged(props.preventResize.value)',
+      '_appliedWidthChanged(appliedWidth)',
+      '_appliedHeightChanged(appliedHeight)',
+      '_widthChanged(props.width.value)',
+      '_heightChanged(props.height.value)'
+    ],
 
+    _preventResizeChanged: function() {
+      this.set('props.width.inputDisabled', !this.props.preventResize.value);
+      this.set('props.height.inputDisabled', !this.props.preventResize.value);
+    },
+    _widthChanged: function() {
+      if(this.props.preventResize.value) {
+       this.set('appliedWidth', this.props.width.value);
+      }
+    },
+    _heightChanged: function() {
+      if(this.props.preventResize.value) {
+       this.set('appliedHeight', this.props.height.value);
+      }
+    },
+    _appliedWidthChanged: function() {
+      this.set('props.width.value', this.appliedWidth);
+    },
+    _appliedHeightChanged: function() {
+      this.set('props.height.value', this.appliedHeight);
+    },
     /**
      * When the chart is loaded, try to call `notifyResize()` on it to ensure
      * that it resizes to the correct dimensions.
@@ -591,7 +726,7 @@
       if(nav && typeof nav.notifyResize === 'function') {
         // Wait 1000ms to make sure the parent is sized and ready for the redraw
         this.async(function(){
-          nav.notifyResize();
+        //  nav.notifyResize();
         }, 1000);
       }
     }
