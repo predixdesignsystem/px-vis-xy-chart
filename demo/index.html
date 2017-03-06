@@ -85,6 +85,7 @@
               time-data="{{props.timeData.value}}"
               toolbar-config="{{props.toolbarConfig.value}}"
               match-ticks="{{props.matchTicks.value}}"
+              selection-type="{{props.selectionType.value}}">
             </px-vis-xy-chart>
           </div>
           <div style="height:10%">
@@ -373,16 +374,18 @@
         type: Boolean,
         defaultValue: false,
         inputType: 'toggle',
-        inputLabel: 'Prevent Resize [currently the chart is wrapped in a 500px height so won\'t resize more than that]'
+        inputLabel: 'Prevent Resize [in this demo the chart is wrapped in a 500px height so won\'t resize more than that]'
       },
 
+      //we need inputDisabled: false to be able to dynamically turn it on
       width: {
         type: Number,
         defaultValue: 400,
-        nputDisabled: false,
+        inputDisabled: false,
         inputType: 'text'
       },
 
+      //we need inputDisabled: false to be able to dynamically turn it on
       height: {
         type: Number,
         defaultValue: 400,
@@ -432,6 +435,13 @@
         type: Object,
         defaultValue: { "type": "vertical", "width": 220, "forceDateTimeDisplay": true},
         inputType: 'code:JSON'
+      },
+
+      selectionType: {
+        type: String,
+        defaultValue: 'xy',
+        inputType: 'dropdown',
+        inputChoices: ['xy', 'xAxis', 'yAxis']
       },
 
       chartData: {
@@ -551,7 +561,8 @@
       matchTicks: {
         type: Boolean,
         defaultValue: false,
-        inputType: 'toggle'
+        inputType: 'toggle',
+        inputLabel: 'matchTicks [Currently not dynamic]'
       },
 
       xAxisConfig: {
