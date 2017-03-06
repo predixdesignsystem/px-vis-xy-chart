@@ -600,20 +600,13 @@
         defaultValue: [
           {
             'name': 'Delete',
-            'action': function(data) {
-              var conf = this.seriesConfig;
-              delete conf[data.additionalDetail.name];
-              this.set('seriesConfig', {});
-              this.set('seriesConfig', conf);
-            },
+            'action': "function(data) {var conf = this.seriesConfig;delete conf[data.additionalDetail.name];this.set(\"seriesConfig\", {}); this.set(\"seriesConfig\", conf);",
             'eventName': 'delete',
             'icon': 'fa-trash',
           },
           {
             'name': 'Bring To Front',
-            'action': function(data) {
-              this.set('serieToRedrawOnTop', data.additionalDetail.name);
-            },
+            'action': "function(data) {this.set(\"serieToRedrawOnTop\", data.additionalDetail.name);}",
             'eventName': 'bring-to-front',
             'icon': 'fa-arrow-up'
           }
@@ -638,10 +631,10 @@
                   "tooltipLabel": "define some custom mouse interactions on chart",
                   "eventName": "my-custom-click",
                   "actionConfig": {
-                    "mousedown": "function(mousePos) { console.log('custom click on chart. Context is the chart. Mouse pos is available: ' + JSON.stringify(mousePos))}",
-                    "mouseup": "function(mousePos) { console.log('custom action on mouse up the chart ' + JSON.stringify(mousePos));}",
-                    "mouseout": "function(mousePos) { console.log('custom action on mouse out the chart ' + JSON.stringify(mousePos));}",
-                    "mousemove": "function(mousePos) { console.log('custom action on hovering the chart ');}"
+                    "mousedown": "function(mousePos) { console.log(\"custom click on chart. Context is the chart. Mouse pos is available: \" + JSON.stringify(mousePos))}",
+                    "mouseup": "function(mousePos) { console.log(\"custom action on mouse up the chart \" + JSON.stringify(mousePos));}",
+                    "mouseout": "function(mousePos) { console.log(\"custom action on mouse out the chart \" + JSON.stringify(mousePos));}",
+                    "mousemove": "function(mousePos) { console.log(\"custom action on hovering the chart \");}"
                   }
                 },
                 "customClick2": {
