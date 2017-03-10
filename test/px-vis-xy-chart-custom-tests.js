@@ -11,10 +11,12 @@ function runCustomTests() {
     test('register horizontal position', function() {
         var svg = Polymer.dom(hor.root).querySelector('#svg'),
             register = Polymer.dom(hor.root).querySelector('px-vis-register'),
+            toolbar = Polymer.dom(hor.root).querySelector('px-vis-toolbar'),
+            toolbarRect = toolbar.getBoundingClientRect(),
             svgRect = svg.getBoundingClientRect(),
             regRect = register.getBoundingClientRect();
 
-        assert.equal(regRect.bottom, svgRect.top);
+        assert.equal(regRect.bottom + toolbarRect.height, svgRect.top);
 
     });
 
