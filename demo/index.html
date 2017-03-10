@@ -27,7 +27,7 @@
     <!-- Header -->
     <px-demo-header
         module-name="px-vis-xy-chart"
-        description="	The	px-vis-xy-chart component allows to draw lines or scatter against an X and Y axis. Initial height and width can be set but the component will try to fill its parent container on resize. It can be manually notified to recalculate its size by using notifyResize(). The chart is built off px-vis components which utilize d3.js 4.0+.">
+        description="	The	px-vis-xy-chart component allows to draw lines or scatter against an X and Y axis. Initial height and width can be set but the component will try to fill its parent container on resize. It can be manually notified to recalculate its size by using notifyResize(). The chart is built off px-vis components which utilize d3.js 4.0+. The navigator is independent of the chart and has been added to demonstrate how it can be linked to an XY chart">
     </px-demo-header>
 
     <!-- Interactive -->
@@ -374,7 +374,7 @@
         type: Boolean,
         defaultValue: false,
         inputType: 'toggle',
-        inputLabel: 'Prevent Resize [in this demo the chart is wrapped in a 500px height so won\'t resize more than that]'
+        inputLabel: 'Prevent Resize [in this demo the chart and navigator are wrapped in a 500px height div so won\'t resize more than that]'
       },
 
       //we need inputDisabled: false to be able to dynamically turn it on
