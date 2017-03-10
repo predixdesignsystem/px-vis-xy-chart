@@ -207,6 +207,7 @@ Custom property | Description | Default
               chart-data="[[_filteredData]]"
               x="[[x]]"
               y="[[_returnYScale(item, completeSeriesConfig, domainChanged)]]"
+              show-gaps="[[showGaps]]"
               domain-changed="[[domainChanged]]"
               muted-series="[[mutedSeries]]"
               clip-path="[[seriesClipPath]]"
@@ -445,8 +446,8 @@ Custom property | Description | Default
       },
 
       /**
-       * A boolean to specify if the axis ticks should align (which affects 
-       * their individual range). Default (false) is for each have their own 
+       * A boolean to specify if the axis ticks should align (which affects
+       * their individual range). Default (false) is for each have their own
        * ranges and tick marks may not align
        * Only useful if using multiple axis
        */
@@ -503,7 +504,7 @@ Custom property | Description | Default
       if(this.preventResize) {
           return;
         }
-      
+
       this.debounce('ironresize', function() {
 
         //make sure we are not preventing resize in case it changed while debouncing
