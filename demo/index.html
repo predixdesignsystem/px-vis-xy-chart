@@ -85,7 +85,12 @@
               time-data="{{props.timeData.value}}"
               toolbar-config="{{props.toolbarConfig.value}}"
               match-ticks="{{props.matchTicks.value}}"
-              selection-type="{{props.selectionType.value}}">
+              selection-type="{{props.selectionType.value}}"
+              render-to-canvas="{{props.renderToCanvas.value}}"
+              progressive-rendering-points-per-frame="{{props.progressiveRenderingPointsPerFrame.value}}"
+              progressive-rendering-minimum-frames="{{props.progressiveRenderingMinFrames.value}}"
+              no-canvas-progressive-rendering="{{props.noCanvasProgressiveRendering.value}}"
+              debounce-resize-timing="{{props.debounceResizeTiming.value}}">
             </px-vis-xy-chart>
           </div>
           <div style="height:10%">
@@ -100,7 +105,8 @@
               margin='{{props.navMargin.value}}'
               chart-data="{{props.chartData.value}}"
               series-config='{{props.navSeriesConfig.value}}'
-              selected-domain="{{selectedDomain}}">
+              selected-domain="{{selectedDomain}}"
+              debounce-resize-timing="{{props.debounceResizeTiming.value}}">
             </px-vis-chart-navigator>
           </div>
         </div>
@@ -377,6 +383,12 @@
         inputLabel: 'Prevent Resize [in this demo the chart and navigator are wrapped in a 500px height div so won\'t resize more than that]'
       },
 
+      debounceResizeTiming: {
+        type: Number,
+        defaultValue: 250,
+        inputType: 'text'
+      },
+
       //we need inputDisabled: false to be able to dynamically turn it on
       width: {
         type: Number,
@@ -390,6 +402,34 @@
         type: Number,
         defaultValue: 400,
         inputDisabled: false,
+        inputType: 'text'
+      },
+
+            renderToCanvas: {
+        type: Boolean,
+        defaultValue: false,
+        inputType: 'toggle'
+      },
+
+      //we need inputDisabled: false to be able to dynamically turn it on
+      noCanvasProgressiveRendering: {
+        type: Boolean,
+        defaultValue: false,
+        inputDisabled: true,
+        inputType: 'toggle'
+      },
+
+      progressiveRenderingPointsPerFrame: {
+        type: Number,
+        defaultValue: 16000,
+        inputDisabled: true,
+        inputType: 'text'
+      },
+
+      progressiveRenderingMinFrames: {
+        type: Number,
+        defaultValue: 1,
+        inputDisabled: true,
         inputType: 'text'
       },
 
@@ -682,15 +722,13 @@
       }
     },
 
-    listeners: {
-      'px-demo-component-light-dom-loaded' : '_handleDemoLoaded'
-    },
     observers: [
       '_preventResizeChanged(props.preventResize.value)',
       '_appliedWidthChanged(appliedWidth)',
       '_appliedHeightChanged(appliedHeight)',
       '_widthChanged(props.width.value)',
-      '_heightChanged(props.height.value)'
+      '_heightChanged(props.height.value)',
+      '_renderToCanvasChanged(props.renderToCanvas.value, props.noCanvasProgressiveRendering.value)'
     ],
 
     _preventResizeChanged: function() {
@@ -713,26 +751,11 @@
     _appliedHeightChanged: function() {
       this.set('props.height.value', this.appliedHeight);
     },
-    /**
-     * When the chart is loaded, try to call `notifyResize()` on it to ensure
-     * that it resizes to the correct dimensions.
-     */
-    _handleDemoLoaded: function() {
-      var chart = this.$$('px-vis-xy-chart');
-      if(chart && typeof chart.notifyResize === 'function') {
-        // Wait 1000ms to make sure the parent is sized and ready for the redraw
-        this.async(function(){
-          chart.notifyResize();
-        }, 1000);
-      }
+    _renderToCanvasChanged: function() {
+      this.set('props.noCanvasProgressiveRendering.inputDisabled', !this.props.renderToCanvas.value);
 
-      var nav = this.$$('px-vis-chart-navigator');
-      if(nav && typeof nav.notifyResize === 'function') {
-        // Wait 1000ms to make sure the parent is sized and ready for the redraw
-        this.async(function(){
-        //  nav.notifyResize();
-        }, 1000);
-      }
+      this.set('props.progressiveRenderingPointsPerFrame.inputDisabled', !this.props.renderToCanvas.value || this.props.noCanvasProgressiveRendering.value);
+      this.set('props.progressiveRenderingMinFrames.inputDisabled', !this.props.renderToCanvas.value ||this.props.noCanvasProgressiveRendering.value);
     }
   });
 </script>
