@@ -209,8 +209,7 @@ Custom property | Description | Default
                 domain-changed="[[domainChanged]]"
                 clip-path
                 muted-series="[[mutedSeries]]"
-                serie-to-redraw-on-top="[[serieToRedrawOnTop]]"
-                clean-on-detached="[[cleanOnDetached]]">
+                serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
               </px-vis-scatter-canvas>
             </template>
             <template is="dom-if" if="[[!renderToCanvas]]" restamp>
@@ -224,8 +223,7 @@ Custom property | Description | Default
                 muted-series="[[mutedSeries]]"
                 clip-path="[[seriesClipPath]]"
                 complete-series-config="[[completeSeriesConfig]]"
-                serie-to-redraw-on-top="[[serieToRedrawOnTop]]"
-                clean-on-detached="[[cleanOnDetached]]">
+                serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
               </px-vis-scatter>
             </template>
           </template>
@@ -251,7 +249,7 @@ Custom property | Description | Default
                 clip-path
                 interpolation-function="[[interpolationFunction]]"
                 serie-to-redraw-on-top="[[serieToRedrawOnTop]]"
-                clean-on-detached="[[cleanOnDetached]]">
+                >
               </px-vis-line-canvas>
             </template>
             <template is="dom-if" if="[[!renderToCanvas]]" restamp>
@@ -268,7 +266,7 @@ Custom property | Description | Default
                 complete-series-config="[[completeSeriesConfig]]"
                 interpolation-function="[[interpolationFunction]]"
                 serie-to-redraw-on-top="[[serieToRedrawOnTop]]"
-                clean-on-detached="[[cleanOnDetached]]">
+                >
               </px-vis-line-svg>
             </template>
           </template>
@@ -337,7 +335,7 @@ Custom property | Description | Default
           length="[[height]]"
           orientation="bottom"
           domain-changed="[[domainChanged]]"
-          clean-on-detached="[[cleanOnDetached]]">
+          >
         </px-vis-gridlines>
       </template>
 
@@ -349,7 +347,7 @@ Custom property | Description | Default
           length="[[width]]"
           orientation="left"
           domain-changed="[[domainChanged]]"
-          clean-on-detached="[[cleanOnDetached]]">
+          >
         </px-vis-gridlines>
       </template>
 
@@ -361,7 +359,6 @@ Custom property | Description | Default
         x="[[x]]"
         y="[[y]]"
         domain-changed="[[domainChanged]]"
-        series-keys="[[_seriesKeys]]"
         chart-data="[[_filteredData]]"
         tooltip-data="{{tooltipData}}"
         extents-data="{{extentsData}}"
