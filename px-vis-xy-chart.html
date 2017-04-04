@@ -364,6 +364,8 @@ Custom property | Description | Default
         series-keys="[[_seriesKeys]]"
         chart-data="[[_filteredData]]"
         tooltip-data="{{tooltipData}}"
+        crosshair-data="{{crosshairData}}"
+        generating-crosshair-data="{{generatingCrosshairData}}"
         extents-data="{{extentsData}}"
         x-axis-type="[[xAxisType]]"
         y-axis-type="[[yAxisType]]"
@@ -390,6 +392,18 @@ Custom property | Description | Default
         </px-vis-event>
       </template>
     </div>
+    <px-vis-point-highlight
+      id="highlighter"
+      svg="[[layer.4]]"
+      x="[[x]]"
+      y="[[y]]"
+      domain-changed="[[domainChanged]]"
+      time-data="[[timeData]]"
+      complete-series-config="[[completeSeriesConfig]]"
+      chart-data="[[chartData]]"
+      generating-crosshair-data="[[generatingCrosshairData]]"
+      crosshair-data="[[crosshairData]]">
+    </px-vis-point-highlight>
   </template>
 </dom-module>
 
@@ -439,7 +453,9 @@ Custom property | Description | Default
       PxVisBehaviorChart.tooltipFollowMouseCalculation,
       PxVisBehavior.selectionType,
       PxVisBehaviorD3.canvasContext,
-      PxVisBehaviorD3.renderToCanvas
+      PxVisBehaviorD3.renderToCanvas,
+      PxVisBehaviorChart.highlighterConfigs,
+      PxVisBehavior.crosshairData
     ],
     properties: {
       /**
