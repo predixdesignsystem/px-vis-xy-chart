@@ -20,6 +20,7 @@
 <link rel="import" href="../px-vis/px-vis-toolbar.html"/>
 <link rel="import" href="../px-colors-design/colors.html"/>
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html" />
+<link rel="import" href="../px-vis/px-vis-highlight-point.html"/>
 
 
 <!--
@@ -392,7 +393,7 @@ Custom property | Description | Default
         </px-vis-event>
       </template>
     </div>
-    <px-vis-point-highlight
+    <px-vis-highlight-point
       id="highlighter"
       svg="[[layer.4]]"
       x="[[x]]"
@@ -403,7 +404,7 @@ Custom property | Description | Default
       chart-data="[[chartData]]"
       generating-crosshair-data="[[generatingCrosshairData]]"
       crosshair-data="[[crosshairData]]">
-    </px-vis-point-highlight>
+    </px-vis-highlight-point>
   </template>
 </dom-module>
 
@@ -536,6 +537,7 @@ Custom property | Description | Default
       '_xAxisConfigChanged(xAxisConfig.*)',
       '_toolbarConfigChanged(toolbarConfig.*)',
       '_createLayersOnce(svg, numberOfLayers)',
+      '_highlighterConfigChanged(highlighterConfig.*)',
 
       '_calcAxes(completeSeriesConfig.*)',
       '_calcAxes(leftAxisSize, rightAxisSize)',
@@ -576,6 +578,9 @@ Custom property | Description | Default
     },
     _toolbarConfigChanged: function(conf) {
       this._applyConfigToElement(this.toolbarConfig, this.$.toolbar);
+    },
+    _highlighterConfigChanged: function(conf) {
+      this._applyConfigToElement(this.highlighterConfig, this.$.highlighter);
     },
     _onIronResize: function() {
 
