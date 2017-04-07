@@ -327,7 +327,8 @@ Custom property | Description | Default
         cartesian-drag-behavior
         allow-empty-title
         series-to-axes="[[seriesToAxes]]"
-        muted-series=[[mutedSeries]]>
+        muted-series=[[mutedSeries]]
+        action-config="[[_axisActionConfig]]">
       </px-vis-multi-axis>
 
       <template is="dom-if" if="[[!hideGridlinesX]]" restamp>
@@ -531,6 +532,12 @@ Custom property | Description | Default
       matchTicks: {
         type: Boolean,
         value: false
+      },
+
+      _axisActionConfig: {
+        type: Object,
+        notify: true,
+        computed: '_computeAxisActionConfig(dimensions.*, _isAttached)'
       }
     },
     observers: [
@@ -710,6 +717,24 @@ Custom property | Description | Default
         this.canvasContext._pxScatterTotal = 0;
         this.canvasContext._pxScatterRedraw = 0;
       }
+    },
+
+    _computeAxisActionConfig: function() {
+      var conf;
+
+      conf = this.dimensions.length > 2 ? {
+          "mouseout": null,
+          "mousemove": null,
+          "mousedown": 'callAxisDrag',
+          "mouseup": 'callAxisDrag'
+        } : {
+          "mouseout": null,
+          "mousemove": null,
+          "mousedown": null,
+          "mouseup": null
+        };
+
+      return conf;
     }
   });
 </script>
