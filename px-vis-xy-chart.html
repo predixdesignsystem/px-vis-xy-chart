@@ -179,7 +179,7 @@ Custom property | Description | Default
           </px-vis-svg-canvas>
         </div>
         <px-vis-clip-path
-          svg="[[layer.2]]"
+          svg="[[layer.1]]"
           x="[[x]]"
           y="[[y]]"
           width="[[width]]"
@@ -216,7 +216,7 @@ Custom property | Description | Default
             </template>
             <template is="dom-if" if="[[!renderToCanvas]]" restamp>
               <px-vis-scatter
-                svg="[[layer.3]]"
+                svg="[[layer.1]]"
                 series-id="[[item]]"
                 chart-data="[[_filteredData]]"
                 x="[[x]]"
@@ -257,7 +257,7 @@ Custom property | Description | Default
             </template>
             <template is="dom-if" if="[[!renderToCanvas]]" restamp>
               <px-vis-line-svg
-                svg="[[layer.3]]"
+                svg="[[layer.1]]"
                 series-id="[[item]]"
                 chart-data="[[_filteredData]]"
                 x="[[x]]"
@@ -278,7 +278,7 @@ Custom property | Description | Default
           horizontal-line="full"
           vertical-line="full"
           circle-point="yes"
-          svg="[[layer.4]]"
+          svg="[[layer.2]]"
           width="[[width]]"
           height="[[height]]"
           margin="[[_internalMargin]]"
@@ -307,7 +307,7 @@ Custom property | Description | Default
       <!-- Y axis -->
       <px-vis-multi-axis
         id="yAxes"
-        svg="[[layer.1]]"
+        svg="[[layer.0]]"
         width="[[width]]"
         height="[[height]]"
         margin="[[_internalMargin]]"
@@ -356,7 +356,7 @@ Custom property | Description | Default
       </template>
 
       <px-vis-interaction-space
-        svg="[[layer.5]]"
+        svg="[[layer.3]]"
         width="[[width]]"
         height="[[height]]"
         margin="[[_internalMargin]]"
@@ -381,7 +381,7 @@ Custom property | Description | Default
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
-          svg="[[layer.1]]"
+          svg="[[layer.0]]"
           event-id="[[item.id]]"
           event-data="[[item]]"
           height="[[height]]"
@@ -396,7 +396,7 @@ Custom property | Description | Default
     </div>
     <px-vis-highlight-point
       id="highlighter"
-      svg="[[layer.4]]"
+      svg="[[layer.2]]"
       x="[[x]]"
       y="[[y]]"
       domain-changed="[[domainChanged]]"
@@ -564,7 +564,7 @@ Custom property | Description | Default
       this._tooltipCalcHoverTargetId = 'wrapper';
     },
     ready: function() {
-      this.set('numberOfLayers',6);
+      this.set('numberOfLayers',4);
       this.set('_verticalRegisterDrawingCanvasId', 'svg');
       this.set('_verticalRegisterHeightDeductions', ['toolbar']);
     },
