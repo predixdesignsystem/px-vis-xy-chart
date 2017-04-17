@@ -365,6 +365,7 @@ Custom property | Description | Default
         domain-changed="[[domainChanged]]"
         series-keys="[[_seriesKeys]]"
         chart-data="[[_filteredData]]"
+        chart-id="[[_chartId]]"
         tooltip-data="{{tooltipData}}"
         crosshair-data="{{crosshairData}}"
         generating-crosshair-data="{{generatingCrosshairData}}"
@@ -457,7 +458,8 @@ Custom property | Description | Default
       PxVisBehaviorD3.canvasContext,
       PxVisBehaviorD3.renderToCanvas,
       PxVisBehaviorChart.highlighterConfigs,
-      PxVisBehavior.crosshairData
+      PxVisBehavior.crosshairData,
+      PxVisBehaviorChart.webWorkerSynchonization
     ],
     properties: {
       /**
