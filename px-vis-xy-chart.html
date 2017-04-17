@@ -173,6 +173,7 @@ Custom property | Description | Default
             height="[[height]]"
             margin="[[_internalMargin]]"
             canvas-context="{{canvasContext}}"
+            canvas-context-top="{{canvasContextTop}}"
             svg="{{svg}}"
             px-svg-elem="{{pxSvgElem}}"
             svg-lower="{{svgLower}}">
@@ -275,9 +276,7 @@ Custom property | Description | Default
           </template>
         </template>
         <px-vis-cursor
-          horizontal-line="full"
-          vertical-line="full"
-          circle-point="yes"
+          id="cursor"
           svg="[[layer.2]]"
           width="[[width]]"
           height="[[height]]"
@@ -377,7 +376,8 @@ Custom property | Description | Default
         time-data="[[timeData]]"
         action-config="{{actionConfig}}"
         show-tooltip="{{_computedShowTooltip}}"
-        selection-type="{{selectionType}}">
+        selection-type="{{selectionType}}"
+        search-radius="50">
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
@@ -394,6 +394,19 @@ Custom property | Description | Default
         </px-vis-event>
       </template>
     </div>
+    <!-- <px-vis-highlight-point-canvas
+      id="highlighterCanvas"
+      canvas-context="[[canvasContextTop]]"
+      x="[[x]]"
+      y="[[y]]"
+      domain-changed="[[domainChanged]]"
+      time-data="[[timeData]]"
+      complete-series-config="[[completeSeriesConfig]]"
+      series-keys="[[_seriesKeys]]"
+      chart-data="[[chartData]]"
+      generating-crosshair-data="[[generatingCrosshairData]]"
+      crosshair-data="[[crosshairData]]">
+    </px-vis-highlight-point-canvas> -->
     <px-vis-highlight-point
       id="highlighter"
       svg="[[layer.2]]"
@@ -545,6 +558,7 @@ Custom property | Description | Default
       '_toolbarConfigChanged(toolbarConfig.*)',
       '_createLayersOnce(svg, numberOfLayers)',
       '_highlighterConfigChanged(highlighterConfig.*)',
+      '_cursorConfigChanged(cursorConfig.*)',
 
       '_calcAxes(completeSeriesConfig.*)',
       '_calcAxes(leftAxisSize, rightAxisSize)',
@@ -588,7 +602,12 @@ Custom property | Description | Default
     },
     _highlighterConfigChanged: function(conf) {
       this._applyConfigToElement(this.highlighterConfig, this.$.highlighter);
+      this._applyConfigToElement(this.highlighterConfig, this.$.highlighterCanvas);
     },
+    _cursorConfigChanged: function(conf) {
+      this._applyConfigToElement(this.cursorConfig, this.$.cursor);
+    },
+
     _onIronResize: function() {
 
       if(this.preventResize) {
