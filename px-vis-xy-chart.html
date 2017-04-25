@@ -292,7 +292,7 @@ Custom property | Description | Default
       <!-- X axis -->
       <px-vis-axis
         id="xAxis"
-        svg="[[layer.1]]"
+        svg="[[layer.0]]"
         axis-type="[[xAxisType]]"
         axis="[[x]]"
         height="[[height]]"
@@ -378,8 +378,7 @@ Custom property | Description | Default
         time-data="[[timeData]]"
         action-config="{{actionConfig}}"
         show-tooltip="{{_computedShowTooltip}}"
-        selection-type="{{selectionType}}"
-        search-radius="50">
+        selection-type="{{selectionType}}">
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
@@ -400,7 +399,11 @@ Custom property | Description | Default
     <template id="highlighterDomIf" is="dom-if" if="[[renderToCanvas]]" restamp>
       <px-vis-highlight-point-canvas
         id="highlighterCanvas"
+        width="[[width]]"
+        height="[[height]]"
+        margin="[[_internalMargin]]"
         canvas-context="[[canvasContextTop]]"
+        layer-to-mask="[[canvasContext]]"
         x="[[x]]"
         y="[[y]]"
         domain-changed="[[domainChanged]]"
@@ -416,6 +419,7 @@ Custom property | Description | Default
       <px-vis-highlight-point
         id="highlighter"
         svg="[[layer.2]]"
+        layer-to-mask="[[layer.1]]"
         x="[[x]]"
         y="[[y]]"
         domain-changed="[[domainChanged]]"
@@ -423,7 +427,8 @@ Custom property | Description | Default
         complete-series-config="[[completeSeriesConfig]]"
         chart-data="[[chartData]]"
         generating-crosshair-data="[[generatingCrosshairData]]"
-        crosshair-data="[[crosshairData]]">
+        crosshair-data="[[crosshairData]]"
+        clip-path="[[seriesClipPath]]">
       </px-vis-highlight-point>
     </template>
 
