@@ -365,7 +365,7 @@ Custom property | Description | Default
         domain-changed="[[domainChanged]]"
         series-keys="[[_seriesKeys]]"
         chart-data="[[_filteredData]]"
-        chart-id="[[_chartId]]"
+        chart-id="[[chartId]]"
         tooltip-data="{{tooltipData}}"
         crosshair-data="{{crosshairData}}"
         generating-crosshair-data="{{generatingCrosshairData}}"
@@ -557,7 +557,7 @@ Custom property | Description | Default
       '_setDomainCaller(x, y, chartExtents, dataExtents)',
       '_updateDomain(selectedDomain)',
       '_chartDataChanged(chartData.*)',
-      '_filteredDataChanged(_filteredData.*)'
+      '_keepDataInSync(_filteredData.*, chartId)'
     ],
     listeners: {
      'iron-resize': '_onIronResize'
@@ -566,6 +566,7 @@ Custom property | Description | Default
       this._tooltipCalcHoverTargetId = 'wrapper';
     },
     ready: function() {
+      this._wwSyncDataPropName = '_filteredData';
       this.set('numberOfLayers',4);
       this.set('_verticalRegisterDrawingCanvasId', 'svg');
       this.set('_verticalRegisterHeightDeductions', ['toolbar']);
@@ -709,15 +710,6 @@ Custom property | Description | Default
     _bothDomainsSet: function() {
       if(this.domainChanged !== null & this._axisDomainChanged !== null) {
         return !this.$.yAxes.domainChanged;
-      }
-    },
-
-    _filteredDataChanged: function() {
-      //TODO: unify that in a canvas function
-      if(this.canvasContext) {
-        this.canvasContext._pxScatterSeries = {};
-        this.canvasContext._pxScatterTotal = 0;
-        this.canvasContext._pxScatterRedraw = 0;
       }
     },
 
