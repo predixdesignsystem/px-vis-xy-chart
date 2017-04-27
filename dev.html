@@ -76,7 +76,11 @@
                 "y":"y2"
               }
             }'
-            hide-gridlines-x>
+            hide-gridlines-x
+            toolbar-config='{"config": {
+            "advancedZoom": true,
+            "pan": true,
+            "tooltip": true}}'>
           </px-vis-xy-chart>
 
         </div>
@@ -84,6 +88,10 @@
         <px-vis-xy-chart
           id="chart2"
           chart-data="{{data}}"
+          toolbar-config='{"config": {
+            "advancedZoom": true,
+            "pan": true,
+            "tooltip": true}}'
           height="400"
           margin='{ "top": "30", "bottom": "60", "left": "80", "right": "100" }'
           x-axis-config='{"title": "X",
