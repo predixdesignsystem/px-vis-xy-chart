@@ -285,6 +285,7 @@ Custom property | Description | Default
           chart-data="[[_filteredData]]"
           tooltip-data="[[tooltipData]]"
           complete-series-config="[[completeSeriesConfig]]"
+          clip-path="[[seriesClipPath]]"
           muted-series="[[mutedSeries]]">
         </px-vis-cursor>
       </div>
@@ -356,6 +357,7 @@ Custom property | Description | Default
       </template>
 
       <px-vis-interaction-space
+        id="interactionSpace"
         svg="[[layer.3]]"
         width="[[width]]"
         height="[[height]]"
@@ -377,10 +379,7 @@ Custom property | Description | Default
         series-keys="[[_seriesKeys]]"
         time-data="[[timeData]]"
         action-config="{{actionConfig}}"
-        show-tooltip="{{_computedShowTooltip}}"
-        selection-type="{{selectionType}}"
-        search-type="{{searchType}}"
-        search-Radius="{{searchRadius}}">
+        show-tooltip="{{_computedShowTooltip}}">
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
@@ -414,7 +413,8 @@ Custom property | Description | Default
         series-keys="[[_seriesKeys]]"
         chart-data="[[chartData]]"
         generating-crosshair-data="[[generatingCrosshairData]]"
-        crosshair-data="[[crosshairData]]">
+        crosshair-data="[[crosshairData]]"
+        tooltip-data="{{tooltipData}}">
       </px-vis-highlight-point-canvas>
     </template>
     <template is="dom-if" if="[[!renderToCanvas]]" restamp>
@@ -430,6 +430,7 @@ Custom property | Description | Default
         chart-data="[[chartData]]"
         generating-crosshair-data="[[generatingCrosshairData]]"
         crosshair-data="[[crosshairData]]"
+        tooltip-data="{{tooltipData}}"
         clip-path="[[seriesClipPath]]">
       </px-vis-highlight-point>
     </template>
@@ -485,6 +486,7 @@ Custom property | Description | Default
       PxVisBehaviorD3.canvasContext,
       PxVisBehaviorD3.renderToCanvas,
       PxVisBehaviorChart.highlighterConfigs,
+      PxVisBehaviorChart.mouseCusorConfig,
       PxVisBehavior.crosshairData,
       PxVisBehaviorChart.webWorkerSynchonization
     ],
@@ -567,6 +569,16 @@ Custom property | Description | Default
         type: Object,
         notify: true,
         computed: '_computeAxisActionConfig(dimensions.*, _isAttached)'
+      },
+
+      /**
+       *  The search radius for voronoi and quadtree searches. Only points inside this radius will be returned
+       */
+      searchRadius: {
+        type: Number
+      },
+      searchType: {
+        type: String
       }
     },
     observers: [
@@ -574,7 +586,9 @@ Custom property | Description | Default
       '_toolbarConfigChanged(toolbarConfig.*)',
       '_createLayersOnce(svg, numberOfLayers)',
       '_highlighterConfigChanged(highlighterConfig.*)',
+      '_mouseCursorConfigChanged(mouseCursorConfig.*)',
       '_cursorConfigChanged(cursorConfig.*)',
+      '_interactionSpaceConfigChanged(interactionSpaceConfig.*)',
 
       '_calcAxes(completeSeriesConfig.*)',
       '_calcAxes(leftAxisSize, rightAxisSize)',
@@ -620,11 +634,13 @@ Custom property | Description | Default
       this._applyConfigToElement(this.tooltipConfig, this.$.tooltip);
     },
     _registerConfigChanged: function(conf) {
-
       this._applyConfigToElement(this.registerConfig, this.$.register);
     },
     _toolbarConfigChanged: function(conf) {
       this._applyConfigToElement(this.toolbarConfig, this.$.toolbar);
+    },
+    _interactionSpaceConfigChanged: function(interactionSpaceConfig) {
+      this._applyConfigToElement(this.interactionSpaceConfig, this.$.interactionSpace)
     },
     _highlighterConfigChanged: function(conf) {
       var elem = this.renderToCanvas ? this.$$('#highlighterCanvas') : this.$$('#highlighter');
@@ -634,6 +650,9 @@ Custom property | Description | Default
     },
     _cursorConfigChanged: function(conf) {
       this._applyConfigToElement(this.cursorConfig, this.$.cursor);
+    },
+    _mouseCursorConfigChanged: function(conf) {
+      this._applyConfigToElement(this.mouseCursorConfig, this.$.mouseCursor);
     },
 
     _onIronResize: function() {
