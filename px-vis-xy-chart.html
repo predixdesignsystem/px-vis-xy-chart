@@ -212,8 +212,7 @@ Custom property | Description | Default
                 domain-changed="[[domainChanged]]"
                 clip-path
                 muted-series="[[mutedSeries]]"
-                serie-to-redraw-on-top="[[serieToRedrawOnTop]]"
-                clean-on-detached="[[cleanOnDetached]]">
+                serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
               </px-vis-scatter-canvas>
             </template>
             <template is="dom-if" if="[[!renderToCanvas]]" restamp>
@@ -227,8 +226,7 @@ Custom property | Description | Default
                 muted-series="[[mutedSeries]]"
                 clip-path="[[seriesClipPath]]"
                 complete-series-config="[[completeSeriesConfig]]"
-                serie-to-redraw-on-top="[[serieToRedrawOnTop]]"
-                clean-on-detached="[[cleanOnDetached]]">
+                serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
               </px-vis-scatter>
             </template>
           </template>
@@ -253,8 +251,7 @@ Custom property | Description | Default
                 margin="[[_internalMargin]]"
                 clip-path
                 interpolation-function="[[interpolationFunction]]"
-                serie-to-redraw-on-top="[[serieToRedrawOnTop]]"
-                clean-on-detached="[[cleanOnDetached]]">
+                serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
               </px-vis-line-canvas>
             </template>
             <template is="dom-if" if="[[!renderToCanvas]]" restamp>
@@ -270,8 +267,7 @@ Custom property | Description | Default
                 clip-path="[[seriesClipPath]]"
                 complete-series-config="[[completeSeriesConfig]]"
                 interpolation-function="[[interpolationFunction]]"
-                serie-to-redraw-on-top="[[serieToRedrawOnTop]]"
-                clean-on-detached="[[cleanOnDetached]]">
+                serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
               </px-vis-line-svg>
             </template>
           </template>
@@ -339,8 +335,7 @@ Custom property | Description | Default
           margin="[[_internalMargin]]"
           length="[[height]]"
           orientation="bottom"
-          domain-changed="[[domainChanged]]"
-          clean-on-detached="[[cleanOnDetached]]">
+          domain-changed="[[domainChanged]]">
         </px-vis-gridlines>
       </template>
 
@@ -351,8 +346,7 @@ Custom property | Description | Default
           margin="[[_internalMargin]]"
           length="[[width]]"
           orientation="left"
-          domain-changed="[[domainChanged]]"
-          clean-on-detached="[[cleanOnDetached]]">
+          domain-changed="[[domainChanged]]">
         </px-vis-gridlines>
       </template>
 
@@ -392,7 +386,10 @@ Custom property | Description | Default
           y="[[y]]"
           domain-changed="[[domainChanged]]"
           event-config="[[eventConfig]]"
-          clip-path="[[clipPath]]">
+          clip-path="[[clipPath]]"
+          resources="[[resources]]"
+          language="[[language]]"
+          formats="[[formats]]">
         </px-vis-event>
       </template>
     </div>
@@ -488,7 +485,9 @@ Custom property | Description | Default
       PxVisBehaviorChart.highlighterConfigs,
       PxVisBehaviorChart.mouseCusorConfig,
       PxVisBehavior.crosshairData,
-      PxVisBehaviorChart.webWorkerSynchonization
+      PxVisBehavior.progressiveRendering,
+      PxVisBehaviorChart.webWorkerSynchonization,
+      Polymer.AppLocalizeBehavior
     ],
     properties: {
       /**
@@ -570,7 +569,6 @@ Custom property | Description | Default
         notify: true,
         computed: '_computeAxisActionConfig(dimensions.*, _isAttached)'
       },
-
       /**
        *  The search radius for voronoi and quadtree searches. Only points inside this radius will be returned
        */
@@ -579,6 +577,30 @@ Custom property | Description | Default
       },
       searchType: {
         type: String
+      },
+      /**
+       * List of key/values to be included for translating this component
+       */
+      resources: {
+        type: Object,
+        value: function() {
+          return {};
+        }
+      },
+      /**
+      * set a default for localizing
+      */
+      language: {
+        type: String,
+        value: 'en'
+      },
+      /**
+      * Use the key for localization if value for  language is missing. Should
+      * always be true for  our components
+      */
+      useKeyIfMissing: {
+        type: Boolean,
+        value: true
       }
     },
     observers: [
@@ -599,7 +621,9 @@ Custom property | Description | Default
       '_setDomainCaller(x, y, chartExtents, dataExtents)',
       '_updateDomain(selectedDomain)',
       '_chartDataChanged(chartData.*)',
-      '_keepDataInSync(_filteredData.*, chartId)'
+      '_keepDataInSync(_filteredData.*, chartId)',
+      '_filteredDataChanged(_filteredData.*)',
+      '_langChanged(language)'
     ],
     listeners: {
      'iron-resize': '_onIronResize'
@@ -776,6 +800,12 @@ Custom property | Description | Default
       }
     },
 
+    _filteredDataChanged: function() {
+      if(this.canvasContext && this.canvasContext.pxClearCanvas) {
+        this.canvasContext.pxClearCanvas();
+      }
+    },
+
     _computeAxisActionConfig: function() {
       var conf;
 
@@ -792,6 +822,11 @@ Custom property | Description | Default
         };
 
       return conf;
+    },
+    _langChanged: function() {
+
+      //recreate X and Y in case d3 locale changed
+      this._recreateScales(this.width, this.height, this._internalMargin);
     }
   });
 </script>
