@@ -387,7 +387,10 @@ Custom property | Description | Default
           y="[[y]]"
           domain-changed="[[domainChanged]]"
           event-config="[[eventConfig]]"
-          clip-path="[[clipPath]]">
+          clip-path="[[clipPath]]"
+          resources="[[resources]]"
+          language="[[language]]"
+          formats="[[formats]]">
         </px-vis-event>
       </template>
     </div>
@@ -481,7 +484,8 @@ Custom property | Description | Default
       PxVisBehaviorChart.highlighterConfigs,
       PxVisBehavior.crosshairData,
       PxVisBehavior.progressiveRendering,
-      PxVisBehaviorChart.webWorkerSynchonization
+      PxVisBehaviorChart.webWorkerSynchonization,
+      Polymer.AppLocalizeBehavior
     ],
     properties: {
       /**
@@ -562,6 +566,30 @@ Custom property | Description | Default
         type: Object,
         notify: true,
         computed: '_computeAxisActionConfig(dimensions.*, _isAttached)'
+      },
+      /**
+       * List of key/values to be included for translating this component
+       */
+      resources: {
+        type: Object,
+        value: function() {
+          return {};
+        }
+      },
+      /**
+      * set a default for localizing
+      */
+      language: {
+        type: String,
+        value: 'en'
+      },
+      /**
+      * Use the key for localization if value for  language is missing. Should
+      * always be true for  our components
+      */
+      useKeyIfMissing: {
+        type: Boolean,
+        value: true
       }
     },
     observers: [
@@ -581,7 +609,8 @@ Custom property | Description | Default
       '_updateDomain(selectedDomain)',
       '_chartDataChanged(chartData.*)',
       '_keepDataInSync(_filteredData.*, chartId)',
-      '_filteredDataChanged(_filteredData.*)'
+      '_filteredDataChanged(_filteredData.*)',
+      '_langChanged(language)'
     ],
     listeners: {
      'iron-resize': '_onIronResize'
@@ -775,6 +804,11 @@ Custom property | Description | Default
         };
 
       return conf;
+    },
+    _langChanged: function() {
+
+      //recreate X and Y in case d3 locale changed
+      this._recreateScales(this.width, this.height, this._internalMargin);
     }
   });
 </script>
