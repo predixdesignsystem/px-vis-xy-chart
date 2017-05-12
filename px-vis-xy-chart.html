@@ -365,6 +365,7 @@ Custom property | Description | Default
         chart-id="[[chartId]]"
         tooltip-data="{{tooltipData}}"
         crosshair-data="{{crosshairData}}"
+        default-empty-data="[[defautEmptyData]]"
         generating-crosshair-data="{{generatingCrosshairData}}"
         extents-data="{{extentsData}}"
         x-axis-type="[[xAxisType]]"
@@ -411,6 +412,7 @@ Custom property | Description | Default
         series-keys="[[_seriesKeys]]"
         chart-data="[[chartData]]"
         generating-crosshair-data="[[generatingCrosshairData]]"
+        default-empty-data="{{defautEmptyData}}"
         crosshair-data="[[crosshairData]]"
         tooltip-data="{{tooltipData}}">
       </px-vis-highlight-point-canvas>
@@ -428,6 +430,7 @@ Custom property | Description | Default
         chart-data="[[chartData]]"
         generating-crosshair-data="[[generatingCrosshairData]]"
         crosshair-data="[[crosshairData]]"
+        default-empty-data="{{defautEmptyData}}"
         tooltip-data="{{tooltipData}}"
         clip-path="[[seriesClipPath]]">
       </px-vis-highlight-point>
@@ -570,15 +573,7 @@ Custom property | Description | Default
         notify: true,
         computed: '_computeAxisActionConfig(dimensions.*, _isAttached)'
       },
-      /**
-       *  The search radius for voronoi and quadtree searches. Only points inside this radius will be returned
-       */
-      searchRadius: {
-        type: Number
-      },
-      searchType: {
-        type: String
-      },
+
       /**
        * List of key/values to be included for translating this component
        */
