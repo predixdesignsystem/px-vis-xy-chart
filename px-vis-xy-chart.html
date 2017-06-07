@@ -375,7 +375,8 @@ Custom property | Description | Default
         series-keys="[[_seriesKeys]]"
         time-data="[[timeData]]"
         action-config="{{actionConfig}}"
-        show-tooltip="{{_computedShowTooltip}}">
+        show-tooltip="{{_computedShowTooltip}}"
+        prevent-web-worker-synchronization="[[preventWebWorkerSynchronization]]">
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
@@ -490,7 +491,7 @@ Custom property | Description | Default
       PxVisBehaviorChart.mouseCusorConfig,
       PxVisBehavior.crosshairData,
       PxVisBehavior.progressiveRendering,
-      PxVisBehaviorChart.webWorkerSynchronization,
+      PxVisBehavior.webWorkerSynchronization,
       Polymer.AppLocalizeBehavior
     ],
     properties: {
