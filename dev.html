@@ -44,50 +44,6 @@
       <button id="btnIH">Increase wrapper height</button>
       <button id="btnDH">Decrease wrapper height</button>
       <button id="btnSnap">Go</button>
-      <div id="wrap" style="height:300px">
-
-          <px-vis-xy-chart
-            id="chart"
-            prevent-resize
-            width="400"
-            height="250"
-            chart-data="{{dataOrdinal}}"
-            margin='{ "top": "20", "bottom": "50", "left": "50", "right": "10" }'
-            x-axis-type="ordinal"
-            x-axis-config='{"title": "X"}'
-            y-axis-config='{"title": "Y",
-                            "orientation": "left"}'
-            show-tooltip
-            register-config='{
-              "height": 50,
-              "width":205,
-              "type": "vertical"}'
-            time-data='date'
-            chart-extents='{"x": ["low", "medium", "high"], "y": [-5,10]}'
-            series-config='{
-              "y": {
-                "type": "scatter",
-                "markerSymbol": "triangle-up",
-                "name": "serie 1",
-                "x": "x",
-                "y":"y",
-                "color": "rgb(96,189,104)"
-              },
-              "y2": {
-                "type": "scatter",
-                "name": "serie 1",
-                "x": "x",
-                "y":"y2"
-              }
-            }'
-            hide-gridlines-x
-            toolbar-config='{"config": {
-            "advancedZoom": true,
-            "pan": true,
-            "tooltip": true}}'>
-          </px-vis-xy-chart>
-
-        </div>
 
         <px-vis-xy-chart
           id="chart2"
@@ -214,6 +170,50 @@
                 selected-domain="{{selectedDomain}}">
             </px-vis-chart-navigator>
           </div>
+
+        <div id="wrap" style="height:300px">
+
+          <px-vis-xy-chart
+            id="chart"
+            height="250"
+            render-to-canvas
+            chart-data="{{dataOrdinal}}"
+            margin='{ "top": "20", "bottom": "50", "left": "50", "right": "10" }'
+            x-axis-type="ordinal"
+            x-axis-config='{"title": "X"}'
+            y-axis-config='{"title": "Y",
+                            "orientation": "left"}'
+            show-tooltip
+            register-config='{
+              "height": 50,
+              "width":205,
+              "type": "vertical"}'
+            time-data='date'
+            chart-extents='{"x": ["low", "medium", "high"], "y": [-5,10]}'
+            series-config='{
+              "y": {
+                "type": "scatter",
+                "markerSymbol": "triangle-up",
+                "name": "serie 1",
+                "x": "x",
+                "y":"y",
+                "color": "rgb(96,189,104)"
+              },
+              "y2": {
+                "type": "scatter",
+                "name": "serie 1",
+                "x": "x",
+                "y":"y2"
+              }
+            }'
+            hide-gridlines-x
+            toolbar-config='{"config": {
+            "advancedZoom": true,
+            "pan": true,
+            "tooltip": true}}'>
+          </px-vis-xy-chart>
+
+        </div>
     </template>
 
   <script>
