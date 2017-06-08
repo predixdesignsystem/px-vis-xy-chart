@@ -1,10 +1,14 @@
-2.0.0
+v2.0.0
 ==================
 * upgraded to vis 2.0.0
 * Update to vis 2.0.0
 * Includes highlight components for optional crosshair
 * Includes Web workers for scale calculations
 * Includes Web workers for quadtree calculations
+
+v1.1.1
+==================
+* removed cleanOnDetached
 
 1.1.0
 ==================
