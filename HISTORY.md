@@ -1,10 +1,20 @@
 v2.0.0
 ==================
 * upgraded to vis 2.0.0
-* Update to vis 2.0.0
 * Includes highlight components for optional crosshair
-* Includes Web workers for scale calculations
-* Includes Web workers for quadtree calculations
+* Includes Web workers:
+  * for scale calculations
+  * for quadtree calculations
+* New marker next to timestamp indicating which series the timestamp corresponds to.
+* Internationalization support
+* Breaking changes:
+  * Default toolipData search now shows all series data at the closest timestamp
+    * To use the old behavior of closest data values regardless of their timestamp, set "interactionSpaceConfig.searchType" to "pointPerSeries"
+  * Defaults to using web workers
+    * Use "preventWebWorkerSynchronization" to disable web worker. Will not be able to use quadtree or crosshair features.
+  * Moved svg layers around
+
+
 
 v1.1.1
 ==================
