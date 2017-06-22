@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-common.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-d3.html"/>
+<link rel="import" href="../px-vis/px-vis-behavior-renderer.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-chart.html"/>
 <link rel="import" href="../px-vis/px-vis-behavior-scale.html"/>
 <link rel="import" href="../px-vis/px-vis-svg-canvas.html"/>
@@ -200,6 +201,7 @@ Custom property | Description | Default
                 canvas-context="[[canvasContext]]"
                 series-id="[[item]]"
                 chart-data="[[_filteredData]]"
+                renderer-type="filteredChartData"
                 complete-series-config="[[completeSeriesConfig]]"
                 width="[[width]]"
                 height="[[height]]"
@@ -207,9 +209,6 @@ Custom property | Description | Default
                 x="[[x]]"
                 y="[[_returnYScale(item, completeSeriesConfig, domainChanged)]]"
                 clip-path
-                no-canvas-progressive-rendering="[[noCanvasProgressiveRendering]]"
-                progressive-rendering-points-per-frame="[[progressiveRenderingPointsPerFrame]]"
-                progressive-rendering-minimum-frames="[[progressiveRenderingMinimumFrames]]"
                 domain-changed="[[domainChanged]]"
                 clip-path
                 muted-series="[[mutedSeries]]"
@@ -236,6 +235,7 @@ Custom property | Description | Default
               <px-vis-line-canvas
                 id="lineCanvas"
                 canvas-context="[[canvasContext]]"
+                renderer-type="filteredChartData"
                 series-id="[[item]]"
                 chart-data="[[_filteredData]]"
                 complete-series-config="[[completeSeriesConfig]]"
@@ -244,9 +244,6 @@ Custom property | Description | Default
                 domain-changed="[[domainChanged]]"
                 show-gaps="[[showGaps]]"
                 muted-series="[[mutedSeries]]"
-                no-canvas-progressive-rendering="[[noCanvasProgressiveRendering]]"
-                progressive-rendering-points-per-frame="[[progressiveRenderingPointsPerFrame]]"
-                progressive-rendering-minimum-frames="[[progressiveRenderingMinimumFrames]]"
                 width="[[width]]"
                 height="[[height]]"
                 margin="[[_internalMargin]]"
@@ -492,9 +489,9 @@ Custom property | Description | Default
       PxVisBehaviorChart.highlighterConfigs,
       PxVisBehaviorChart.mouseCusorConfig,
       PxVisBehavior.crosshairData,
-      PxVisBehavior.progressiveRendering,
       PxVisBehaviorChart.webWorkerSynchronization,
-      Polymer.AppLocalizeBehavior
+      Polymer.AppLocalizeBehavior,
+      PxVisBehaviorRenderer.base
     ],
     properties: {
       /**
@@ -617,7 +614,7 @@ Custom property | Description | Default
       '_setDomainCaller(x, y, chartExtents, dataExtents)',
       '_updateDomain(selectedDomain)',
       '_keepDataInSync(_filteredData.*, chartId)',
-      '_filteredDataChanged(_filteredData.*)',
+      '_seriesKeysChanged(_seriesKeys.*)',
       '_langChanged(language)'
     ],
     listeners: {
@@ -672,6 +669,13 @@ Custom property | Description | Default
     },
     _mouseCursorConfigChanged: function(conf) {
       this._applyConfigToElement(this.mouseCursorConfig, this.$.mouseCursor);
+    },
+
+    _seriesKeysChanged: function() {
+      //make sure we clean the canvas so that ols series are removed
+      if(this.renderToCanvas && this.canvasContext && this.canvasContext.pxClearCanvas) {
+        this.canvasContext.pxClearCanvas();
+      }
     },
 
     _onIronResize: function() {
@@ -792,12 +796,6 @@ Custom property | Description | Default
     _bothDomainsSet: function() {
       if(this.domainChanged !== null & this._axisDomainChanged !== null) {
         return !this.$.yAxes.domainChanged;
-      }
-    },
-
-    _filteredDataChanged: function() {
-      if(this.canvasContext && this.canvasContext.pxClearCanvas) {
-        this.canvasContext.pxClearCanvas();
       }
     },
 
