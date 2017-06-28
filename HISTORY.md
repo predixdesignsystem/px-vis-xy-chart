@@ -1,3 +1,6 @@
+==============
+* Ensure selectionType is passed down to interactionSpace
+
 v2.0.0
 ==================
 * upgraded to vis 2.0.0
@@ -13,8 +16,6 @@ v2.0.0
   * Defaults to using web workers
     * Use "preventWebWorkerSynchronization" to disable web worker. Will not be able to use quadtree or crosshair features.
   * Moved svg layers around
-
-
 
 v1.1.1
 ==================
