@@ -54,6 +54,7 @@
             "pan": true,
             "tooltip": true}}'
           height="400"
+          render-to-canvas
           margin='{ "top": "30", "bottom": "60", "left": "80", "right": "100" }'
           x-axis-config='{"title": "X",
             "labelPosition": "center",
@@ -68,6 +69,7 @@
           series-config='{
             "firstSerie": {
               "type": "scatter",
+              "markerScale": 0.2,
               "name": "Serie1",
               "xAxisUnit": "Hz",
               "yAxisUnit": "Hz",
@@ -233,10 +235,19 @@
           {
             'name': 'Delete',
             'action': function(data) {
-              var conf = this.seriesConfig;
-              delete conf[data.additionalDetail.name];
-              this.set('seriesConfig', {});
-              this.set('seriesConfig', conf);
+
+
+              var newConf = {},
+                  confKeys = Object.keys(this.seriesConfig);
+
+              //copy current conf to bypass dirty check
+              for(var i=0; i<confKeys.length; i++) {
+                if(data.additionalDetail.name !== confKeys[i]) {
+                  newConf[confKeys[i]] = this.seriesConfig[confKeys[i]];
+                }
+              }
+
+              this.set('seriesConfig', newConf);
             },
             'eventName': 'delete',
             'icon': 'fa-trash',
@@ -284,8 +295,10 @@
 
       btnSnap.addEventListener('click', function() {
         chart2.getImage(function(result) {
-          window.open().location = result.image;
-        });
+          var img = document.createElement('img');
+          img.src= result.image;
+          document.body.appendChild(img);
+        }, true);
       });
     });
   </script>
