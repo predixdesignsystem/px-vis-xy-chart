@@ -285,8 +285,10 @@
 
       btnSnap.addEventListener('click', function() {
         chart2.getImage(function(result) {
-          window.open().location = result.image;
-        });
+          var img = document.createElement('img');
+          img.src= result.image;
+          document.body.appendChild(img);
+        }, true);
       });
     });
   </script>
