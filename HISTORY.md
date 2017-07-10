@@ -1,3 +1,8 @@
+v2.0.2
+==============
+* Ensure getImage gets all svg and canvas
+
+v2.0.1
 ==============
 * Ensure selectionType is passed down to interactionSpace
 
