@@ -1,5 +1,7 @@
+v3.0.0
 ==============
 * Ensure selectionType is passed down to interactionSpace
+* Design refresh
 
 v2.0.0
 ==================
