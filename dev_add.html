@@ -15,6 +15,7 @@
     <style include="px-theme-styles" is="custom-style"></style>
 
     <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
+    <link rel="import" href="../promise-polyfill/promise-polyfill-lite.html">
     <link rel="import" href="px-vis-xy-chart.html" />
     <link rel="import" href="../iron-ajax/iron-ajax.html" />
     <link rel="import" href="../px-vis/px-vis-data-converter.html"/>
@@ -26,7 +27,7 @@
 
     <template id="demo" is="dom-bind">
       <h1>Add charts dynamically</h1>
-      <p>This page aims at helping benchmarking dynamically adding charts as well as making sure we don't introduce performance breaking changes. Look in the console for timing results for each batch of charts you've added <button id="btnPerf" style="background-color: salmon">Click me for performance tips!</button></p> 
+      <p>This page aims at helping benchmarking dynamically adding charts as well as making sure we don't introduce performance breaking changes. Look in the console for timing results for each batch of charts you've added <button id="btnPerf" style="background-color: salmon">Click me for performance tips!</button></p>
       <ul id="tipsList" hidden>Few performance tips:
         <li>progressive rendering now can be customized through progressiveRenderingPointsPerFrame (16000 by default for lines, 2000 byy default for scatter) and progressiveRenderingMinimumFrames. Increase progressiveRenderingPointsPerFrame for better performance and decrease for smoother drawing. When at the right value no performance cost incurs and drawing is smooth but if value is too small can incur a performance cost (i.e the drawing will take longer, but will always start at the same time, also the UI won't be frozen)</li>
         <li>progressive rendering is great for big dataset, it can incur a very small performance costs for smaller one. In my opinion this is far offseted by the fact that the UI doesn't freeze</li>
@@ -60,7 +61,7 @@
           last-response="{{eventData}}" auto>
         </iron-ajax>
 
-      
+
         <!--<px-vis-xy-chart
           id="chart2"
           chart-data="{{data}}"
@@ -179,7 +180,7 @@
                 selected-domain="{{selectedDomain}}">
             </px-vis-chart-navigator>
           </div>-->
-         
+
           </div>
     </template>
 
@@ -218,7 +219,7 @@
         chart.renderToCanvas = rendToCanvas.checked;
         chart.noCanvasProgressiveRendering = noProgr.checked;
         chart.progressiveRenderingPointsPerFrame = pointsPerFrame.value;
-        chart.progressiveRenderingMinimumFrames = minFrames.value;  
+        chart.progressiveRenderingMinimumFrames = minFrames.value;
       }
 
       btn.addEventListener('click', function() {
@@ -245,7 +246,7 @@
           } else {
             newChart = document.createElement('px-vis-xy-chart');
           }
-          
+
           newChart.chartData = dataAjax.lastResponse;
           newChart.defaultSeriesConfig = {
             "type": scatterType.checked ? "scatter" : "line"
@@ -322,10 +323,10 @@
 
           Polymer.dom(bigdiv).removeChild(lastWrap);
         }
-        
+
       });
       btnPerf.addEventListener('click', function() {
-        
+
         tipsList.hidden = !tipsList.hidden;
       });
     });

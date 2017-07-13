@@ -590,7 +590,12 @@ Custom property | Description
       '_updateDomain(selectedDomain)',
       '_keepDataInSync(_filteredData.*, chartId)',
       '_seriesKeysChanged(_seriesKeys.*)',
-      '_langChanged(language)'
+      '_langChanged(language)',
+
+      //renderer
+      '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, mutedSeries.*, completeSeriesConfig.*, preventInitialDrawing,renderToCanvas)',
+      '_renderHighlight(domainChanged, canvasContextTop, _highlightData.*, completeSeriesConfig.*, preventInitialDrawing, renderToCanvas)',
+      '_renderSeriesOnTop(serieToRedrawOnTop)'
     ],
     listeners: {
      'iron-resize': '_onIronResize'
