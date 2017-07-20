@@ -1,3 +1,7 @@
+v2.0.3
+==============
+* fix demo dynamic menus
+
 v2.0.2
 ==============
 * Ensure getImage gets all svg and canvas
