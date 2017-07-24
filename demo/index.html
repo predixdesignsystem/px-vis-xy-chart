@@ -580,14 +580,14 @@
         defaultValue: {
           "Fa Icon": {
             "color": "blue",
-            "icon": "fa-camera",
-            "type": "fa",
+            "icon": "px-fea:deployments",
+            "type": "px",
             "offset": [0, 0]
           },
           "Unicode": {
             "color": "green",
-            "icon": "\uf015",
-            "type": "unicode",
+            "icon": "px-fea:bug",
+            "type": "px",
             "offset": [1, 0]
           },
           "Event Png": {
@@ -644,13 +644,13 @@
             'name': 'Delete',
             'action': "function(data) {var conf = this.seriesConfig;delete conf[data.additionalDetail.name];this.set(\"seriesConfig\", {}); this.set(\"seriesConfig\", conf);",
             'eventName': 'delete',
-            'icon': 'fa-trash',
+            'icon': 'px-vis:trash-series',
           },
           {
             'name': 'Bring To Front',
             'action': "function(data) {this.set(\"serieToRedrawOnTop\", data.additionalDetail.name);}",
             'eventName': 'bring-to-front',
-            'icon': 'fa-arrow-up'
+            'icon': 'px-vis:bring-to-front'
           }
         ],
         inputType: 'code:JSON'
@@ -665,10 +665,10 @@
             "logHover": {
               "buttonGroup": 2,
               "tooltipLabel": "The submenu item of this menu will define custom mouse interaction",
-              "icon": "fa-leaf",
+              "icon": "px-nav:notification",
               "subConfig": {
                 "customClick": {
-                  "icon": "fa-coffee",
+                  "icon": "px-nav:play",
                   "buttonGroup": 3,
                   "tooltipLabel": "define some custom mouse interactions on chart",
                   "eventName": "my-custom-click",
@@ -681,7 +681,7 @@
                 },
                 "customClick2": {
                   "buttonGroup": 3,
-                  "icon": "fa-fire-extinguisher",
+                  "icon": "px-nav:pause",
                   "tooltipLabel": "Remove all custom interactions",
                   "actionConfig": {
                     "mousedown": null,

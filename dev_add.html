@@ -129,14 +129,14 @@
           event-config='{
             "Fa Icon": {
               "color": "blue",
-              "icon": "fa-camera",
-              "type": "fa",
+              "icon": "px-fea:deployments",
+              "type": "px",
               "offset": [0, 0]
             },
             "Unicode": {
               "color": "green",
-              "icon": "\uf015",
-              "type": "unicode",
+              "icon": "px-fea:bug",
+              "type": "px",
               "offset": [1, 0]
             },
             "Event Png": {
@@ -259,20 +259,20 @@
               "name": "Delete",
               "action": "function(data) { var conf = this.seriesConfig;  delete conf[data.additionalDetail.name]; this.set(\"seriesConfig\", {}); this.set(\"seriesConfig\", conf);}",
               "eventName": "delete",
-              "icon": "fa-trash"
+              "icon": "px-vis:trash-series"
             },
             {
               "name": "Bring To Front",
               "action": "function(data) { this.set(\"serieToRedrawOnTop\", data.additionalDetail.name);}",
               "eventName": "bring-to-front",
-              "icon": "fa-arrow-up"
+              "icon": "px-vis:bring-to-front"
             }
           ];
           newChart.margin={ "top": "30", "bottom": "60", "left": "80", "right": "100" };
           newChart.width = 800;
           newChart.height = 400;
           newChart.seriesConfig = {"firstSerie":{"name":"Serie1","xAxisUnit":"Hz","yAxisUnit":"Hz","x":"T48A","y":"T48B","axis":{"id":"axis1","number":1,"side":"left"}},"secondSerie":{"name":"Serie2","x":"T48A","y":"T48B","axis":{"id":"axis2","number":2,"side":"right"}},"third":{"name":"Serie3","x":"T48A","y":"T48C","axis":{"id":"axis3","number":3,"side":"right"}},"fourth":{"markerSymbol":"diamond","name":"Serie4","x":"T48A","y":"T48D","axis":{"id":"axis4","number":4,"side":"right"}}};
-          newChart.eventConfig = {"FaIcon":{"color":"blue","icon":"fa-camera","type":"fa","offset":[0,0]},"Unicode":{"color":"green","icon":"\uf015","type":"unicode","offset":[1,0]},"EventPng":{"icon":"ge_logo.png","type":"image","offset":[0,-20],"size":"20"}};
+          newChart.eventConfig = {"FaIcon":{"color":"blue","icon":"px-fea:deployments","type":"px","offset":[0,0]},"Unicode":{"color":"green","icon":"px-fea:bug","type":"px","offset":[1,0]},"EventPng":{"icon":"ge_logo.png","type":"image","offset":[0,-20],"size":"20"}};
           newChart.eventData = eventAjax.lastResponse;
           newChart.timeData = 'Date';
           newChart.chartExtents = {

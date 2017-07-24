@@ -120,14 +120,14 @@
           event-config='{
             "Fa Icon": {
               "color": "blue",
-              "icon": "fa-camera",
-              "type": "fa",
+              "icon": "px-fea:deployments",
+              "type": "px",
               "offset": [0, 0]
             },
             "Unicode": {
               "color": "green",
-              "icon": "\uf015",
-              "type": "unicode",
+              "icon": "px-fea:bug",
+              "type": "px",
               "offset": [1, 0]
             },
             "Event Png": {
@@ -251,7 +251,7 @@
               this.set('seriesConfig', newConf);
             },
             'eventName': 'delete',
-            'icon': 'fa-trash',
+            'icon': 'px-vis:trash-series',
           },
           {
             'name': 'Bring To Front',
@@ -259,7 +259,7 @@
               this.set('serieToRedrawOnTop', data.additionalDetail.name);
             },
             'eventName': 'bring-to-front',
-            'icon': 'fa-arrow-up'
+            'icon': 'px-vis:bring-to-front'
           }
         ];
 
