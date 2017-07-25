@@ -4,6 +4,10 @@ v3.0.0
 * Update for new renderer
 * See px-vis release notes for a list of breaking changes
 
+v2.0.3
+==============
+* fix demo dynamic menus
+
 v2.0.2
 ==============
 * Ensure getImage gets all svg and canvas
