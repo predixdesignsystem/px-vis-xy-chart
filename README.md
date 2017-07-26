@@ -1,9 +1,9 @@
-#Px-Vis-Xy-Chart [![Build Status](https://travis-ci.org/PredixDev/px-vis-xy-chart.svg?branch=master)](https://travis-ci.org/PredixDev/px-vis-xy-chart)
+# px-vis-xy-chart [![Build Status](https://travis-ci.org/PredixDev/px-vis-xy-chart.svg?branch=master)](https://travis-ci.org/PredixDev/px-vis-xy-chart)
 
 
 ## Overview
 
-px-vis-xy-chart is a Predix UI component
+`Px-vis-xy-chart` is a Predix UI component that allows the user to draw lines or scatter against an X and Y axis.
 
 ## Usage
 
@@ -13,17 +13,17 @@ px-vis-xy-chart is a Predix UI component
 3. bower
 4. [webcomponents-lite.js polyfill](https://github.com/webcomponents/webcomponentsjs)
 
-Node, npm and bower are necessary to install the component and dependencies. webcomponents.js adds support for web components and custom elements to your application.
+Node, npm, and bower are necessary to install the component and dependencies. webcomponents.js adds support for web components and custom elements to your application.
 
 ## Getting Started
 
-First, install the component via bower on the command line.
+First, install the component via bower on the command line:
 
 ```
 bower install px-vis-xy-chart --save
 ```
 
-Second, import the component to your application with the following tag in your head.
+Second, import the component in your application with the following tag in your head:
 
 ```
 <link rel="import" href="/bower_components/px-vis-xy-chart/px-vis-xy-chart.html"/>
@@ -32,13 +32,13 @@ Second, import the component to your application with the following tag in your 
 Finally, use the component in your application:
 
 ```
-Insert Your demo code here.
+See demo page for example usage.
 ```
 
 <br />
 <hr />
 
-## documentation
+## Documentation
 
 Read the full API and view the demo [here](https://predixdev.github.io/px-vis-xy-chart).
 
