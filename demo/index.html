@@ -89,9 +89,6 @@
               match-ticks="{{props.matchTicks.value}}"
               selection-type="{{props.selectionType.value}}"
               render-to-canvas="{{props.renderToCanvas.value}}"
-              progressive-rendering-points-per-frame="{{props.progressiveRenderingPointsPerFrame.value}}"
-              progressive-rendering-minimum-frames="{{props.progressiveRenderingMinFrames.value}}"
-              no-canvas-progressive-rendering="{{props.noCanvasProgressiveRendering.value}}"
               debounce-resize-timing="{{props.debounceResizeTiming.value}}">
             </px-vis-xy-chart>
           </div>
@@ -411,28 +408,6 @@
         type: Boolean,
         defaultValue: false,
         inputType: 'toggle'
-      },
-
-      //we need inputDisabled: false to be able to dynamically turn it on
-      noCanvasProgressiveRendering: {
-        type: Boolean,
-        defaultValue: false,
-        inputDisabled: true,
-        inputType: 'toggle'
-      },
-
-      progressiveRenderingPointsPerFrame: {
-        type: Number,
-        defaultValue: 16000,
-        inputDisabled: true,
-        inputType: 'text'
-      },
-
-      progressiveRenderingMinFrames: {
-        type: Number,
-        defaultValue: 1,
-        inputDisabled: true,
-        inputType: 'text'
       },
 
       chartHorizontalAlignment: {
