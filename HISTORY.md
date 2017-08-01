@@ -1,3 +1,7 @@
+v3.0.3
+==============
+* Update demo
+
 v3.0.2
 ==============
 * Removed old links in demo
