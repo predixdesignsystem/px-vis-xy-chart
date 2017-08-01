@@ -32,7 +32,7 @@ function runCustomTests() {
 
     test('get hide class', function() {
 
-      assert.equal('axisHide', hor._getHideClass(true));
+      assert.equal('hideAxis', hor._getHideClass(true));
       assert.equal('', hor._getHideClass(false));
     });
 

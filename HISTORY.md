@@ -1,3 +1,7 @@
+v3.0.5
+==============
+* demo update
+
 v3.0.4
 ==============
 * fix sarfari 9 flex bug causing registers to overlap if screen is too small
