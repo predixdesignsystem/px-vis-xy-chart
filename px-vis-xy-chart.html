@@ -223,6 +223,7 @@ Custom property | Description
                 margin="[[_internalMargin]]"
                 clip-path
                 interpolation-function="[[interpolationFunction]]"
+                stroke-width="[[_returnStrokeWidth(item, completeSeriesConfig)]]"
                 serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
               </px-vis-line-canvas>
             </template>
@@ -239,6 +240,7 @@ Custom property | Description
                 clip-path="[[seriesClipPath]]"
                 complete-series-config="[[completeSeriesConfig]]"
                 interpolation-function="[[interpolationFunction]]"
+                stroke-width="[[_returnStrokeWidth(item, completeSeriesConfig)]]"
                 serie-to-redraw-on-top="[[serieToRedrawOnTop]]">
               </px-vis-line-svg>
             </template>
@@ -587,7 +589,7 @@ Custom property | Description
       '_calcMargins(margin.*, numRightAxes, numLeftAxes)',
       '_setXScale(width, _internalMargin)',
       '_setMultiYScale(height, _internalMargin, axes.*)',
-      '_setDomainCaller(_wwDataSyncCounter, x, y, dataExtents, seriesToAxes.*)',
+      '_setDomainCaller(wwDataSyncCounter, x, y, dataExtents, seriesToAxes.*)',
       '_setDomainCaller(x, y, chartExtents, dataExtents)',
       '_updateDomain(selectedDomain)',
       '_keepDataInSync(_filteredData.*, chartId)',
