@@ -1,3 +1,7 @@
+v2.0.4
+==============
+* fix wwDataSyncCounter prop name
+
 v2.0.3
 ==============
 * fix demo dynamic menus
