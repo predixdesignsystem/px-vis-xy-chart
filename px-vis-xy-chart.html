@@ -470,8 +470,7 @@ Custom property | Description
       PxVisBehavior.crosshairData,
       PxVisBehaviorChart.webWorkerSynchronization,
       Polymer.AppLocalizeBehavior,
-      PxVisBehaviorRenderer.base,
-      PxVisBehaviorChart.extentsDataRouter
+      PxVisBehaviorRenderer.base
     ],
     properties: {
       /**
@@ -598,8 +597,8 @@ Custom property | Description
       '_langChanged(language)',
 
       //renderer
-      '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, mutedSeries.*, completeSeriesConfig.*, preventInitialDrawing,renderToCanvas)',
-      '_renderHighlight(domainChanged, canvasLayers.highlighter, completeSeriesConfig.*, preventInitialDrawing, renderToCanvas)',
+      '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, mutedSeries.*, completeSeriesConfig.*, preventInitialDrawing)',
+      '_renderHighlight(domainChanged, canvasLayers.highlighter, completeSeriesConfig.*, preventInitialDrawing)',
       '_renderSeriesOnTop(serieToRedrawOnTop)'
     ],
     listeners: {
