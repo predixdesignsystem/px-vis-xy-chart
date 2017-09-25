@@ -2,6 +2,10 @@
 ==================
 * Update renderer observers
 
+v3.1.1
+==================
+* Fix doc format for static analyzer
+
 v3.1.0
 ==================
 * Adding ability to pass strokeWidth down to lines from seriesConfig
