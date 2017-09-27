@@ -1,3 +1,7 @@
+
+==================
+* Update renderer observers
+
 v3.1.1
 ==================
 * Fix doc format for static analyzer
