@@ -139,7 +139,8 @@ Custom property | Description
             mouse-position="[[mousePosition]]"
             hover-target="[[mouseRect]]"
             tooltip-style="light"
-            muted-series="[[mutedSeries]]">
+            muted-series="[[mutedSeries]]"
+            hard-mute="[[hardMute]]">
           </px-vis-tooltip>
           <px-vis-svg-canvas
             class="inline--flex"
@@ -353,7 +354,9 @@ Custom property | Description
         selection-type="[[selectionType]]"
         prevent-web-worker-synchronization="[[preventWebWorkerSynchronization]]"
         ww-data-sync-counter="[[wwDataSyncCounter]]"
-        extents-action="{{extentsAction}}">
+        extents-action="{{extentsAction}}"
+        hard-mute="[[hardMute]]"
+        muted-series="[[mutedSeries]]">
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
@@ -589,8 +592,8 @@ Custom property | Description
       '_calcMargins(margin.*, numRightAxes, numLeftAxes)',
       '_setXScale(width, _internalMargin)',
       '_setMultiYScale(height, _internalMargin, axes.*)',
-      '_setDomainCaller(wwDataSyncCounter, x, y, dataExtents, seriesToAxes.*)',
-      '_setDomainCaller(x, y, chartExtents, dataExtents)',
+      '_setDomainCaller(wwDataSyncCounter, x, y, dataExtents, seriesToAxes.*, mutedSeries.*, hardMute)',
+      '_setDomainCaller(x, y, chartExtents, dataExtents, mutedSeries.*, hardMute)',
       '_updateDomain(selectedDomain)',
       '_keepDataInSync(_filteredData.*, chartId)',
       '_seriesKeysChanged(_seriesKeys.*)',
