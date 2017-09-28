@@ -592,12 +592,13 @@ Custom property | Description
       '_calcMargins(margin.*, numRightAxes, numLeftAxes)',
       '_setXScale(width, _internalMargin)',
       '_setMultiYScale(height, _internalMargin, axes.*)',
-      '_setDomainCaller(wwDataSyncCounter, x, y, dataExtents, seriesToAxes.*, mutedSeries.*, hardMute)',
-      '_setDomainCaller(x, y, chartExtents, dataExtents, mutedSeries.*, hardMute)',
+      '_setDomainCaller(wwDataSyncCounter, x, y, dataExtents, seriesToAxes.*)',
+      '_setDomainCaller(x, y, chartExtents, dataExtents, )',
       '_updateDomain(selectedDomain)',
       '_keepDataInSync(_filteredData.*, chartId)',
       '_seriesKeysChanged(_seriesKeys.*)',
       '_langChanged(language)',
+      '_mutedChanged(mutedSeries.*, hardMute)',
 
       //renderer
       '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, mutedSeries.*, completeSeriesConfig.*, preventInitialDrawing, renderToCanvas)',
@@ -771,6 +772,12 @@ Custom property | Description
     _returnXDomain: function() {
       if(this.domainChanged !== null) {
         return this.x.domain();
+      }
+    },
+
+    _mutedChanged: function() {
+      if(this.hardMute) {
+        this._setDomainCaller();
       }
     },
 
