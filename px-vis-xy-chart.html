@@ -139,7 +139,8 @@ Custom property | Description
             mouse-position="[[mousePosition]]"
             hover-target="[[mouseRect]]"
             tooltip-style="light"
-            muted-series="[[mutedSeries]]">
+            muted-series="[[mutedSeries]]"
+            hard-mute="[[hardMute]]">
           </px-vis-tooltip>
           <px-vis-svg-canvas
             class="inline--flex"
@@ -256,7 +257,8 @@ Custom property | Description
           tooltip-data="[[tooltipData]]"
           complete-series-config="[[completeSeriesConfig]]"
           clip-path="[[seriesClipPath]]"
-          muted-series="[[mutedSeries]]">
+          muted-series="[[mutedSeries]]"
+          hard-mute="[[hardMute]]">
         </px-vis-cursor>
       </div>
 
@@ -353,7 +355,9 @@ Custom property | Description
         selection-type="[[selectionType]]"
         prevent-web-worker-synchronization="[[preventWebWorkerSynchronization]]"
         ww-data-sync-counter="[[wwDataSyncCounter]]"
-        extents-action="{{extentsAction}}">
+        extents-action="{{extentsAction}}"
+        hard-mute="[[hardMute]]"
+        muted-series="[[mutedSeries]]">
       </px-vis-interaction-space>
       <template is="dom-repeat" items="[[eventData]]">
         <px-vis-event
@@ -393,7 +397,9 @@ Custom property | Description
         generating-crosshair-data="[[generatingCrosshairData]]"
         default-empty-data="{{defaultEmptyData}}"
         crosshair-data="[[crosshairData]]"
-        tooltip-data="{{tooltipData}}">
+        tooltip-data="{{tooltipData}}"
+        hard-mute="[[hardMute]]"
+        muted-series="[[mutedSeries]]">
       </px-vis-highlight-point-canvas>
     </template>
     <template is="dom-if" if="[[!renderToCanvas]]" restamp>
@@ -411,7 +417,9 @@ Custom property | Description
         crosshair-data="[[crosshairData]]"
         default-empty-data="{{defaultEmptyData}}"
         tooltip-data="{{tooltipData}}"
-        clip-path="[[seriesClipPath]]">
+        clip-path="[[seriesClipPath]]"
+        hard-mute="[[hardMute]]"
+        muted-series="[[mutedSeries]]">
       </px-vis-highlight-point>
     </template>
 
@@ -590,11 +598,12 @@ Custom property | Description
       '_setXScale(width, _internalMargin)',
       '_setMultiYScale(height, _internalMargin, axes.*)',
       '_setDomainCaller(wwDataSyncCounter, x, y, dataExtents, seriesToAxes.*)',
-      '_setDomainCaller(x, y, chartExtents, dataExtents)',
+      '_setDomainCaller(x, y, chartExtents, dataExtents, )',
       '_updateDomain(selectedDomain)',
       '_keepDataInSync(_filteredData.*, chartId)',
       '_seriesKeysChanged(_seriesKeys.*)',
       '_langChanged(language)',
+      '_mutedChanged(mutedSeries.*, hardMute)',
 
       //renderer
       '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, mutedSeries.*, completeSeriesConfig.*, preventInitialDrawing, renderToCanvas)',
@@ -768,6 +777,12 @@ Custom property | Description
     _returnXDomain: function() {
       if(this.domainChanged !== null) {
         return this.x.domain();
+      }
+    },
+
+    _mutedChanged: function() {
+      if(this.hardMute === true) {
+        this._setDomainCaller();
       }
     },
 
