@@ -1,3 +1,7 @@
+v3.2.1
+==================
+* Ensure svg highlighter always gets its config
+
 v3.2.0
 ==================
 * Added hard-mute

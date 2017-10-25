@@ -627,7 +627,7 @@ Custom property | Description
     },
 
     detached: function() {
-      this.unlisten(this.$.highlighterDomIf, 'dom-change', '_highlighterConfigChanged');
+      this.unlisten(this.$.highlighterDomIf, 'dom-change', '_highlighterDomChanged');
     },
 
     created: function() {
@@ -641,7 +641,7 @@ Custom property | Description
       this.set('_verticalRegisterHeightDeductions', ['toolbar']);
 
       // only listen to one since it is a toggle
-      this.listen(this.$.highlighterDomIf, 'dom-change', '_highlighterConfigChanged');
+      this.listen(this.$.highlighterDomIf, 'dom-change', '_highlighterDomChanged');
     },
     attached: function() {
       this._isAttached = true;
@@ -663,7 +663,16 @@ Custom property | Description
     _interactionSpaceConfigChanged: function(interactionSpaceConfig) {
       this._applyConfigToElement(this.interactionSpaceConfig, this.$.interactionSpace)
     },
-    _highlighterConfigChanged: function(conf) {
+    _highlighterDomChanged: function() {
+      var elem = this.renderToCanvas ? this.$$('#highlighterCanvas') : this.$$('#highlighter');
+
+      if(!elem) {
+        //force render of the dom if so we can grab the highlighter and apply config
+        this.$.highlighterDomIf.render();
+      }
+      this._highlighterConfigChanged();
+    },
+    _highlighterConfigChanged: function() {
       var elem = this.renderToCanvas ? this.$$('#highlighterCanvas') : this.$$('#highlighter');
       if(elem && this._doesObjHaveValues(this.highlighterConfig)) {
         this._applyConfigToElement(this.highlighterConfig, elem);
