@@ -1,3 +1,7 @@
+v3.2.2
+==================
+* add device flags
+
 v3.2.1
 ==================
 * Ensure svg highlighter always gets its config
