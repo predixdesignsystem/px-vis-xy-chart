@@ -22,6 +22,7 @@
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html" />
 <link rel="import" href="../px-vis/px-vis-highlight-point.html"/>
 <link rel="import" href="../px-vis/px-vis-highlight-point-canvas.html"/>
+<link rel="import" href="../px-vis/px-vis-progress-bar.html"/>
 <link rel="import" href="css/px-vis-xy-chart-styles.html"/>
 
 
@@ -143,6 +144,13 @@ Custom property | Description
             hard-mute="[[hardMute]]"
             series-keys="[[_seriesKeys]]">
           </px-vis-tooltip>
+          <template is="dom-if" if="[[_showProgress(showProgressBar, _workerBuilding)]]">
+            <div>
+            <px-vis-progress-bar
+              style$="width:[[_returnPBWidth(width, _internalMargin.*)]]px;margin-left:[[_internalMargin.left]]px;">
+            </px-vis-progress-bar>
+          </div>
+          </template>
           <px-vis-svg-canvas
             class="inline--flex"
             id="svg"
@@ -481,7 +489,8 @@ Custom property | Description
       PxVisBehavior.crosshairData,
       PxVisBehaviorChart.webWorkerSynchronization,
       Polymer.AppLocalizeBehavior,
-      PxVisBehaviorRenderer.base
+      PxVisBehaviorRenderer.base,
+      PxVisBehaviorChart.workerProgress
     ],
     properties: {
       /**
@@ -831,6 +840,10 @@ Custom property | Description
 
       //recreate X and Y in case d3 locale changed
       this._recreateScales(this.width, this.height, this._internalMargin);
+    },
+
+    _returnPBWidth(width, _internalMargin) {
+      return this.width - this._internalMargin.left - this._internalMargin.right;
     }
   });
 </script>
