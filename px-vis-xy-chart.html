@@ -621,7 +621,8 @@ Custom property | Description
       '_mutedChanged(mutedSeries.*, hardMute)',
 
       //renderer
-      '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, mutedSeries.*, completeSeriesConfig.*, preventInitialDrawing, renderToCanvas)',
+      '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, completeSeriesConfig.*, preventInitialDrawing, renderToCanvas)',
+      '_renderOnMute(mutedSeries.*)',
       '_renderHighlight(domainChanged, canvasLayers.highlighter, completeSeriesConfig.*, preventInitialDrawing)',
       '_renderSeriesOnTop(serieToRedrawOnTop)'
     ],
@@ -877,6 +878,19 @@ Custom property | Description
       if(this.domainChanged !== null & this._axisDomainChanged !== null) {
         return !this.$.yAxes.domainChanged;
       }
+    },
+
+    _renderOnMute: function() {
+      if(this.domainChanged === null || !this.canvasContext) {
+        return;
+      }
+
+      if(this.hardMute) {
+        this.canvasContext.pxClearCanvas();
+        return;
+      }
+
+      this._renderFilteredChartData();
     },
 
     _computeAxisActionConfig: function() {
