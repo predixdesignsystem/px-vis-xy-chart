@@ -1,3 +1,6 @@
+==================
+* fixed prevent-web-worker-synchronization
+
 v3.2.4
 ==================
 * enable clipPath on canvas highlighter
