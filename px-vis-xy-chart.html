@@ -22,6 +22,7 @@
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html" />
 <link rel="import" href="../px-vis/px-vis-highlight-point.html"/>
 <link rel="import" href="../px-vis/px-vis-highlight-point-canvas.html"/>
+<link rel="import" href="../px-vis/px-vis-annotations.html"/>
 <link rel="import" href="css/px-vis-xy-chart-styles.html"/>
 
 
@@ -156,6 +157,17 @@ Custom property | Description
             px-svg-elem="{{pxSvgElem}}"
             svg-lower="{{svgLower}}"
             px-svg-elem-lower="{{pxSvgElemLower}}">
+              <px-vis-annotations
+                slot="4"
+                svg="[[svg]]"
+                x="[[x]]"
+                y="[[y]]"
+                margin="[[_internalMargin]]"
+                domain-changed="[[domainChanged]]"
+                complete-series-config="[[completeSeriesConfig]]"
+                annotation-data="[[annotationData]]"
+                show-strong-icon="[[showStrongIcon]]">
+              </px-vis-annotations>
           </px-vis-svg-canvas>
         </div>
         <px-vis-clip-path
@@ -481,7 +493,8 @@ Custom property | Description
       PxVisBehavior.crosshairData,
       PxVisBehaviorChart.webWorkerSynchronization,
       Polymer.AppLocalizeBehavior,
-      PxVisBehaviorRenderer.base
+      PxVisBehaviorRenderer.base,
+      PxVisBehavior.annotationData
     ],
     properties: {
       /**
