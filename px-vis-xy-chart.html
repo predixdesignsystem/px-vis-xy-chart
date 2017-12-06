@@ -140,7 +140,8 @@ Custom property | Description
             mouse-position="[[mousePosition]]"
             hover-target="[[mouseRect]]"
             tooltip-style="light"
-            hard-mute="[[hardMute]]">
+            hard-mute="[[hardMute]]"
+            series-keys="[[_seriesKeys]]">
           </px-vis-tooltip>
           <px-vis-svg-canvas
             class="inline--flex"
@@ -267,7 +268,8 @@ Custom property | Description
           complete-series-config="[[completeSeriesConfig]]"
           clip-path="[[seriesClipPath]]"
           muted-series="[[mutedSeries]]"
-          hard-mute="[[hardMute]]">
+          hard-mute="[[hardMute]]"
+          series-keys="[[_seriesKeys]]">
         </px-vis-cursor>
       </div>
 
@@ -395,6 +397,7 @@ Custom property | Description
         canvas-context="[[canvasLayers.highlighter]]"
         canvas-layers-config="{{canvasLayersConfig}}"
         layers-to-mask="[[canvasContext]]"
+        clip-path
         x="[[x]]"
         y="[[y]]"
         domain-changed="[[domainChanged]]"
@@ -419,6 +422,7 @@ Custom property | Description
         y="[[y]]"
         domain-changed="[[domainChanged]]"
         time-data="[[timeData]]"
+        series-keys="[[_seriesKeys]]"
         complete-series-config="[[completeSeriesConfig]]"
         chart-data="[[chartData]]"
         generating-crosshair-data="[[generatingCrosshairData]]"
