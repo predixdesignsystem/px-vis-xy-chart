@@ -35,16 +35,16 @@
     <!-- Interactive -->
     <px-demo-interactive>
       <!-- Configs -->
-      <px-demo-configs configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
+      <px-demo-configs slot="px-demo-configs" configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
 
       <!-- Props -->
-      <px-demo-props id="inputDemoProps" props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
+      <px-demo-props slot="px-demo-props" id="inputDemoProps" props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
 
       <!-- Code Editor -->
       <px-demo-code-editor props="{{props}}"></px-demo-code-editor>
 
       <!-- Component ---------------------------------------------------------->
-      <px-demo-component class="flex__item flex" style="width: 100%">
+      <px-demo-component slot="px-demo-component" class="flex__item flex" style="width: 100%">
         <!-- <iron-ajax
           url="../../px-demo-data/demo_data.json"
           handle-as="json"
@@ -114,6 +114,7 @@
       <!-- END Component ------------------------------------------------------>
 
       <px-demo-component-snippet
+        slot="px-demo-component-snippet"
         element-properties="{{props}}"
         element-name="px-vis-xy-chart"
         codepen-link="https://glitch.com/edit/#!/px-vis-xy-chart-demo"
