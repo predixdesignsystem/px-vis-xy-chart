@@ -1,4 +1,6 @@
+v3.3.0
 ==================
+* Polymer 1.x/2.x hybrid element support
 * fixed prevent-web-worker-synchronization
 
 v3.2.4
