@@ -1,3 +1,15 @@
+v3.2.4
+==================
+* enable clipPath on canvas highlighter
+
+v3.2.3
+==================
+* pass series keys to elements dealing with mutes series
+
+v3.2.2
+==================
+* add device flags
+
 v3.2.1
 ==================
 * Ensure svg highlighter always gets its config
