@@ -1,0 +1,810 @@
+<!doctype html>
+
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XY: Multiple Examples</title>
+
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../px-theme/px-theme-styles.html">
+
+    <link rel="import" href="../polymer/polymer.html" />
+    <link rel="import" href="../promise-polyfill/promise-polyfill-lite.html" />
+    <link rel="import" href="px-vis-xy-chart.html" />
+    <link rel="import" href="../iron-ajax/iron-ajax.html" />
+    <link rel="import" href="../px-vis/px-vis-data-converter.html" />
+    <link rel="import" href="../px-vis/px-vis-chart-navigator.html" />
+    <link rel="import" href="../polymer/lib/elements/dom-bind.html" />
+
+
+  </head>
+  <custom-style>
+    <style include="px-theme-styles" is="custom-style"></style>
+  </custom-style>
+
+  <body>
+    <p>TEST</p>
+    <dom-bind>
+    <template id="demo" is="dom-bind">
+      <p>in dom</p>
+      <iron-ajax
+             url="padi_data.json"
+             handle-as="json"
+             last-response="{{data}}" auto></iron-ajax>
+
+
+
+    <div style="height:450px;width:1100px;border:1px solid black">
+    <h3>Simplest xy</h3>
+        <px-vis-xy-chart
+          id="chart1"
+          width="800"
+          height="300"
+          prevent-resize
+          chart-horizontal-alignment="center"
+          chart-vertical-alignment="center"
+          margin='{"top":25,"bottom":70,"left":75,"right":20}'
+
+          selection-type="xy"
+
+          chart-data=
+            '[
+                {"T48A":1312,"T48B":1346},
+                {"T48A":1336,"T48B":1356},
+                {"T48A":1341,"T48B":1346},
+                {"T48A":1348,"T48B":1384},
+                {"T48A":1352,"T48B":1340},
+                {"T48A":1341,"T48B":1322},
+                {"T48A":1348,"T48B":1352},
+                {"T48A":1346,"T48B":1347}
+                ]'
+          series-config='{
+              "firstSeries": {
+                    "type":"line",
+                    "name":"Reference Line",
+                    "xAxisUnit":"Hz",
+                    "yAxisUnit":"Hz",
+                    "x":"T48A",
+                    "y":"T48A"
+              },
+              "secondSeries":{
+                  "type":"line",
+                  "name":"Series2",
+                  "x":"T48B",
+                  "y":"T48A"
+                }
+              }'
+          show-tooltip
+          event-data='[
+              {
+                "id":"123",
+                "label":"Start",
+                "x":"1334"
+              },
+              {
+                "id":"456",
+                "label":"Steady",
+                "x":"1342"
+                },
+              {
+                "id":"789",
+                "label":"Decline",
+                "x":"1370"
+              }
+            ]'
+          event-config='{
+            "Start":{
+              "color":"blue",
+              "icon":"px-obj:airplane",
+              "offset":[0,0]
+            },
+            "Steady":{
+              "color":"green",
+              "icon":"px-fea:deployments",
+              "offset":[1,0]
+            },
+            "Decline":{
+              "icon":"px-fea:bug",
+              "color":"purple",
+              "type":"unicode",
+              "offset":[1,0]}
+            }'
+          x-axis-config='{
+              "title":"Spin",
+              "labelPosition":"center",
+              "orientation":"bottom"
+            }'
+
+          y-axis-config='{
+              "title":"Revolution",
+              "labelPosition":"center",
+              "orientation":"left"
+          }'
+
+          register-config='{
+            "type":"vertical",
+            "width":220
+          }'
+
+          chart-extents='{
+            "x":["dynamic","dynamic"],
+            "y":["dynamic","dynamic"]
+          }'
+
+          time-data="Date"
+          dynamic-menu-config='[
+              {
+                "name":"Delete",
+                "eventName":"delete",
+                "icon":"px-utl:delete"
+              },
+              {
+                "name":"Bring To Front",
+                "eventName":"bring-to-front",
+                "icon":"px-utl:zoom"
+              }
+          ]'>
+      </px-vis-xy-chart>
+  </div >
+</br>
+  <div style="height:450px;width:1100px;border:1px solid black">
+  <h3>APM XY</h3>
+    <px-vis-xy-chart
+          id="chart2"
+          width="800"
+          height="300"
+          prevent-resize
+
+          time-data="Date"
+          chart-data='[[data]]'
+          margin='{"top":5,"bottom":50,"left":75,"right":75}'
+          x-axis-config='{
+              "title":"DATE",
+              "labelPosition":"center",
+              "orientation":"bottom"
+          }'
+          y-axis-config='{
+              "title":"Y",
+              "labelPosition":"center",
+              "orientation":"left"
+          }'
+          register-config='{
+              "width":300,
+              "type":"vertical",
+              "forceDateTimeDisplay": true
+          }'
+          series-config='{
+              "first": {
+                "type": "line",
+                "name": "Reference Curve",
+                "x":"T48A",
+                "y":"T48A",
+                "mutedOpacity":0
+              },
+              "second": {
+                "type": "scatter",
+                "name": "Neutralpoints_1",
+                "x": "T48A",
+                "y":"T48D",
+                "mutedOpacity":0
+              },
+              "third": {
+                "type": "scatter",
+                "name": "Neutralpoints_2",
+                "x": "T48B",
+                "y":"T48C",
+                "mutedOpacity":0
+              }
+          }'
+          chart-extents='{
+              "x": ["dynamic","dynamic"],
+              "y": ["dynamic","dynamic"]
+          }'
+
+          show-tooltip
+          tooltip-config='{
+                "forceDateTimeDisplay": true
+          }'
+          show-gaps
+          render-to-canvas
+          progressive-rendering-points-per-frame="16000"
+          progressive-rendering-min-frames="1"
+          >
+    </px-vis-xy-chart>
+  </div >
+
+  </br>
+  <div style="height:450px;width:1100px;border:1px solid black">
+  <h3>Multi Y</h3>
+   <px-vis-xy-chart
+        id="chart3"
+        width="800"
+        height="300"
+        prevent-resize
+        chart-horizontal-alignment="center"
+        chart-vertical-alignment="center"
+        margin='{"top":30,"bottom":75,"left":75,"right":20}'
+        show-tooltip
+        tooltip-config='{"forceDateTimeDisplay":true}'
+        register-config='{"type":"vertical","width":220,"forceDateTimeDisplay":true}'
+        selection-type="xy"
+        chart-data='[[data]]'
+
+        series-config='{
+            "firstSerie":{
+              "type":"line",
+              "name":"Spin",
+              "xAxisUnit":"Hz",
+              "yAxisUnit":"Hz",
+              "x":"T48A",
+              "y":"T48B",
+              "axis":{
+                "id":"axis1",
+                "number":1,
+                "side":"left"}
+                },
+            "secondSerie":{
+              "type":"line",
+              "name":"Revolution",
+              "x":"T48A",
+              "y":"Line",
+              "axis":{
+                "id":"axis2",
+                "number":2,
+                "side":"left"}
+              },
+            "thirdSerie":{
+              "type":"scatter",
+              "name":"Alignment",
+              "xAxisUnit":"Hz",
+              "yAxisUnit":"Hz",
+              "x":"T48A",
+              "y":"T48B",
+              "axis":{
+                "id":"axis1",
+                "number":1,
+                "side":"left"}
+              }
+            }'
+        chart-extents='{"x":["dynamic","dynamic"],"y":["dynamic","dynamic"]}'
+        event-data='[
+            {"id":"123","label":"Start","x":"1334"},
+            {"id":"456","label":"Engine Running","x":"1342"},
+            {"id":"789","label":"End","x":"1346"}
+        ]'
+        event-config='{
+            "Start":{"color":"blue","icon":"px-utl:zoom","type":"px","offset":[0,0]},
+            "Engine Running":{"color":"green","icon":"px-obj:airplane","type":"px","offset":[1,0]},
+            "End":{"color":"purple","icon":"px-fea:home","type":"px","offset":[1,0]}}'
+          x-axis-config='{
+            "title":"X","labelPosition":"center","orientation":"bottom"
+          }'
+          y-axis-config='{
+            "title":"Y","labelPosition":"center","orientation":"left"
+          }'
+          time-data="Date"
+          >
+      </px-vis-xy-chart>
+  </div >
+  </br>
+    <div style="height:100px;width:1100px">
+      <px-vis-chart-navigator
+          id="navigator1"
+          x-axis-type="time"
+          y-axis-type="linear"
+          chart-extents='{
+            "x":["dynamic","dynamic"],
+            "y":["dynamic","dynamic"]
+          }'
+          margin='{
+                "top": 5,
+                "right": 10,
+                "bottom": 20,
+                "left": 10
+          }'
+          chart-data="[[data]]"
+          default-series-config='{
+                    "x": "T48A",
+                    "xMin": "dynamic",
+                    "xMax": "dynamic",
+                    "yMin": "dynamic",
+                    "yMax": "dynamic"
+          }'
+          series-config='{
+            "T48A": {
+                "type": "line",
+                "name": "Serie2",
+                "x": "Date",
+                "y":"T48A"
+            }}'
+          selected-domain="{{selectedDomain}}">
+      </px-vis-chart-navigator>
+    </div>
+
+    <div style="height:600px;width:1100px;border:1px solid black">
+    <h3>40 Series on XY with Dynamic menu/Delete Enabled</h3>
+      <px-vis-xy-chart
+        id="chart4"
+        chart-data="{{data}}"
+        width="850"
+        height="400"
+        prevent-resize
+        margin='{ "top": "30", "bottom": "50", "left": "70", "right": "10" }'
+
+        x-axis-config='{
+            "title": "SPIN",
+            "labelPosition": "center",
+            "orientation": "bottom"
+        }'
+        y-axis-config='{
+            "title": "ROTATION",
+            "labelPosition": "center",
+            "orientation": "left"
+        }'
+        register-config='{
+            "type": "vertical",
+            "width" : "250",
+            "forceDateTimeDisplay": true
+        }'
+        show-tooltip
+        tooltip-config='{
+          "forceDateTimeDisplay": true
+        }'
+        series-config='{
+          "first": {
+                      "type": "scatter",
+                      "name": "Turbine 1",
+                      "xAxisUnit": "Hz",
+                      "yAxisUnit": "Hz",
+                      "mutedOpacity":0,
+                      "x": "T48A",
+                      "y":"T48B"
+                },
+                "second": {
+                      "type": "line",
+                      "name": "Turbine 2",
+                      "mutedOpacity":0,
+                      "x": "T48A",
+                      "y":"T48B"
+                },
+                "third": {
+                      "type": "scatter",
+                      "name": "Turbine 3",
+                      "mutedOpacity":0,
+                      "x": "T48A",
+                      "y":"T48C"
+                },
+                "fourth": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 4",
+                        "mutedOpacity":0,
+                      "x": "T48A",
+                      "y":"T48D"
+                },
+                "fifth": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 5",
+                      "mutedOpacity":0,
+                      "x": "T48B",
+                      "y":"T48D"
+                },
+                "sixth": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 6",
+                      "mutedOpacity":0,
+                      "x": "T48B",
+                      "y":"T48C"
+                },
+                "seventh": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 7",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48D"
+                },
+                "eigth": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 8",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48A"
+                },
+                "ninth": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 9",
+                      "mutedOpacity":0,
+                      "x": "T48D",
+                      "y":"T48A"
+                },
+                "tenth": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 10",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48B"
+                },
+                "11th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 11",
+                      "mutedOpacity":0,
+                      "x": "T48D",
+                      "y":"T48B"
+                },
+                "12th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 12",
+                      "mutedOpacity":0,
+                      "x": "T48A",
+                      "y":"T48A"
+                },
+                "13th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 13",
+                      "mutedOpacity":0,
+                      "x": "T48A",
+                      "y":"T48B"
+                },
+                "14th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 14",
+                      "mutedOpacity":0,
+                      "x": "T48B",
+                      "y":"T48B"
+                },
+                "15th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 15",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48C"
+                },
+               "16th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 16",
+                      "mutedOpacity":0,
+                      "x": "T48D",
+                      "y":"T48D"
+                },
+               "17th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 17",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48A"
+                },
+               "18th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 18",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48B"
+                },
+                "19th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 19",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48D"
+                },
+                "20th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "mutedOpacity":0,
+                      "name": "Turbine 20",
+                      "x": "T48D",
+                      "y":"T48C"
+                },
+                "21th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 21",
+                      "mutedOpacity":0,
+                      "x": "T48D",
+                      "y":"T48B"
+                },
+                "22th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 22",
+                      "mutedOpacity":0,
+                      "x": "T48A",
+                      "y":"T48A"
+                },
+                "23th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 23",
+                      "mutedOpacity":0,
+                      "x": "T48A",
+                      "y":"T48B"
+                },
+                "24th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 24",
+                      "mutedOpacity":0,
+                      "x": "T48B",
+                      "y":"T48B"
+                },
+                "25th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 25",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48C"
+                },
+                "26th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 26",
+                      "mutedOpacity":0,
+                      "x": "T48D",
+                      "y":"T48D"
+                },
+                "27th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 27",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48A"
+                },
+                "28th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1428",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48B"
+                },
+                "29th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1429",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48D"
+                },
+                "30th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1430",
+                      "mutedOpacity":0,
+                      "x": "T48D",
+                      "y":"T48C"
+                },
+                "31th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1431",
+                      "mutedOpacity":0,
+                      "x": "T48D",
+                      "y":"T48B"
+                },
+                "32th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1432",
+                      "mutedOpacity":0,
+                      "x": "T48A",
+                      "y":"T48A"
+                },
+                "33th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1433",
+                      "mutedOpacity":0,
+                      "x": "T48A",
+                      "y":"T48B"
+                },
+                "34th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1434",
+                      "mutedOpacity":0,
+                      "x": "T48B",
+                      "y":"T48B"
+                },
+                "35th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1435",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48C"
+                },
+                "36th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1436",
+                      "mutedOpacity":0,
+                      "x": "T48D",
+                      "y":"T48D"
+                },
+                "37th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1437",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48A"
+                },
+                "38th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1438",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48B"
+                },
+                "39th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1439",
+                      "mutedOpacity":0,
+                      "x": "T48C",
+                      "y":"T48D"
+                },
+                "40th": {
+                      "type": "scatter",
+                      "markerSymbol": "diamond",
+                      "name": "Turbine 1440",
+                      "mutedOpacity":0,
+                      "x": "T48D",
+                      "y":"T48C"
+                }
+            }'
+            threshold-data='[
+                { "for":"y0", "type":"max", "value":1357 },
+                { "for":"y0", "type":"min", "value":1337}
+            ]'
+            threshold-config='{
+                "max": {
+                  "color": "red",
+                  "dashPattern": "5,0",
+                  "title": "MAX"
+                }
+            }'
+            display-threshold-title
+
+            event-data='[
+              {
+                  "id":"123",
+                  "label":"Start",
+                  "x":"1334"
+              },
+              {
+                  "id":"456",
+                  "label":"Steady",
+                  "x":"1342"
+              },
+              {
+                  "id":"789",
+                  "label":"Decline",
+                  "x":"1357"
+              }
+            ]'
+            event-config='{
+              "Start":{
+                "color":"blue",
+                "icon":"px-obj:airplane",
+                "offset":[0,0]
+              },
+              "Steady":{
+                "color":"green",
+                "icon":"px-fea:deployments",
+                "offset":[1,0]
+              },
+              "Decline":{
+                "icon":"px-fea:bug",
+                "color":"purple",
+                "type":"unicode",
+                "offset":[1,0]}
+              }'
+          event-data="{{eventData}}"
+          chart-extents='{
+                    "x": ["dynamic","dynamic"],
+                    "y": ["dynamic","dynamic"]
+              }'
+
+
+          time-data="Date">
+
+        </px-vis-xy-chart>
+      </div>
+      <div style="height:100px;width:1100px">
+          <px-vis-chart-navigator
+              id="navigator2"
+              x-axis-type="time"
+              y-axis-type="linear"
+              chart-extents='{
+                    "x":["dynamic","dynamic"],
+                    "y":["dynamic","dynamic"]
+                }'
+              margin='{
+                  "top":50,
+                  "right": 10,
+                  "bottom": 20,
+                  "left": 10
+                }'
+              chart-data="[[data]]"
+              default-series-config='{
+                    "x": "T48A",
+                    "xMin": "dynamic",
+                    "xMax": "dynamic",
+                    "yMin": "dynamic",
+                    "yMax": "dynamic"
+                }'
+              series-config='{
+                    "T48A": {
+                      "type": "line",
+                      "name": "Serie2",
+                      "x": "Date",
+                      "y":"T48A"
+                    }}'>
+          </px-vis-chart-navigator>
+      </div>
+    </template>
+    </dom-bind>
+  </body>
+  <script>
+    document.addEventListener('WebComponentsReady', function() {
+      var
+          chart1 = document.getElementById('chart1'),
+          chart2 = document.getElementById('chart2'),
+          chart3 = document.getElementById('chart3'),
+          chart4 = document.getElementById('chart4'),
+          nav1 = document.getElementById('navigator1'),
+          nav2 = document.getElementById('navigator2'),
+
+          menuConfig = [
+              {
+                'name': 'Delete',
+                'action': function(data) {
+                  var conf = this.seriesConfig;
+                  delete conf[data.additionalDetail.name];
+                  this.set('seriesConfig', {});
+                  this.set('seriesConfig', conf);
+                },
+                'eventName': 'delete',
+                'icon': 'px-utl:delete',
+              },
+              {
+                'name': 'Bring To Front',
+                'action': function(data) {
+                  this.set('serieToRedrawOnTop', data.additionalDetail.name);
+                },
+                'eventName': 'bring-to-front',
+                'icon': 'px-utl:zoom'
+              }
+            ];
+
+          // chart1.set('dynamicMenuConfig', menuConfig);
+          // chart2.set('dynamicMenuConfig', menuConfig);
+          // chart3.set('dynamicMenuConfig', menuConfig);
+          // chart4.set('dynamicMenuConfig', menuConfig);
+
+    });
+  </script>
+
+</html>
