@@ -635,13 +635,14 @@ Custom property | Description
 
     created: function() {
       this._tooltipCalcHoverTargetId = 'wrapper';
+      this._wwSyncDataPropName = '_filteredData';
+      this.set('_verticalRegisterDrawingCanvasId', 'svg');
+      this.set('_verticalRegisterHeightDeductions', ['toolbar']);
     },
 
     ready: function() {
-      this._wwSyncDataPropName = '_filteredData';
+
       this.set('numberOfLayers',4);
-      this.set('_verticalRegisterDrawingCanvasId', 'svg');
-      this.set('_verticalRegisterHeightDeductions', ['toolbar']);
 
       // only listen to one since it is a toggle
       this.listen(this.$.highlighterDomIf, 'dom-change', '_highlighterDomChanged');
