@@ -157,14 +157,15 @@ Custom property | Description
             svg-lower="{{svgLower}}"
             px-svg-elem-lower="{{pxSvgElemLower}}">
               <px-vis-annotations
-                  slot="4"
-                  svg="[[svg]]"
-                  x="[[x]]"
-                  y="[[y]]"
-                  margin="[[_internalMargin]]"
-                  domain-changed="[[domainChanged]]"
-                  complete-series-config="[[completeSeriesConfig]]"
-                  annotation-data="[[annotationData]]">
+                slot="4"
+                svg="[[svg]]"
+                x="[[x]]"
+                y="[[y]]"
+                margin="[[_internalMargin]]"
+                domain-changed="[[domainChanged]]"
+                complete-series-config="[[completeSeriesConfig]]"
+                annotation-data="[[annotationData]]"
+                show-strong-icon="[[showStrongIcon]]">
               </px-vis-annotations>
           </px-vis-svg-canvas>
         </div>
@@ -621,7 +622,8 @@ Custom property | Description
       '_mutedChanged(mutedSeries.*, hardMute)',
 
       //renderer
-      '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, mutedSeries.*, completeSeriesConfig.*, preventInitialDrawing, renderToCanvas)',
+      '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, completeSeriesConfig.*, preventInitialDrawing, renderToCanvas)',
+      '_renderOnMute(mutedSeries.*)',
       '_renderHighlight(domainChanged, canvasLayers.highlighter, completeSeriesConfig.*, preventInitialDrawing)',
       '_renderSeriesOnTop(serieToRedrawOnTop)'
     ],
@@ -878,6 +880,19 @@ Custom property | Description
       if(this.domainChanged !== null & this._axisDomainChanged !== null) {
         return !this.$.yAxes.domainChanged;
       }
+    },
+
+    _renderOnMute: function() {
+      if(this.domainChanged === null || !this.canvasContext) {
+        return;
+      }
+
+      if(this.hardMute) {
+        this.canvasContext.pxClearCanvas();
+        return;
+      }
+
+      this._renderFilteredChartData();
     },
 
     _computeAxisActionConfig: function() {
