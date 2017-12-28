@@ -110,13 +110,16 @@ Custom property | Description
           class$="{{_getHideClass(hideRegister)}}"
           height="[[_verticalRegisterHeight]]"
           dynamic-menu-config="[[dynamicMenuConfig]]"
-          tooltip-data="[[tooltipData]]"
+          tooltip-data="[[_registerTooltipData]]"
           chart-data="[[_filteredData]]"
           complete-series-config="[[completeSeriesConfig]]"
           muted-series={{mutedSeries}}
           type="{{_registerType}}"
           x-axis-type="[[xAxisType]]"
-          y-axis-type="[[yAxisType]]">
+          y-axis-type="[[yAxisType]]"
+          current-page="[[_registerCurrentPage]]"
+          total-pages="[[_registerTotalPages]]"
+          display-page-arrows="[[_registerDisplayPageArrows]]">
         </px-vis-register>
         <div id="drawingWrapper" class="flex--col inline--flex">
           <px-vis-toolbar
@@ -493,7 +496,9 @@ Custom property | Description
       PxVisBehaviorChart.webWorkerSynchronization,
       Polymer.AppLocalizeBehavior,
       PxVisBehaviorRenderer.base,
-      PxVisBehavior.annotationData
+      PxVisBehavior.annotationData,
+      PxVisBehaviorChart.cursorConfig,
+      PxVisBehaviorChart.registerPagnation
     ],
     properties: {
       /**
@@ -620,6 +625,7 @@ Custom property | Description
       '_seriesKeysChanged(_seriesKeys.*)',
       '_langChanged(language)',
       '_mutedChanged(mutedSeries.*, hardMute)',
+      '_tooltipDataUpdated(tooltipData.*)',
 
       //renderer
       '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, completeSeriesConfig.*, preventInitialDrawing, renderToCanvas)',
