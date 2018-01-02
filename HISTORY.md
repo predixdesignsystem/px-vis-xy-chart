@@ -1,3 +1,7 @@
+v3.4.1
+==================
+* added missing slot for code editor
+
 v3.4.0
 ==================
 * Added annotations
