@@ -83,7 +83,7 @@
               "y":"T48B"
             },
             "secondSerie": {
-              "type": "line",
+              "type": "scatter",
               "name": "Serie2",
               "x": "T48A",
               "y":"T48B"
@@ -128,7 +128,28 @@
             "y": ["dynamic","dynamic"]
           }'
           time-domain="[[selectedDomain]]"
-          time-data="Date">
+          time-data="Date"
+          reference-config='{
+            "myCurve": {
+              "color":"rgb(224, 84, 85)"
+            }
+          }'
+          reference-data='[{
+            "x": 1332,
+            "y": 1335
+          },{
+            "x": 1340,
+            "y": 1345
+          },{
+            "x": 1350,
+            "y": 1350
+          },{
+            "x": 1360,
+            "y": 1360
+          },{
+            "x": 1370,
+            "y": 1380
+          }]'>
         </px-vis-xy-chart>
         <!--<div style="height:100px">
             <px-vis-chart-navigator

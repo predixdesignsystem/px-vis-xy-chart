@@ -23,6 +23,7 @@
 <link rel="import" href="../px-vis/px-vis-highlight-point.html"/>
 <link rel="import" href="../px-vis/px-vis-highlight-point-canvas.html"/>
 <link rel="import" href="../px-vis/px-vis-annotations.html"/>
+<link rel="import" href="../px-vis/px-vis-reference-curve.html"/>
 <link rel="import" href="css/px-vis-xy-chart-styles.html"/>
 
 
@@ -439,6 +440,17 @@ Custom property | Description
       </px-vis-highlight-point>
     </template>
 
+    <px-vis-reference-curve
+      id="referenceCurve"
+      svg="[[layer.2]]"
+      x="[[x]]"
+      y="[[y]]"
+      domain-changed="[[domainChanged]]"
+      reference-config="[[referenceConfig]]"
+      reference-data="[[referenceData]]"
+      clip-path="[[seriesClipPath]]">
+    </px-vis-reference-curve>
+
   </template>
 </dom-module>
 
@@ -498,7 +510,8 @@ Custom property | Description
       PxVisBehaviorRenderer.base,
       PxVisBehavior.annotationData,
       PxVisBehaviorChart.cursorConfig,
-      PxVisBehaviorChart.registerPagnation
+      PxVisBehaviorChart.registerPagnation,
+      PxVisBehavior.referenceCurveProps
     ],
     properties: {
       /**
