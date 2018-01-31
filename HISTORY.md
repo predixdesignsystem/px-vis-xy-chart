@@ -1,3 +1,7 @@
+v3.4.2
+==================
+* added logScale prop to interaction space
+
 v3.4.1
 ==================
 * added missing slot for code editor
