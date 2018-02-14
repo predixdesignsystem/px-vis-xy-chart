@@ -1,3 +1,7 @@
+v3.4.3
+==================
+* Fix demo for IE
+
 v3.4.2
 ==================
 * added logScale prop to interaction space
