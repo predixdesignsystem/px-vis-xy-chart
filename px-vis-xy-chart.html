@@ -109,7 +109,6 @@ Custom property | Description
         <px-vis-register
           id="register"
           class$="{{_getHideClass(hideRegister)}}"
-          height="[[_registerHeight]]"
           dynamic-menu-config="[[dynamicMenuConfig]]"
           tooltip-data="[[_registerTooltipData]]"
           chart-data="[[_filteredData]]"
@@ -494,7 +493,6 @@ Custom property | Description
       PxVisBehaviorD3.lineGaps,
       PxVisBehaviorChart.showTooltip,
       PxVisBehavior.muteUnmuteSeries,
-      PxVisBehaviorChart.sizeVerticalRegister,
       PxVisBehavior.zoomSelection,
       PxVisBehaviorChart.tooltipFollowMouseCalculation,
       PxVisBehavior.selectionType,
@@ -651,8 +649,6 @@ Custom property | Description
     created: function() {
       this._tooltipCalcHoverTargetId = 'wrapper';
       this._wwSyncDataPropName = '_filteredData';
-      this.set('_verticalRegisterDrawingCanvasId', 'svg');
-      this.set('_verticalRegisterHeightDeductions', ['toolbar']);
     },
 
     ready: function() {
@@ -762,7 +758,6 @@ Custom property | Description
 
         this.set('width', Math.max(wrapperRect.width - widthDeduct, 0));
         this.set('height', Math.max(wrapperRect.height - heightDeduct, 0));
-        this._computeVerticalRegisterHeight([toolbarRect.height]);
       }, this.debounceResizeTiming);
     },
 
