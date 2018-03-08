@@ -1,3 +1,7 @@
+v4.0.0
+==================
+* Added reference curve component
+
 v3.4.0
 ==================
 * Added annotations
