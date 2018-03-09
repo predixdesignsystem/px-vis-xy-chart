@@ -24,6 +24,7 @@
 <link rel="import" href="../px-vis/px-vis-highlight-point-canvas.html"/>
 <link rel="import" href="../px-vis/px-vis-annotations.html"/>
 <link rel="import" href="../px-vis/px-vis-reference-curve.html"/>
+
 <link rel="import" href="css/px-vis-xy-chart-styles.html"/>
 
 
@@ -438,16 +439,19 @@ Custom property | Description
       </px-vis-highlight-point>
     </template>
 
-    <px-vis-reference-curve
-      id="referenceCurve"
-      svg="[[layer.2]]"
-      x="[[x]]"
-      y="[[y]]"
-      domain-changed="[[domainChanged]]"
-      reference-config="[[referenceConfig]]"
-      reference-data="[[referenceData]]"
-      clip-path="[[seriesClipPath]]">
-    </px-vis-reference-curve>
+    <template id="ref" is="dom-if" if="[[_showRef(referenceData.*)]]" restamp>
+      <px-vis-reference-curve
+        id="referenceCurve"
+        chart-id="[[chartId]]"
+        svg="[[layer.2]]"
+        x="[[x]]"
+        y="[[y]]"
+        domain-changed="[[domainChanged]]"
+        reference-config="[[referenceConfig]]"
+        reference-data="[[referenceData]]"
+        clip-path="[[seriesClipPath]]">
+      </px-vis-reference-curve>
+    </template>
 
   </template>
 </dom-module>
@@ -848,7 +852,7 @@ Custom property | Description
     },
 
     _returnXDomain: function() {
-      if(this.domainChanged !== null) {
+      if(this.domainChanged) {
         return this.x.domain();
       }
     },
@@ -878,13 +882,13 @@ Custom property | Description
         return;
       }
 
-      if(this.domainChanged !== null & this._axisDomainChanged !== null) {
-        return !this.$.yAxes.domainChanged;
+      if(this.domainChanged & this._axisDomainChanged) {
+        return this.$.yAxes.domainChanged + 1;
       }
     },
 
     _renderOnMute: function() {
-      if(this.domainChanged === null || !this.canvasContext) {
+      if(!this.domainChanged || !this.canvasContext) {
         return;
       }
 
@@ -922,9 +926,12 @@ Custom property | Description
        return;
      }
 
-
       //recreate X and Y in case d3 locale changed
       this._recreateScales(this.width, this.height, this._internalMargin);
+    },
+
+    _showRef() {
+      return this.referenceData && this.referenceData.length ? true : false;
     }
   });
 </script>
