@@ -648,9 +648,6 @@ Custom property | Description
       '_renderHighlight(domainChanged, canvasLayers.highlighter, completeSeriesConfig.*, preventInitialDrawing)',
       '_renderSeriesOnTop(serieToRedrawOnTop)'
     ],
-    listeners: {
-     'iron-resize': '_onIronResize'
-    },
 
     created: function() {
       this._tooltipCalcHoverTargetId = 'wrapper';
@@ -737,36 +734,30 @@ Custom property | Description
       }
     },
 
-    _onIronResize: function() {
+    _resizeCalculations: function() {
 
+      //make sure we are not preventing resize in case it changed while debouncing
       if(this.preventResize) {
-          return;
-        }
-
-      this.debounce('ironresize', function() {
-
-        //make sure we are not preventing resize in case it changed while debouncing
-        if(this.preventResize) {
-          return;
-        }
-        var wrapperRect = this.$.wrapper.getBoundingClientRect(),
-            registerRect = this.$.register.getBoundingClientRect(),
-            toolbarRect = this.$.toolbar.getBoundingClientRect(),
-            heightDeduct = 0,
-            widthDeduct = 0;
+        return;
+      }
+      var wrapperRect = this.$.wrapper.getBoundingClientRect(),
+          registerRect = this.$.register.getBoundingClientRect(),
+          toolbarRect = this.$.toolbar.getBoundingClientRect(),
+          heightDeduct = 0,
+          widthDeduct = 0;
 
 
-        if(this.$.register.type === 'horizontal') {
-          heightDeduct += registerRect.height;
-        } else {
-          widthDeduct += registerRect.width;
-        }
+      if(this.$.register.type === 'horizontal') {
+        heightDeduct += registerRect.height;
+      } else {
+        widthDeduct += registerRect.width;
+      }
 
-        heightDeduct += toolbarRect.height;
+      heightDeduct += toolbarRect.height;
 
-        this.set('width', Math.max(wrapperRect.width - widthDeduct, 0));
-        this.set('height', Math.max(wrapperRect.height - heightDeduct, 0));
-      }, this.debounceResizeTiming);
+      this.set('width', Math.max(wrapperRect.width - widthDeduct, 0));
+      this.set('height', Math.max(wrapperRect.height - heightDeduct, 0));
+      this._computeVerticalRegisterHeight([toolbarRect.height]);
     },
 
     /**
