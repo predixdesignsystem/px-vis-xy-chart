@@ -24,6 +24,8 @@
 <link rel="import" href="../px-vis/px-vis-highlight-point-canvas.html"/>
 <link rel="import" href="../px-vis/px-vis-annotations.html"/>
 <link rel="import" href="../px-vis/px-vis-reference-curve.html"/>
+<link rel="import" href="../px-vis/px-vis-central-tooltip-content.html"/>
+<link rel="import" href="../px-tooltip/px-tooltip.html"/>
 
 <link rel="import" href="css/px-vis-xy-chart-styles.html"/>
 
@@ -373,23 +375,21 @@ Custom property | Description
         hard-mute="[[hardMute]]"
         muted-series="[[mutedSeries]]">
       </px-vis-interaction-space>
-      <template is="dom-repeat" items="[[eventData]]">
-        <px-vis-event
-          svg="[[layer.0]]"
-          event-id="[[item.id]]"
-          event-data="[[item]]"
-          height="[[height]]"
-          margin="[[_internalMargin]]"
-          x="[[x]]"
-          y="[[y]]"
-          domain-changed="[[domainChanged]]"
-          event-config="[[eventConfig]]"
-          clip-path="[[clipPath]]"
-          resources="[[resources]]"
-          language="[[language]]"
-          formats="[[formats]]">
-        </px-vis-event>
-      </template>
+
+      <px-vis-event
+        svg="[[layer.0]]"
+        event-data="[[eventData]]"
+        x-axis-type="[[xAxisType]]"
+        height="[[height]]"
+        margin="[[_internalMargin]]"
+        x="[[x]]"
+        domain-changed="[[domainChanged]]"
+        event-config="[[eventConfig]]"
+        clip-path="[[clipPath]]"
+        resources="[[resources]]"
+        language="[[language]]"
+        formats="[[formats]]">
+      </px-vis-event>
     </div>
 
     <template id="highlighterDomIf" is="dom-if" if="[[renderToCanvas]]" restamp on-dom-change="_highlighterConfigChanged">
@@ -453,6 +453,22 @@ Custom property | Description
       </px-vis-reference-curve>
     </template>
 
+    <px-tooltip
+      id="centralTooltip"
+      smart-orientation
+      ignore-target-events
+      orientation="[[tooltipOrientation]]">
+      <px-vis-central-tooltip-content
+        resources="[[resources]]"
+        use-key-if-missing="[[useKeyIfMissing]]"
+        language="[[language]]"
+        first-date-time-format="[[firstDateTimeFormat]]"
+        second-date-time-format="[[secondDateTimeFormat]]"
+        separator="[[separator]]"
+        timezone="[[timezone]]">
+      </px-vis-central-tooltip-content>
+    </px-tooltip>
+
   </template>
 </dom-module>
 
@@ -513,7 +529,9 @@ Custom property | Description
       PxVisBehaviorChart.cursorConfig,
       PxVisBehaviorChart.registerPagnation,
       PxVisBehaviorChart.sizeVerticalRegister,
-      PxVisBehavior.referenceCurveProps
+      PxVisBehavior.referenceCurveProps,
+      PxVisBehaviorChart.centralTooltip
+
     ],
     properties: {
       /**
