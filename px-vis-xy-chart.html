@@ -891,7 +891,7 @@ Custom property | Description
         return;
       }
 
-      if(this.domainChanged & this._axisDomainChanged) {
+      if(this.domainChanged && this._axisDomainChanged) {
         return this.$.yAxes.domainChanged + 1;
       }
     },
