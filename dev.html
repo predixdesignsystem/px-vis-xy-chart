@@ -38,11 +38,7 @@
             url="demo_data_ordinal.json"
             handle-as="json"
             last-response="{{dataOrdinal}}" auto></iron-ajax>
-      <iron-ajax
-        url="events.json"
-        handle-as="json"
-        last-response="{{eventData}}" auto>
-      </iron-ajax>
+
       <button id="btnInc">Increase wrapper width</button>
       <button id="btnDec">Decrease wrapper width</button>
       <button id="btnIH">Increase wrapper height</button>
@@ -62,9 +58,11 @@
           hard-mute
           render-to-canvas
           margin='{ "top": "30", "bottom": "20", "left": "80", "right": "20" }'
-          x-axis-config='{"title": "X",
+          x-axis-config='{
             "labelPosition": "center",
-            "orientation": "bottom"}'
+            "orientation": "bottom",
+            "title": "very very long name"
+          }'
           tooltip-config='{
             "forceDateTimeDisplay": true
           }'
@@ -72,7 +70,7 @@
             "firstSerie": {
               "type": "scatter",
               "markerScale": 0.2,
-              "name": "Serie1",
+              "name": "Serie1 blahblahblah",
               "xAxisUnit": "Hz",
               "yAxisUnit": "Hz",
               "x": "T48A",
@@ -99,26 +97,19 @@
             }
           }'
           event-config='{
-            "Fa Icon": {
+            "example": {
               "color": "blue",
+              "dataKey": "x",
               "icon": "px-fea:deployments",
               "type": "px",
               "offset": [0, 0]
-            },
-            "Unicode": {
-              "color": "green",
-              "icon": "px-fea:bug",
-              "type": "px",
-              "offset": [1, 0]
-            },
-            "Event Png": {
-              "icon": "ge_logo.png",
-              "type": "image",
-              "offset": [0, -20],
-              "size": "20"
             }
           }'
-          event-data="{{eventData}}"
+          event-data='[{
+            "id": 1,
+            "x": 1337,
+            "label": "example"
+          }]'
           chart-extents='{
             "x": ["dynamic","dynamic"],
             "y": ["dynamic","dynamic"]
@@ -147,7 +138,7 @@
             "y": 1380
           }]'>
         </px-vis-xy-chart>
-        <br>
+        <!-- <br>
         <br>
         <br>
         <px-vis-xy-chart
@@ -247,7 +238,7 @@
             "x": 1370,
             "y": 1380
           }]'>
-        </px-vis-xy-chart>
+        </px-vis-xy-chart> -->
         <!--<div style="height:100px">
             <px-vis-chart-navigator
                 id="navigator"
@@ -275,7 +266,7 @@
             </px-vis-chart-navigator>
           </div>
         -->
-        <div id="wrap" style="height:300px">
+        <!-- <div id="wrap" style="height:300px">
 
           <px-vis-xy-chart
             id="chart"
@@ -317,7 +308,7 @@
             "tooltip": true}}'>
           </px-vis-xy-chart>
 
-        </div>
+        </div> -->
     </template>
   </dom-bind>
 
