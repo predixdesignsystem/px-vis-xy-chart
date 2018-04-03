@@ -1,3 +1,11 @@
+v4.0.0
+==================
+* Upgraded to px-vis v5
+* Added reference curve component
+* Added central tooltip
+* Breaking changes:
+  * See px-vis v5 for potential breaking changes
+
 v3.4.3
 ==================
 * Fix demo for IE

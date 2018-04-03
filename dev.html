@@ -38,11 +38,7 @@
             url="demo_data_ordinal.json"
             handle-as="json"
             last-response="{{dataOrdinal}}" auto></iron-ajax>
-      <iron-ajax
-        url="events.json"
-        handle-as="json"
-        last-response="{{eventData}}" auto>
-      </iron-ajax>
+
       <button id="btnInc">Increase wrapper width</button>
       <button id="btnDec">Decrease wrapper width</button>
       <button id="btnIH">Increase wrapper height</button>
@@ -56,19 +52,111 @@
             "crosshairWithOptions": true,
             "advancedZoom": true,
             "pan": true,
+            "tooltipWithFullOptions": true}
+          }'
+          height="400"
+          hard-mute
+          render-to-canvas
+          margin='{ "top": "30", "bottom": "20", "left": "80", "right": "20" }'
+          x-axis-config='{
+            "labelPosition": "center",
+            "orientation": "bottom",
+            "title": "very very long name"
+          }'
+          tooltip-config='{
+            "forceDateTimeDisplay": true
+          }'
+          series-config='{
+            "firstSerie": {
+              "type": "scatter",
+              "markerScale": 0.2,
+              "name": "Serie1 blahblahblah",
+              "xAxisUnit": "Hz",
+              "yAxisUnit": "Hz",
+              "x": "T48A",
+              "y":"T48B"
+            },
+            "secondSerie": {
+              "type": "scatter",
+              "name": "Serie2",
+              "x": "T48A",
+              "y":"T48B"
+            },
+            "third": {
+              "type": "scatter",
+              "name": "Serie3",
+              "x": "T48A",
+              "y":"T48C"
+            },
+            "fourth": {
+              "type": "scatter",
+              "markerSymbol": "diamond",
+              "name": "Serie4",
+              "x": "T48A",
+              "y":"T48D"
+            }
+          }'
+          event-config='{
+            "example": {
+              "color": "blue",
+              "dataKey": "x",
+              "icon": "px-fea:deployments",
+              "type": "px",
+              "offset": [0, 0]
+            }
+          }'
+          event-data='[{
+            "id": 1,
+            "x": 1337,
+            "label": "example"
+          }]'
+          chart-extents='{
+            "x": ["dynamic","dynamic"],
+            "y": ["dynamic","dynamic"]
+          }'
+          time-domain="[[selectedDomain]]"
+          time-data="Date"
+          reference-config='{
+            "myCurve": {
+              "color":"rgb(224, 84, 85)"
+            }
+          }'
+          reference-data='[{
+            "x": 1332,
+            "y": 1335
+          },{
+            "x": 1340,
+            "y": 1345
+          },{
+            "x": 1350,
+            "y": 1350
+          },{
+            "x": 1360,
+            "y": 1360
+          },{
+            "x": 1370,
+            "y": 1380
+          }]'>
+        </px-vis-xy-chart>
+        <!-- <br>
+        <br>
+        <br>
+        <px-vis-xy-chart
+          id="chart3"
+          chart-data="{{data}}"
+          toolbar-config='{"config": {
+            "crosshairWithOptions": true,
+            "advancedZoom": true,
+            "pan": true,
             "tooltipWithSearchTypesAndRadius": true}
           }'
           height="400"
           hard-mute
           render-to-canvas
-          margin='{ "top": "30", "bottom": "60", "left": "80", "right": "100" }'
+          margin='{ "top": "30", "bottom": "20", "left": "80", "right": "0" }'
           x-axis-config='{"title": "X",
             "labelPosition": "center",
             "orientation": "bottom"}'
-          register-config='{
-            "width": 250,
-            "type": "horizontal",
-            "forceDateTimeDisplay": true}'
           tooltip-config='{
             "forceDateTimeDisplay": true
           }'
@@ -83,7 +171,7 @@
               "y":"T48B"
             },
             "secondSerie": {
-              "type": "line",
+              "type": "scatter",
               "name": "Serie2",
               "x": "T48A",
               "y":"T48B"
@@ -128,8 +216,29 @@
             "y": ["dynamic","dynamic"]
           }'
           time-domain="[[selectedDomain]]"
-          time-data="Date">
-        </px-vis-xy-chart>
+          time-data="Date"
+          reference-config='{
+            "myCurve": {
+              "color":"rgb(224, 84, 85)"
+            }
+          }'
+          reference-data='[{
+            "x": 1332,
+            "y": 1335
+          },{
+            "x": 1340,
+            "y": 1345
+          },{
+            "x": 1350,
+            "y": 1350
+          },{
+            "x": 1360,
+            "y": 1360
+          },{
+            "x": 1370,
+            "y": 1380
+          }]'>
+        </px-vis-xy-chart> -->
         <!--<div style="height:100px">
             <px-vis-chart-navigator
                 id="navigator"
@@ -156,13 +265,14 @@
                 selected-domain="{{selectedDomain}}">
             </px-vis-chart-navigator>
           </div>
-
-        <div id="wrap" style="height:300px">
+        -->
+        <!-- <div id="wrap" style="height:300px">
 
           <px-vis-xy-chart
             id="chart"
             height="250"
             render-to-canvas
+            prevent-web-worker-synchronization
             chart-data="{{dataOrdinal}}"
             margin='{ "top": "20", "bottom": "50", "left": "50", "right": "10" }'
             x-axis-type="ordinal"
@@ -171,11 +281,10 @@
                             "orientation": "left"}'
             show-tooltip
             register-config='{
-              "height": 50,
-              "width":205,
+              "height": 150,
+              "displayOrdinalValue": true,
               "type": "vertical"}'
             time-data='date'
-            chart-extents='{"x": ["low", "medium", "high"], "y": [-5,10]}'
             series-config='{
               "y": {
                 "type": "scatter",
@@ -199,7 +308,7 @@
             "tooltip": true}}'>
           </px-vis-xy-chart>
 
-        </div>-->
+        </div> -->
     </template>
   </dom-bind>
 
@@ -247,7 +356,62 @@
           }
         ];
 
+      var registerConfig = {
+            "width": 300,
+            "type": "vertical",
+            "sortConfig": {
+              "custom": {
+                "name": "Custom",
+                "selected": true,
+                "sortOnDataChange": function(a,b) {
+                  var aVal = this.tooltipData.seriesObj[a] ? this.tooltipData.seriesObj[a].value[this.completeSeriesConfig[a].y] : Number.MIN_VALUE,
+                      bVal = this.tooltipData.seriesObj[b] ? this.tooltipData.seriesObj[b].value[this.completeSeriesConfig[b].y] : Number.MIN_VALUE;
+
+
+                  return bVal - aVal;
+                }
+              },
+              "combined": {
+                "name": "Combined",
+                "sortOnSeriesChange": ["nameIgnoreCase", "muted"]
+              },
+              "muted": {
+                "name": "Muted",
+                "sortOnSeriesChange": "muted"
+              },
+              "noValue": {
+                "name": "No Values",
+                "sortOnDataChange": "noValue"
+              }
+            },
+            "forceDateTimeDisplay": true},
+            registerConfig2 = {
+            "width": 300,
+            "type": "horizontal",
+            "sortConfig": {
+              "custom": {
+                "name": "Custom",
+                "sortFunction": function(a,b) {
+                  return -1;
+                }
+              },
+              "combined": {
+                "name": "Combined",
+                "selected": true,
+                "sortFunction": ["nameIgnoreCase", "muted"]
+              },
+              "muted": {
+                "name": "Muted",
+                "sortFunction": "muted"
+              }
+            },
+            "forceDateTimeDisplay": true};
+
+      chart2.set('registerConfig', registerConfig);
       chart2.set('dynamicMenuConfig', menuConfig);
+
+      chart3.set('registerConfig', registerConfig2);
+      chart3.set('dynamicMenuConfig', menuConfig);
 
       btnInc.addEventListener('click', function() {
         var width = window.getComputedStyle(wrap).getPropertyValue("width");
