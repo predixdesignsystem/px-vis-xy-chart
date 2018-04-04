@@ -671,12 +671,11 @@ Custom property | Description
     created: function() {
       this._tooltipCalcHoverTargetId = 'wrapper';
       this._wwSyncDataPropName = '_filteredData';
-      this.set('_verticalRegisterDrawingCanvasId', 'svg');
-      this.set('_verticalRegisterHeightDeductions', ['toolbar']);
     },
 
     ready: function() {
-
+      this.set('_verticalRegisterDrawingCanvasId', 'svg');
+      this.set('_verticalRegisterHeightDeductions', ['toolbar']);
       this.set('numberOfLayers',4);
     },
     attached: function() {
