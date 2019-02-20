@@ -638,7 +638,7 @@ Custom property | Description
        */
       marginMarkersAdjustment: {
         type: Object,
-        value: {},
+        value: function() { return {}; },
       },
       _internalMargin: {
         type: Object,
@@ -892,35 +892,29 @@ Custom property | Description
 
       }, 5);
     },
-    _calcMarkerMargins: function() {
-      if(this.hasUndefinedArguments(arguments)) {
+    _calcMarkerMargins: function () {
+      if (this.hasUndefinedArguments(arguments)) {
         return;
       }
-
-
-      var newMarg;
-
-
       //use our internal margins
-      newMarg = {
+      var newMarg = {
         'top': this._internalMargin.top,
         'left': this._internalMargin.left,
         'right': this._internalMargin.right,
         'bottom': this._internalMargin.bottom
       }
-
       //account for X axis
-      if(this.xAxisLocation === 'bottom') {
+      if (this.xAxisLocation === 'bottom') {
         newMarg.bottom -= 40;
-      } else if(this.xAxisLocation === 'top') {
+      } else if (this.xAxisLocation === 'top') {
         newMarg.top -= 40;
       }
 
       //adjust if something is dev set
-      newMarg.top += this.marginMarkersAdjustment.top  ? Number(this.marginMarkersAdjustment.top) : 0;
-      newMarg.bottom += this.marginMarkersAdjustment.bottom  ? Number(this.marginMarkersAdjustment.bottom) : 0;
-      newMarg.left += this.marginMarkersAdjustment.left  ? Number(this.marginMarkersAdjustment.left) : 0;
-      newMarg.right += this.marginMarkersAdjustment.right  ? Number(this.marginMarkersAdjustment.right) : 0;
+      newMarg.top += Number(this.marginMarkersAdjustment.top || 0);
+      newMarg.bottom += Number(this.marginMarkersAdjustment.bottom || 0);
+      newMarg.left += Number(this.marginMarkersAdjustment.left || 0);
+      newMarg.right += Number(this.marginMarkersAdjustment.right || 0);
 
 
       this.set('_internalMarginMarkers', newMarg);
