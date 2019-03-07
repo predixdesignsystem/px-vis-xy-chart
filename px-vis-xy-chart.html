@@ -305,7 +305,7 @@ Custom property | Description
         height="[[height]]"
         width="[[width]]"
         margin="[[_internalMargin]]"
-        orientation="bottom"
+        orientation="[[xAxisLocation]]"
         complete-series-config="[[completeSeriesConfig]]"
         prevent-series-bar
         domain-changed="[[domainChanged]]"
@@ -567,6 +567,18 @@ Custom property | Description
 
     ],
     properties: {
+      /** Defines where to locate the X-axis.
+       * - `bottom`
+       * - `top`
+       *
+       * @property xAxisLocation
+       * @type String
+       * @default bottom
+       */
+      xAxisLocation: {
+        type: String,
+        value: 'bottom'
+      },
       /**
        * Configuration object used to customize the X axis cosmetic properties.
        * Please refer to px-vis-axis (https://github.com/PredixDev/px-vis) for a list of supported proerties
