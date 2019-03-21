@@ -96,6 +96,8 @@ limitations under the License.
               show-tooltip="{{props.showTooltip.value}}"
               event-config='{{props.eventConfig.value}}'
               event-data="{{props.eventData.value}}"
+              marker-data="{{props.markerData.value}}"
+              marker-config='{{props.markerConfig.value}}'
               chart-extents='{{props.chartExtents.value}}'
               time-domain="[[selectedDomain]]"
               time-data="{{props.timeData.value}}"
@@ -424,7 +426,7 @@ limitations under the License.
 
       margin: {
         type: Object,
-        defaultValue: { "top": 30, "bottom": 60, "left": 75, "right": 20 },
+        defaultValue: { "top": 40, "bottom": 120, "left": 90, "right": 20 },
         inputType: 'code:JSON'
       },
 
@@ -572,6 +574,110 @@ limitations under the License.
             "offset": [0, -20],
             "size": "20"
           }
+        },
+        inputType: 'code:JSON'
+      },
+      markerData: {
+        type: Array,
+        defaultValue: [
+          {"id": "1", "label": "Advisory", "time":1505433900000, "datapoint": "1336"},
+          {"id": "2", "label": "Adaptation", "time":1508025900000, "datapoint": "1338"},
+          {"id": "3", "label": "smooth", "time":1510704300000, "datapoint": "1340"},
+          {"id": "4", "label": "Advisory2", "time":1505433900000, "datapoint": "1344"},
+          {"id": "5", "label": "Adaptation2", "time":1508025900000, "datapoint": "1348"},
+          {"id": "6", "label": "smooth2", "time":1510704300000, "datapoint": "1350"}
+        ],
+        inputType: 'code:JSON'
+      },
+
+      markerConfig: {
+        type: Object,
+        defaultValue: {
+          "Advisory": {
+            "location": "top",
+            "color": "rgb(180,140,242)",
+            "markerSymbol": "circle",
+            "priority": 4,
+            "markerSize": 25,
+            "markerScale": 1,
+            "markerFillOpacity": "1",
+            "markerStrokeOpacity": 1,
+            "row": 0,
+            "timezone": "UTC",
+            "firstDateTimeFormat": "hh:mm:ss A z"
+          },
+
+          "Adaptation": {
+            "location": "bottom",
+            "color": "rgb(222,82,136)",
+            "markerSymbol": "circle",
+            "priority": 5,
+            "markerSize": 34,
+            "markerScale": 1,
+            "markerFillOpacity": "1",
+            "markerStrokeOpacity": 1,
+            "row": 1,
+            "timezone": "UTC",
+            "firstDateTimeFormat": "hh:mm:ss A z"
+
+          },
+          "smooth": {
+            "location": "bottom",
+            "color": "rgb(222,82,136)",
+            "markerSymbol": "circle",
+            "priority": 5,
+            "markerSize": 34,
+            "markerScale": 1,
+            "markerFillOpacity": "1",
+            "markerStrokeOpacity": 1,
+            "row": 1,
+            "timezone": "UTC",
+            "firstDateTimeFormat": "hh:mm:ss A z"
+
+          },
+          "Advisory2": {
+            "location": "bottom",
+            "color": "rgb(180,140,242)",
+            "markerSymbol": "square",
+            "priority": 4,
+            "markerSize": 25,
+            "markerScale": 1,
+            "markerFillOpacity": "1",
+            "markerStrokeOpacity": 1,
+            "row": 1,
+            "timezone": "UTC",
+            "firstDateTimeFormat": "hh:mm:ss A z"
+          },
+
+          "Adaptation2": {
+            "location": "bottom",
+            "color": "rgb(222,82,136)",
+            "markerSymbol": "square",
+            "priority": 5,
+            "markerSize": 34,
+            "markerScale": 1,
+            "markerFillOpacity": "1",
+            "markerStrokeOpacity": 1,
+            "row": 1,
+            "timezone": "UTC",
+            "firstDateTimeFormat": "hh:mm:ss A z"
+
+          },
+          "smooth2": {
+            "location": "bottom",
+            "color": "rgb(222,82,136)",
+            "markerSymbol": "square",
+            "priority": 5,
+            "markerSize": 34,
+            "markerScale": 1,
+            "markerFillOpacity": "1",
+            "markerStrokeOpacity": 1,
+            "row": 1,
+            "timezone": "UTC",
+            "firstDateTimeFormat": "hh:mm:ss A z"
+
+          }
+
         },
         inputType: 'code:JSON'
       },
