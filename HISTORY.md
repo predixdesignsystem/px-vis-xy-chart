@@ -1,3 +1,8 @@
+v4.1.0
+==================
+* Upgraded to px-vis v5.2
+* Added support for `marker-data` and `marker-config` properties
+
 v4.0.0
 ==================
 * Upgraded to px-vis v5
