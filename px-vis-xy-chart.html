@@ -567,7 +567,8 @@ Custom property | Description
 
     ],
     properties: {
-      /** Defines where to locate the X-axis.
+      /** 
+       * Determines the position of the X axis.
        * - `bottom`
        * - `top`
        *
@@ -908,26 +909,25 @@ Custom property | Description
       if (this.hasUndefinedArguments(arguments)) {
         return;
       }
-      //use our internal margins
+
       var newMarg = {
         'top': this._internalMargin.top,
         'left': this._internalMargin.left,
         'right': this._internalMargin.right,
         'bottom': this._internalMargin.bottom
       }
-      //account for X axis
+
+      // Handle X axis
       if (this.xAxisLocation === 'bottom') {
         newMarg.bottom -= 40;
       } else if (this.xAxisLocation === 'top') {
         newMarg.top -= 40;
       }
 
-      //adjust if something is dev set
       newMarg.top += Number(this.marginMarkersAdjustment.top || 0);
       newMarg.bottom += Number(this.marginMarkersAdjustment.bottom || 0);
       newMarg.left += Number(this.marginMarkersAdjustment.left || 0);
       newMarg.right += Number(this.marginMarkersAdjustment.right || 0);
-
 
       this.set('_internalMarginMarkers', newMarg);
     },
