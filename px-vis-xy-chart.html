@@ -38,6 +38,7 @@ limitations under the License.
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html" />
 <link rel="import" href="../px-vis/px-vis-highlight-point.html"/>
 <link rel="import" href="../px-vis/px-vis-highlight-point-canvas.html"/>
+<link rel="import" href="../px-vis/px-vis-markers.html"/>
 <link rel="import" href="../px-vis/px-vis-annotations.html"/>
 <link rel="import" href="../px-vis/px-vis-reference-curve.html"/>
 <link rel="import" href="../px-vis/px-vis-central-tooltip-content.html"/>
@@ -304,7 +305,7 @@ Custom property | Description
         height="[[height]]"
         width="[[width]]"
         margin="[[_internalMargin]]"
-        orientation="bottom"
+        orientation="[[xAxisLocation]]"
         complete-series-config="[[completeSeriesConfig]]"
         prevent-series-bar
         domain-changed="[[domainChanged]]"
@@ -392,6 +393,21 @@ Custom property | Description
         muted-series="[[mutedSeries]]"
         log-base="[[logBase]]">
       </px-vis-interaction-space>
+
+      <px-vis-markers
+        canvas-context="[[canvasLayers.markers]]"
+        canvas-layers-config="{{canvasLayersConfig}}"
+        width="[[width]]"
+        height="[[height]]"
+        x="[[x]]"
+        domain-changed="[[domainChanged]]"
+        marker-data="[[markerData]]"
+        marker-config="[[markerConfig]]"
+        margin="[[_internalMarginMarkers]]"
+        resources="[[resources]]"
+        language="[[language]]"
+        formats="[[formats]]">
+      </px-vis-markers>
 
       <px-vis-event
         svg="[[layer.0]]"
@@ -551,6 +567,19 @@ Custom property | Description
 
     ],
     properties: {
+      /** 
+       * Determines the position of the X axis.
+       * - `bottom`
+       * - `top`
+       *
+       * @property xAxisLocation
+       * @type String
+       * @default bottom
+       */
+      xAxisLocation: {
+        type: String,
+        value: 'bottom'
+      },
       /**
        * Configuration object used to customize the X axis cosmetic properties.
        * Please refer to px-vis-axis (https://github.com/PredixDev/px-vis) for a list of supported proerties
@@ -607,9 +636,32 @@ Custom property | Description
         value: false
       },
 
+      /**
+       * Defines the adjusted margin for adding markers. By default the chart
+       * already calculates margins for the markers (taking into account
+       * axes and normal margin) but this can be used to manually adjust
+       * where the markers are drawn
+       * margin object:
+       * - top
+       * - bottom
+       * - left
+       * - right
+       * Not every property needs to be defined, only the one that have been
+       * defined will be used.
+       */
+      marginMarkersAdjustment: {
+        type: Object,
+        value: function() { return {}; },
+      },
       _internalMargin: {
         type: Object,
         notify: true
+      },
+      _internalMarginNav: {
+        type: Object
+      },
+      _internalMarginMarkers: {
+        type: Object
       },
 
       /**
@@ -665,6 +717,7 @@ Custom property | Description
       '_calcAxes(completeSeriesConfig.*)',
       '_calcAxes(leftAxisSize, rightAxisSize)',
       '_calcMargins(margin.*, numRightAxes, numLeftAxes)',
+      '_calcMarkerMargins(_internalMargin, marginMarkersAdjustment)',
       '_setXScale(width, _internalMargin)',
       '_setMultiYScale(height, _internalMargin, axes.*)',
       '_setDomainCaller(wwDataSyncCounter, x, y, dataExtents, seriesToAxes.*)',
@@ -681,7 +734,8 @@ Custom property | Description
       '_renderFilteredChartData(domainChanged, canvasContext, _filteredData.*, completeSeriesConfig.*, preventInitialDrawing, renderToCanvas)',
       '_renderOnMute(mutedSeries.*)',
       '_renderHighlight(domainChanged, canvasLayers.highlighter, completeSeriesConfig.*, preventInitialDrawing)',
-      '_renderSeriesOnTop(serieToRedrawOnTop)'
+      '_renderSeriesOnTop(serieToRedrawOnTop)',
+      '_renderMarkers(canvasLayers.markers, domainChanged, markerData, markerConfig, preventInitialDrawing)'
     ],
 
     created: function() {
@@ -850,6 +904,32 @@ Custom property | Description
         this.set('_internalMargin', margin);
 
       }, 5);
+    },
+    _calcMarkerMargins: function () {
+      if (this.hasUndefinedArguments(arguments)) {
+        return;
+      }
+
+      var newMarg = {
+        'top': this._internalMargin.top,
+        'left': this._internalMargin.left,
+        'right': this._internalMargin.right,
+        'bottom': this._internalMargin.bottom
+      }
+
+      // Handle X axis
+      if (this.xAxisLocation === 'bottom') {
+        newMarg.bottom -= 40;
+      } else if (this.xAxisLocation === 'top') {
+        newMarg.top -= 40;
+      }
+
+      newMarg.top += Number(this.marginMarkersAdjustment.top || 0);
+      newMarg.bottom += Number(this.marginMarkersAdjustment.bottom || 0);
+      newMarg.left += Number(this.marginMarkersAdjustment.left || 0);
+      newMarg.right += Number(this.marginMarkersAdjustment.right || 0);
+
+      this.set('_internalMarginMarkers', newMarg);
     },
 
     _showHorizontalGrid: function(hideGrid, axes, y, matchTicks) {
