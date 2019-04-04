@@ -43,6 +43,8 @@ limitations under the License.
 <link rel="import" href="../px-vis/px-vis-reference-curve.html"/>
 <link rel="import" href="../px-vis/px-vis-central-tooltip-content.html"/>
 <link rel="import" href="../px-tooltip/px-tooltip.html"/>
+<link rel="import" href="../px-threshold-bar/px-threshold-bar.html"/>
+
 
 <link rel="import" href="css/px-vis-xy-chart-styles.html"/>
 
@@ -153,6 +155,14 @@ Custom property | Description
             config='{"zoom": true, "pan": true, "tooltip": true}'>
           </px-vis-toolbar>
           <!-- Core -->
+          <px-threshold-bar
+            id="thresholdBar"
+            min="{{min}}"
+            max="{{max}}"
+            config="{{config}}"
+            hide-scale
+            hide-value>
+          </px-threshold-bar>
           <px-vis-tooltip
             id="tooltip"
             tooltip-data="[[tooltipData]]"
@@ -180,17 +190,17 @@ Custom property | Description
             px-svg-elem="{{pxSvgElem}}"
             svg-lower="{{svgLower}}"
             px-svg-elem-lower="{{pxSvgElemLower}}">
-              <px-vis-annotations
-                slot="4"
-                svg="[[svg]]"
-                x="[[x]]"
-                y="[[y]]"
-                margin="[[_internalMargin]]"
-                domain-changed="[[domainChanged]]"
-                complete-series-config="[[completeSeriesConfig]]"
-                annotation-data="[[annotationData]]"
-                show-strong-icon="[[showStrongIcon]]">
-              </px-vis-annotations>
+            <px-vis-annotations
+              slot="4"
+              svg="[[svg]]"
+              x="[[x]]"
+              y="[[y]]"
+              margin="[[_internalMargin]]"
+              domain-changed="[[domainChanged]]"
+              complete-series-config="[[completeSeriesConfig]]"
+              annotation-data="[[annotationData]]"
+              show-strong-icon="[[showStrongIcon]]">
+            </px-vis-annotations>
           </px-vis-svg-canvas>
         </div>
         <px-vis-clip-path
@@ -564,11 +574,9 @@ Custom property | Description
       PxVisBehaviorChart.sizeVerticalRegister,
       PxVisBehavior.referenceCurveProps,
       PxVisBehaviorChart.centralTooltip
-
     ],
     properties: {
-      /** 
-       * Determines the position of the X axis.
+      /** Defines where to locate the X-axis.
        * - `bottom`
        * - `top`
        *
@@ -688,20 +696,34 @@ Custom property | Description
         type: Object
       },
       /**
-      * set a default for localizing
-      */
+       * set a default for localizing
+       */
       language: {
         type: String,
         value: 'en'
       },
       /**
-      * Use the key for localization if value for  language is missing. Should
-      * always be true for  our components
-      */
+       * Use the key for localization if value for  language is missing. Should
+       * always be true for  our components
+       */
       useKeyIfMissing: {
         type: Boolean,
         value: true
-      }
+      },
+
+      /**
+       * Configuration object used to customize the thresholdbar.
+       * Most interesting properties include:
+       * -min
+       * -max
+       * -color
+       */
+      config: {
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
     },
     observers: [
       '_xAxisConfigChanged(xAxisConfig.*)',
@@ -735,7 +757,9 @@ Custom property | Description
       '_renderOnMute(mutedSeries.*)',
       '_renderHighlight(domainChanged, canvasLayers.highlighter, completeSeriesConfig.*, preventInitialDrawing)',
       '_renderSeriesOnTop(serieToRedrawOnTop)',
-      '_renderMarkers(canvasLayers.markers, domainChanged, markerData, markerConfig, preventInitialDrawing)'
+      '_renderMarkers(canvasLayers.markers, domainChanged, markerData, markerConfig, preventInitialDrawing)',
+
+      '_thresholdBarConfigChanged(config.*)'
     ],
 
     created: function() {
@@ -768,23 +792,23 @@ Custom property | Description
       this._applyConfigToElement(this.tooltipConfig, this.$.tooltip);
     },
     _registerConfigChanged: function(conf) {
-     if(this.hasUndefinedArguments(arguments)) {
-       return;
-     }
+      if(this.hasUndefinedArguments(arguments)) {
+        return;
+      }
 
       this._applyConfigToElement(this.registerConfig, this.$.register);
     },
     _toolbarConfigChanged: function(conf) {
-     if(this.hasUndefinedArguments(arguments)) {
-       return;
-     }
+      if(this.hasUndefinedArguments(arguments)) {
+        return;
+      }
 
       this._applyConfigToElement(this.toolbarConfig, this.$.toolbar);
     },
     _interactionSpaceConfigChanged: function(interactionSpaceConfig) {
-     if(this.hasUndefinedArguments(arguments)) {
-       return;
-     }
+      if(this.hasUndefinedArguments(arguments)) {
+        return;
+      }
 
       this._applyConfigToElement(this.interactionSpaceConfig, this.$.interactionSpace)
     },
@@ -797,16 +821,16 @@ Custom property | Description
       }
     },
     _cursorConfigChanged: function(conf) {
-     if(this.hasUndefinedArguments(arguments)) {
-       return;
-     }
+      if(this.hasUndefinedArguments(arguments)) {
+        return;
+      }
 
       this._applyConfigToElement(this.cursorConfig, this.$.cursor);
     },
     _mouseCursorConfigChanged: function(conf) {
-     if(this.hasUndefinedArguments(arguments)) {
-       return;
-     }
+      if(this.hasUndefinedArguments(arguments)) {
+        return;
+      }
 
       this._applyConfigToElement(this.mouseCursorConfig, this.$.mouseCursor);
     },
@@ -829,10 +853,10 @@ Custom property | Description
         return;
       }
       var wrapperRect = this.$.wrapper.getBoundingClientRect(),
-          registerRect = this.$.register.getBoundingClientRect(),
-          toolbarRect = this.$.toolbar.getBoundingClientRect(),
-          heightDeduct = 0,
-          widthDeduct = 0;
+        registerRect = this.$.register.getBoundingClientRect(),
+        toolbarRect = this.$.toolbar.getBoundingClientRect(),
+        heightDeduct = 0,
+        widthDeduct = 0;
 
 
       if(this.$.register.type === 'horizontal') {
@@ -854,16 +878,16 @@ Custom property | Description
      * @method _calcMargins
      */
     _calcMargins:function() {
-     if(this.hasUndefinedArguments(arguments)) {
-       return;
-     }
+      if(this.hasUndefinedArguments(arguments)) {
+        return;
+      }
 
       this.debounce('_calcMargin', function() {
         var margin,
-            topMargin = 25,
-            rightMargin = 10,
-            bottomMargin = 10,
-            leftMargin = 10;
+          topMargin = 25,
+          rightMargin = 10,
+          bottomMargin = 10,
+          leftMargin = 10;
 
         // if the dev didnt set the margin, then calc it
         if(JSON.stringify(this._defaultMargin) === JSON.stringify(this.margin)) {
@@ -909,25 +933,26 @@ Custom property | Description
       if (this.hasUndefinedArguments(arguments)) {
         return;
       }
-
+      //use our internal margins
       var newMarg = {
         'top': this._internalMargin.top,
         'left': this._internalMargin.left,
         'right': this._internalMargin.right,
         'bottom': this._internalMargin.bottom
       }
-
-      // Handle X axis
+      //account for X axis
       if (this.xAxisLocation === 'bottom') {
         newMarg.bottom -= 40;
       } else if (this.xAxisLocation === 'top') {
         newMarg.top -= 40;
       }
 
+      //adjust if something is dev set
       newMarg.top += Number(this.marginMarkersAdjustment.top || 0);
       newMarg.bottom += Number(this.marginMarkersAdjustment.bottom || 0);
       newMarg.left += Number(this.marginMarkersAdjustment.left || 0);
       newMarg.right += Number(this.marginMarkersAdjustment.right || 0);
+
 
       this.set('_internalMarginMarkers', newMarg);
     },
@@ -953,7 +978,7 @@ Custom property | Description
         return;
       }
 
-        return this.y[this.axes[0]];
+      return this.y[this.axes[0]];
     },
 
     _returnXDomain: function() {
@@ -988,9 +1013,9 @@ Custom property | Description
       }
 
       if(this.domainChanged && this._axisDomainChanged) {
-		  // check if 'this.$.yAxes.domainChanged' is undefined use
-		  // 'this.domainChanged' to initialize 'domainChanged' property on 'px-vis-multi-axis'
-		  return this.$.yAxes.domainChanged ? (this.$.yAxes.domainChanged + 1) : (this.domainChanged + 1);
+        // check if 'this.$.yAxes.domainChanged' is undefined use
+        // 'this.domainChanged' to initialize 'domainChanged' property on 'px-vis-multi-axis'
+        return this.$.yAxes.domainChanged ? (this.$.yAxes.domainChanged + 1) : (this.domainChanged + 1);
       }
     },
 
@@ -1015,23 +1040,23 @@ Custom property | Description
       var conf;
 
       conf = this.dimensions.length > 2 ? {
-          "mouseout": null,
-          "mousemove": null,
-          "mousedown": 'callAxisDrag',
-          "mouseup": 'callAxisDrag'
-        } : {
-          "mouseout": null,
-          "mousemove": null,
-          "mousedown": null,
-          "mouseup": null
-        };
+        "mouseout": null,
+        "mousemove": null,
+        "mousedown": 'callAxisDrag',
+        "mouseup": 'callAxisDrag'
+      } : {
+        "mouseout": null,
+        "mousemove": null,
+        "mousedown": null,
+        "mouseup": null
+      };
 
       return conf;
     },
     _langChanged: function() {
-     if(this.hasUndefinedArguments(arguments)) {
-       return;
-     }
+      if(this.hasUndefinedArguments(arguments)) {
+        return;
+      }
 
       //recreate X and Y in case d3 locale changed
       this._recreateScales(this.width, this.height, this._internalMargin);
@@ -1039,6 +1064,15 @@ Custom property | Description
 
     _showRef: function() {
       return this.referenceData && this.referenceData.length ? true : false;
-    }
+    },
+
+    _thresholdBarConfigChanged: function (conf) {
+      console.log('conf is ', conf);
+      if (this.hasUndefinedArguments(arguments)) {
+        return;
+      }
+
+      this._applyConfigToElement(this.thresholdBarConfig, this.$.thresholdBar);
+    },
   });
 </script>
