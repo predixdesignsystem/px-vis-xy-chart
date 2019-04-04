@@ -43,7 +43,7 @@ limitations under the License.
 <link rel="import" href="../px-vis/px-vis-reference-curve.html"/>
 <link rel="import" href="../px-vis/px-vis-central-tooltip-content.html"/>
 <link rel="import" href="../px-tooltip/px-tooltip.html"/>
-
+<link rel="import" href="../px-threshold-bar/px-threshold-bar.html"/>
 <link rel="import" href="css/px-vis-xy-chart-styles.html"/>
 
 
@@ -133,6 +133,7 @@ Custom property | Description
           dynamic-menu-config="[[dynamicMenuConfig]]"
           tooltip-data="[[_registerTooltipData]]"
           chart-data="[[_filteredData]]"
+          register-format-callback="[[registerFormatCallback]]"
           complete-series-config="[[completeSeriesConfig]]"
           muted-series={{mutedSeries}}
           type="{{_registerType}}"
@@ -153,6 +154,14 @@ Custom property | Description
             config='{"zoom": true, "pan": true, "tooltip": true}'>
           </px-vis-toolbar>
           <!-- Core -->
+          <px-threshold-bar
+            id="thresholdBar"
+            min="{{min}}"
+            max="{{max}}"
+            config="{{config}}"
+            hide-scale
+            hide-value>
+          </px-threshold-bar>
           <px-vis-tooltip
             id="tooltip"
             tooltip-data="[[tooltipData]]"
@@ -160,6 +169,7 @@ Custom property | Description
             muted-series="[[mutedSeries]]"
             x-axis-type="[[xAxisType]]"
             y-axis-type="[[yAxisType]]"
+            register-format-callback="[[registerFormatCallback]]"
             complete-series-config="[[completeSeriesConfig]]"
             mouse-position="[[mousePosition]]"
             hover-target="[[mouseRect]]"
@@ -567,8 +577,7 @@ Custom property | Description
 
     ],
     properties: {
-      /** 
-       * Determines the position of the X axis.
+      /** Defines where to locate the X-axis.
        * - `bottom`
        * - `top`
        *
@@ -701,6 +710,35 @@ Custom property | Description
       useKeyIfMissing: {
         type: Boolean,
         value: true
+      },
+
+      /**
+       * Configuration object used to customize the thresholdbar.
+       * Most interesting properties include:
+       * -min
+       * -max
+       * -color
+       */
+      config: {
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
+      registerFormatCallback: {
+        type: Function
+      },
+      min: {
+        type: Number,
+        value: function () {
+          return 0;
+        }
+      },
+      max: {
+        type: Number,
+        value: function () {
+          return 0;
+        }
       }
     },
     observers: [
@@ -909,21 +947,21 @@ Custom property | Description
       if (this.hasUndefinedArguments(arguments)) {
         return;
       }
-
+      //use our internal margins
       var newMarg = {
         'top': this._internalMargin.top,
         'left': this._internalMargin.left,
         'right': this._internalMargin.right,
         'bottom': this._internalMargin.bottom
       }
-
-      // Handle X axis
+      //account for X axis
       if (this.xAxisLocation === 'bottom') {
         newMarg.bottom -= 40;
       } else if (this.xAxisLocation === 'top') {
         newMarg.top -= 40;
       }
 
+      //adjust if something is dev set
       newMarg.top += Number(this.marginMarkersAdjustment.top || 0);
       newMarg.bottom += Number(this.marginMarkersAdjustment.bottom || 0);
       newMarg.left += Number(this.marginMarkersAdjustment.left || 0);
@@ -953,7 +991,7 @@ Custom property | Description
         return;
       }
 
-        return this.y[this.axes[0]];
+      return this.y[this.axes[0]];
     },
 
     _returnXDomain: function() {
@@ -988,9 +1026,9 @@ Custom property | Description
       }
 
       if(this.domainChanged && this._axisDomainChanged) {
-		  // check if 'this.$.yAxes.domainChanged' is undefined use
-		  // 'this.domainChanged' to initialize 'domainChanged' property on 'px-vis-multi-axis'
-		  return this.$.yAxes.domainChanged ? (this.$.yAxes.domainChanged + 1) : (this.domainChanged + 1);
+        // check if 'this.$.yAxes.domainChanged' is undefined use
+        // 'this.domainChanged' to initialize 'domainChanged' property on 'px-vis-multi-axis'
+        return this.$.yAxes.domainChanged ? (this.$.yAxes.domainChanged + 1) : (this.domainChanged + 1);
       }
     },
 
