@@ -1066,13 +1066,5 @@ Custom property | Description
       return this.referenceData && this.referenceData.length ? true : false;
     },
 
-    _thresholdBarConfigChanged: function (conf) {
-      console.log('conf is ', conf);
-      if (this.hasUndefinedArguments(arguments)) {
-        return;
-      }
-
-      this._applyConfigToElement(this.thresholdBarConfig, this.$.thresholdBar);
-    },
   });
 </script>
