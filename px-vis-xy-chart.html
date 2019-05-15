@@ -45,7 +45,6 @@ limitations under the License.
 <link rel="import" href="../px-tooltip/px-tooltip.html"/>
 <link rel="import" href="../px-threshold-bar/px-threshold-bar.html"/>
 
-
 <link rel="import" href="css/px-vis-xy-chart-styles.html"/>
 
 
@@ -134,8 +133,8 @@ Custom property | Description
           height="[[_registerHeight]]"
           dynamic-menu-config="[[dynamicMenuConfig]]"
           tooltip-data="[[_registerTooltipData]]"
-		  chart-data="[[_filteredData]]"
-		  register-format-callback="{{registerFormatCallback}}"
+		      chart-data="[[_filteredData]]"
+		      register-format-callback="{{registerFormatCallback}}"
           complete-series-config="[[completeSeriesConfig]]"
           muted-series={{mutedSeries}}
           type="{{_registerType}}"
@@ -170,8 +169,8 @@ Custom property | Description
             chart-data="[[_filteredData]]"
             muted-series="[[mutedSeries]]"
             x-axis-type="[[xAxisType]]"
-			y-axis-type="[[yAxisType]]"
-			register-format-callback="{{registerFormatCallback}}"
+			      y-axis-type="[[yAxisType]]"
+			      register-format-callback="{{registerFormatCallback}}"
             complete-series-config="[[completeSeriesConfig]]"
             mouse-position="[[mousePosition]]"
             hover-target="[[mouseRect]]"
@@ -192,17 +191,17 @@ Custom property | Description
             px-svg-elem="{{pxSvgElem}}"
             svg-lower="{{svgLower}}"
             px-svg-elem-lower="{{pxSvgElemLower}}">
-            <px-vis-annotations
-              slot="4"
-              svg="[[svg]]"
-              x="[[x]]"
-              y="[[y]]"
-              margin="[[_internalMargin]]"
-              domain-changed="[[domainChanged]]"
-              complete-series-config="[[completeSeriesConfig]]"
-              annotation-data="[[annotationData]]"
-              show-strong-icon="[[showStrongIcon]]">
-            </px-vis-annotations>
+              <px-vis-annotations
+                slot="4"
+                svg="[[svg]]"
+                x="[[x]]"
+                y="[[y]]"
+                margin="[[_internalMargin]]"
+                domain-changed="[[domainChanged]]"
+                complete-series-config="[[completeSeriesConfig]]"
+                annotation-data="[[annotationData]]"
+                show-strong-icon="[[showStrongIcon]]">
+              </px-vis-annotations>
           </px-vis-svg-canvas>
         </div>
         <px-vis-clip-path
@@ -576,6 +575,7 @@ Custom property | Description
       PxVisBehaviorChart.sizeVerticalRegister,
       PxVisBehavior.referenceCurveProps,
       PxVisBehaviorChart.centralTooltip
+
     ],
     properties: {
       /** Defines where to locate the X-axis.
@@ -953,7 +953,6 @@ Custom property | Description
       newMarg.left += Number(this.marginMarkersAdjustment.left || 0);
       newMarg.right += Number(this.marginMarkersAdjustment.right || 0);
 
-
       this.set('_internalMarginMarkers', newMarg);
     },
 
@@ -1064,7 +1063,7 @@ Custom property | Description
 
     _showRef: function() {
       return this.referenceData && this.referenceData.length ? true : false;
-    },
+      },
 
   });
 </script>
