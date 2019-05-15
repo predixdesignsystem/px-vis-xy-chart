@@ -853,10 +853,10 @@ Custom property | Description
         return;
       }
       var wrapperRect = this.$.wrapper.getBoundingClientRect(),
-       registerRect = this.$.register.getBoundingClientRect(),
-       toolbarRect = this.$.toolbar.getBoundingClientRect(),
-       heightDeduct = 0,
-       widthDeduct = 0;
+        registerRect = this.$.register.getBoundingClientRect(),
+        toolbarRect = this.$.toolbar.getBoundingClientRect(),
+        heightDeduct = 0,
+        widthDeduct = 0;
 
 
       if(this.$.register.type === 'horizontal') {
@@ -884,10 +884,10 @@ Custom property | Description
 
       this.debounce('_calcMargin', function() {
         var margin,
-         topMargin = 25,
-         rightMargin = 10,
-         bottomMargin = 10,
-         leftMargin = 10;
+          topMargin = 25,
+          rightMargin = 10,
+          bottomMargin = 10,
+          leftMargin = 10;
 
         // if the dev didnt set the margin, then calc it
         if(JSON.stringify(this._defaultMargin) === JSON.stringify(this.margin)) {
@@ -1012,9 +1012,9 @@ Custom property | Description
       }
 
       if(this.domainChanged && this._axisDomainChanged) {
-      // check if 'this.$.yAxes.domainChanged' is undefined use
-      // 'this.domainChanged' to initialize 'domainChanged' property on 'px-vis-multi-axis'
-      return this.$.yAxes.domainChanged ? (this.$.yAxes.domainChanged + 1) : (this.domainChanged + 1);
+        // check if 'this.$.yAxes.domainChanged' is undefined use
+        // 'this.domainChanged' to initialize 'domainChanged' property on 'px-vis-multi-axis'
+        return this.$.yAxes.domainChanged ? (this.$.yAxes.domainChanged + 1) : (this.domainChanged + 1);
       }
     },
 
