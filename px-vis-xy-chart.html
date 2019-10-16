@@ -43,6 +43,7 @@ limitations under the License.
 <link rel="import" href="../px-vis/px-vis-reference-curve.html"/>
 <link rel="import" href="../px-vis/px-vis-central-tooltip-content.html"/>
 <link rel="import" href="../px-tooltip/px-tooltip.html"/>
+<link rel="import" href="../px-vis/px-vis-threshold.html"/>
 
 <link rel="import" href="css/px-vis-xy-chart-styles.html"/>
 
@@ -423,6 +424,19 @@ Custom property | Description
         language="[[language]]"
         formats="[[formats]]">
       </px-vis-event>
+      <px-vis-threshold
+        svg="[[layer.2]]"
+        complete-series-config="[[completeSeriesConfig]]"
+        threshold-data="[[thresholdData]]"
+        threshold-config="[[thresholdConfig]]"
+        width="[[width]]"
+        margin="[[_internalMargin]]"
+        y="[[y]]"
+        domain-changed="[[domainChanged]]"
+        clip-path="[[seriesClipPath]]"
+        show-threshold-box="[[showThresholdBox]]"
+        language="[[language]]">
+      </px-vis-threshold>
     </div>
 
     <template id="highlighterDomIf" is="dom-if" if="[[renderToCanvas]]" restamp on-dom-change="_highlighterConfigChanged">
@@ -533,6 +547,7 @@ Custom property | Description
       PxVisBehaviorD3.domainUpdate,
       PxVisBehaviorChart.registerPositioning,
       PxVisBehaviorChart.chartAutoResize,
+      PxVisBehavior.thresholds,
       PxVisBehaviorChart.layers,
       PxColorsBehavior.dataVisColorTheming,
       PxVisBehavior.serieToRedrawOnTop,
@@ -549,6 +564,7 @@ Custom property | Description
       PxVisBehavior.muteUnmuteSeries,
       PxVisBehavior.zoomSelection,
       PxVisBehaviorChart.tooltipFollowMouseCalculation,
+      PxVisBehaviorChart.thresholdConfig,
       PxVisBehavior.selectionType,
       PxVisBehaviorD3.canvasContext,
       PxVisBehaviorD3.renderToCanvas,
@@ -567,7 +583,7 @@ Custom property | Description
 
     ],
     properties: {
-      /** 
+      /**
        * Determines the position of the X axis.
        * - `bottom`
        * - `top`
