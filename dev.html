@@ -24,36 +24,67 @@ limitations under the License.
     <title>
       px-vis-xy-chart Demo</title>
     <!-- Requires Webcomponents.js polyfill is provided by the page for browsers that don't support html imports -->
-    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../@webcomponents/webcomponentsjs/webcomponents-bundle.js"></script>
 
-    <link rel="import" href="../px-theme/px-theme-styles.html">
+    <script type="module" src="../px-theme/px-theme-styles.js"></script>
     <!-- <link rel="import" href="../px-dark-theme/px-dark-theme-styles.html"> -->
-    <custom-style>
+    <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
     <style include="px-theme-styles" is="custom-style"></style>
-    </custom-style>
+    </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
 
     <!-- Import custom element. Note: see comment about relative paths to dependencies in the *.html file referenced below -->
-    <link rel="import" href="../promise-polyfill/promise-polyfill-lite.html">
-    <link rel="import" href="px-vis-xy-chart.html" />
-    <link rel="import" href="../iron-ajax/iron-ajax.html" />
-    <link rel="import" href="../px-vis/px-vis-data-converter.html"/>
-    <link rel="import" href="../px-vis/px-vis-chart-navigator.html"/>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+$_documentContainer.innerHTML = `<link rel="import" href="../promise-polyfill/promise-polyfill-lite.html">`;
+document.body.appendChild($_documentContainer.content);
+</script>lite.js"></script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+$_documentContainer.innerHTML = `<link rel="import" href="px-vis-xy-chart.html">`;
+document.body.appendChild($_documentContainer.content);
+</script></script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+$_documentContainer.innerHTML = `<link rel="import" href="../iron-ajax/iron-ajax.html">`;
+document.body.appendChild($_documentContainer.content);
+</script>ax.js"></script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+$_documentContainer.innerHTML = `<link rel="import" href="../px-vis/px-vis-data-converter.html">`;
+document.body.appendChild($_documentContainer.content);
+</script>/script>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+$_documentContainer.innerHTML = `<link rel="import" href="../px-vis/px-vis-chart-navigator.html">`;
+document.body.appendChild($_documentContainer.content);
+</script>/script>
   </head>
 
   <!-- <body style="padding:30px; background-color: rgb(27,42,51);"> -->
   <body>
 
-    <dom-bind>
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<dom-bind>
     <template id="demo" is="dom-bind">
       <h3>Demo</h3>
-      <iron-ajax
-             url="demo_data.json"
-             handle-as="json"
-             last-response="{{data}}" auto></iron-ajax>
-     <iron-ajax
-            url="demo_data_ordinal.json"
-            handle-as="json"
-            last-response="{{dataOrdinal}}" auto></iron-ajax>
+      <iron-ajax url="demo_data.json" handle-as="json" last-response="{{data}}" auto=""></iron-ajax>
+     <iron-ajax url="demo_data_ordinal.json" handle-as="json" last-response="{{dataOrdinal}}" auto=""></iron-ajax>
 
       <button id="btnInc">Increase wrapper width</button>
       <button id="btnDec">Decrease wrapper width</button>
@@ -61,98 +92,81 @@ limitations under the License.
       <button id="btnDH">Decrease wrapper height</button>
       <button id="btnSnap">Go</button>
 
-        <px-vis-xy-chart
-          id="chart2"
-          chart-data="{{data}}"
-          toolbar-config='{"config": {
-            "crosshairWithOptions": true,
-            "advancedZoom": true,
-            "pan": true,
-            "tooltipWithFullOptions": true}
-          }'
-          height="400"
-          hard-mute
-          render-to-canvas
-          margin='{ "top": "30", "bottom": "20", "left": "80", "right": "20" }'
-          x-axis-config='{
-            "labelPosition": "center",
-            "orientation": "bottom",
-            "title": "very very long name"
-          }'
-          tooltip-config='{
-            "forceDateTimeDisplay": true
-          }'
-          series-config='{
-            "firstSerie": {
-              "type": "scatter",
-              "markerScale": 0.2,
-              "name": "Serie1 blahblahblah",
-              "xAxisUnit": "Hz",
-              "yAxisUnit": "Hz",
-              "x": "T48A",
-              "y":"T48B"
+        <px-vis-xy-chart id="chart2" chart-data="{{data}}" toolbar-config="{&quot;config&quot;: {
+            &quot;crosshairWithOptions&quot;: true,
+            &quot;advancedZoom&quot;: true,
+            &quot;pan&quot;: true,
+            &quot;tooltipWithFullOptions&quot;: true}
+          }" height="400" hard-mute="" render-to-canvas="" margin="{ &quot;top&quot;: &quot;30&quot;, &quot;bottom&quot;: &quot;20&quot;, &quot;left&quot;: &quot;80&quot;, &quot;right&quot;: &quot;20&quot; }" x-axis-config="{
+            &quot;labelPosition&quot;: &quot;center&quot;,
+            &quot;orientation&quot;: &quot;bottom&quot;,
+            &quot;title&quot;: &quot;very very long name&quot;
+          }" tooltip-config="{
+            &quot;forceDateTimeDisplay&quot;: true
+          }" series-config="{
+            &quot;firstSerie&quot;: {
+              &quot;type&quot;: &quot;scatter&quot;,
+              &quot;markerScale&quot;: 0.2,
+              &quot;name&quot;: &quot;Serie1 blahblahblah&quot;,
+              &quot;xAxisUnit&quot;: &quot;Hz&quot;,
+              &quot;yAxisUnit&quot;: &quot;Hz&quot;,
+              &quot;x&quot;: &quot;T48A&quot;,
+              &quot;y&quot;:&quot;T48B&quot;
             },
-            "secondSerie": {
-              "type": "scatter",
-              "name": "Serie2",
-              "x": "T48A",
-              "y":"T48B"
+            &quot;secondSerie&quot;: {
+              &quot;type&quot;: &quot;scatter&quot;,
+              &quot;name&quot;: &quot;Serie2&quot;,
+              &quot;x&quot;: &quot;T48A&quot;,
+              &quot;y&quot;:&quot;T48B&quot;
             },
-            "third": {
-              "type": "scatter",
-              "name": "Serie3",
-              "x": "T48A",
-              "y":"T48C"
+            &quot;third&quot;: {
+              &quot;type&quot;: &quot;scatter&quot;,
+              &quot;name&quot;: &quot;Serie3&quot;,
+              &quot;x&quot;: &quot;T48A&quot;,
+              &quot;y&quot;:&quot;T48C&quot;
             },
-            "fourth": {
-              "type": "scatter",
-              "markerSymbol": "diamond",
-              "name": "Serie4",
-              "x": "T48A",
-              "y":"T48D"
+            &quot;fourth&quot;: {
+              &quot;type&quot;: &quot;scatter&quot;,
+              &quot;markerSymbol&quot;: &quot;diamond&quot;,
+              &quot;name&quot;: &quot;Serie4&quot;,
+              &quot;x&quot;: &quot;T48A&quot;,
+              &quot;y&quot;:&quot;T48D&quot;
             }
-          }'
-          event-config='{
-            "example": {
-              "color": "blue",
-              "dataKey": "x",
-              "icon": "px-fea:deployments",
-              "type": "px",
-              "offset": [0, 0]
+          }" event-config="{
+            &quot;example&quot;: {
+              &quot;color&quot;: &quot;blue&quot;,
+              &quot;dataKey&quot;: &quot;x&quot;,
+              &quot;icon&quot;: &quot;px-fea:deployments&quot;,
+              &quot;type&quot;: &quot;px&quot;,
+              &quot;offset&quot;: [0, 0]
             }
-          }'
-          event-data='[{
-            "id": 1,
-            "x": 1337,
-            "label": "example"
-          }]'
-          chart-extents='{
-            "x": ["dynamic","dynamic"],
-            "y": ["dynamic","dynamic"]
-          }'
-          time-domain="[[selectedDomain]]"
-          time-data="Date"
-          reference-config='{
-            "myCurve": {
-              "color":"rgb(224, 84, 85)"
+          }" event-data="[{
+            &quot;id&quot;: 1,
+            &quot;x&quot;: 1337,
+            &quot;label&quot;: &quot;example&quot;
+          }]" chart-extents="{
+            &quot;x&quot;: [&quot;dynamic&quot;,&quot;dynamic&quot;],
+            &quot;y&quot;: [&quot;dynamic&quot;,&quot;dynamic&quot;]
+          }" time-domain="[[selectedDomain]]" time-data="Date" reference-config="{
+            &quot;myCurve&quot;: {
+              &quot;color&quot;:&quot;rgb(224, 84, 85)&quot;
             }
-          }'
-          reference-data='[{
-            "x": 1332,
-            "y": 1335
+          }" reference-data="[{
+            &quot;x&quot;: 1332,
+            &quot;y&quot;: 1335
           },{
-            "x": 1340,
-            "y": 1345
+            &quot;x&quot;: 1340,
+            &quot;y&quot;: 1345
           },{
-            "x": 1350,
-            "y": 1350
+            &quot;x&quot;: 1350,
+            &quot;y&quot;: 1350
           },{
-            "x": 1360,
-            "y": 1360
+            &quot;x&quot;: 1360,
+            &quot;y&quot;: 1360
           },{
-            "x": 1370,
-            "y": 1380
-          }]'>
+            &quot;x&quot;: 1370,
+            &quot;y&quot;: 1380
+          }]">
         </px-vis-xy-chart>
         <!-- <br>
         <br>
@@ -326,146 +340,153 @@ limitations under the License.
 
         </div> -->
     </template>
-  </dom-bind>
+  </dom-bind>`;
 
-  <script>
-    document.addEventListener('WebComponentsReady', function() {
-      var chart = document.getElementById('chart'),
-          chart2 = document.getElementById('chart2'),
-          xConfigText = document.getElementById('xConfig'),
-          yConfigText = document.getElementById('yConfig'),
-          btnInc = document.getElementById('btnInc'),
-          btnDec = document.getElementById('btnDec'),
-          btnIH = document.getElementById('btnIH'),
-          btnDH = document.getElementById('btnDH'),
-          wrap = document.getElementById('wrap'),
-          btnSnap = document.getElementById('btnSnap');
+document.body.appendChild($_documentContainer.content);
+</script>
 
-      var menuConfig = [
-          {
-            'name': 'Delete',
-            'action': function(data) {
+  <script type="module">
+import 'px-theme/px-theme-styles.js';
+import '@polymer/promise-polyfill/promise-polyfill-lite.js';
+import './px-vis-xy-chart.js';
+import '@polymer/iron-ajax/iron-ajax.js';
+import 'px-vis/px-vis-data-converter.js';
+import 'px-vis/px-vis-chart-navigator.js';
+var chart = document.getElementById('chart'),
+    chart2 = document.getElementById('chart2'),
+    xConfigText = document.getElementById('xConfig'),
+    yConfigText = document.getElementById('yConfig'),
+    btnInc = document.getElementById('btnInc'),
+    btnDec = document.getElementById('btnDec'),
+    btnIH = document.getElementById('btnIH'),
+    btnDH = document.getElementById('btnDH'),
+    wrap = document.getElementById('wrap'),
+    btnSnap = document.getElementById('btnSnap');
+
+var menuConfig = [
+    {
+      'name': 'Delete',
+      'action': function(data) {
 
 
-              var newConf = {},
-                  confKeys = Object.keys(this.seriesConfig);
+        var newConf = {},
+            confKeys = Object.keys(this.seriesConfig);
 
-              //copy current conf to bypass dirty check
-              for(var i=0; i<confKeys.length; i++) {
-                if(data.additionalDetail.name !== confKeys[i]) {
-                  newConf[confKeys[i]] = this.seriesConfig[confKeys[i]];
-                }
-              }
-
-              this.set('seriesConfig', newConf);
-            },
-            'eventName': 'delete',
-            'icon': 'px-vis:trash-series',
-          },
-          {
-            'name': 'Bring To Front',
-            'action': function(data) {
-              this.set('serieToRedrawOnTop', data.additionalDetail.name);
-            },
-            'eventName': 'bring-to-front',
-            'icon': 'px-vis:bring-to-front'
+        //copy current conf to bypass dirty check
+        for(var i=0; i<confKeys.length; i++) {
+          if(data.additionalDetail.name !== confKeys[i]) {
+            newConf[confKeys[i]] = this.seriesConfig[confKeys[i]];
           }
-        ];
+        }
 
-      var registerConfig = {
-            "width": 300,
-            "type": "vertical",
-            "sortConfig": {
-              "custom": {
-                "name": "Custom",
-                "selected": true,
-                "sortOnDataChange": function(a,b) {
-                  var aVal = this.tooltipData.seriesObj[a] ? this.tooltipData.seriesObj[a].value[this.completeSeriesConfig[a].y] : Number.MIN_VALUE,
-                      bVal = this.tooltipData.seriesObj[b] ? this.tooltipData.seriesObj[b].value[this.completeSeriesConfig[b].y] : Number.MIN_VALUE;
+        this.set('seriesConfig', newConf);
+      },
+      'eventName': 'delete',
+      'icon': 'px-vis:trash-series',
+    },
+    {
+      'name': 'Bring To Front',
+      'action': function(data) {
+        this.set('serieToRedrawOnTop', data.additionalDetail.name);
+      },
+      'eventName': 'bring-to-front',
+      'icon': 'px-vis:bring-to-front'
+    }
+  ];
+
+var registerConfig = {
+      "width": 300,
+      "type": "vertical",
+      "sortConfig": {
+        "custom": {
+          "name": "Custom",
+          "selected": true,
+          "sortOnDataChange": function(a,b) {
+            var aVal = this.tooltipData.seriesObj[a] ? this.tooltipData.seriesObj[a].value[this.completeSeriesConfig[a].y] : Number.MIN_VALUE,
+                bVal = this.tooltipData.seriesObj[b] ? this.tooltipData.seriesObj[b].value[this.completeSeriesConfig[b].y] : Number.MIN_VALUE;
 
 
-                  return bVal - aVal;
-                }
-              },
-              "combined": {
-                "name": "Combined",
-                "sortOnSeriesChange": ["nameIgnoreCase", "muted"]
-              },
-              "muted": {
-                "name": "Muted",
-                "sortOnSeriesChange": "muted"
-              },
-              "noValue": {
-                "name": "No Values",
-                "sortOnDataChange": "noValue"
-              }
-            },
-            "forceDateTimeDisplay": true},
-            registerConfig2 = {
-            "width": 300,
-            "type": "horizontal",
-            "sortConfig": {
-              "custom": {
-                "name": "Custom",
-                "sortFunction": function(a,b) {
-                  return -1;
-                }
-              },
-              "combined": {
-                "name": "Combined",
-                "selected": true,
-                "sortFunction": ["nameIgnoreCase", "muted"]
-              },
-              "muted": {
-                "name": "Muted",
-                "sortFunction": "muted"
-              }
-            },
-            "forceDateTimeDisplay": true};
+            return bVal - aVal;
+          }
+        },
+        "combined": {
+          "name": "Combined",
+          "sortOnSeriesChange": ["nameIgnoreCase", "muted"]
+        },
+        "muted": {
+          "name": "Muted",
+          "sortOnSeriesChange": "muted"
+        },
+        "noValue": {
+          "name": "No Values",
+          "sortOnDataChange": "noValue"
+        }
+      },
+      "forceDateTimeDisplay": true},
+      registerConfig2 = {
+      "width": 300,
+      "type": "horizontal",
+      "sortConfig": {
+        "custom": {
+          "name": "Custom",
+          "sortFunction": function(a,b) {
+            return -1;
+          }
+        },
+        "combined": {
+          "name": "Combined",
+          "selected": true,
+          "sortFunction": ["nameIgnoreCase", "muted"]
+        },
+        "muted": {
+          "name": "Muted",
+          "sortFunction": "muted"
+        }
+      },
+      "forceDateTimeDisplay": true};
 
-      chart2.set('registerConfig', registerConfig);
-      chart2.set('dynamicMenuConfig', menuConfig);
+chart2.set('registerConfig', registerConfig);
+chart2.set('dynamicMenuConfig', menuConfig);
 
-      chart3.set('registerConfig', registerConfig2);
-      chart3.set('dynamicMenuConfig', menuConfig);
+chart3.set('registerConfig', registerConfig2);
+chart3.set('dynamicMenuConfig', menuConfig);
 
-      btnInc.addEventListener('click', function() {
-        var width = window.getComputedStyle(wrap).getPropertyValue("width");
-        var cur = width.substr(0, width.length-2);
-        wrap.style['width'] = Number(cur) + 10 + 'px';
-        chart.notifyResize();
-      });
+btnInc.addEventListener('click', function() {
+  var width = window.getComputedStyle(wrap).getPropertyValue("width");
+  var cur = width.substr(0, width.length-2);
+  wrap.style['width'] = Number(cur) + 10 + 'px';
+  chart.notifyResize();
+});
 
-      btnDec.addEventListener('click', function() {
-        var width = window.getComputedStyle(wrap).getPropertyValue("width");
-        var cur = width.substr(0, width.length-2);
-        wrap.style['width'] = Number(cur) - 10 + 'px';
-        chart.notifyResize();
-      });
+btnDec.addEventListener('click', function() {
+  var width = window.getComputedStyle(wrap).getPropertyValue("width");
+  var cur = width.substr(0, width.length-2);
+  wrap.style['width'] = Number(cur) - 10 + 'px';
+  chart.notifyResize();
+});
 
-      btnIH.addEventListener('click', function() {
+btnIH.addEventListener('click', function() {
 
-        var width = window.getComputedStyle(wrap).getPropertyValue("height");
-        var cur = width.substr(0, width.length-2);
-        wrap.style['height'] = Number(cur) + 10 + 'px';
-        chart.notifyResize();
-      });
+  var width = window.getComputedStyle(wrap).getPropertyValue("height");
+  var cur = width.substr(0, width.length-2);
+  wrap.style['height'] = Number(cur) + 10 + 'px';
+  chart.notifyResize();
+});
 
-      btnDH.addEventListener('click', function() {
-        var width = window.getComputedStyle(wrap).getPropertyValue("height");
-        var cur = width.substr(0, width.length-2);
-        wrap.style['height'] = Number(cur) - 10 + 'px';
-        chart.notifyResize();
-      });
+btnDH.addEventListener('click', function() {
+  var width = window.getComputedStyle(wrap).getPropertyValue("height");
+  var cur = width.substr(0, width.length-2);
+  wrap.style['height'] = Number(cur) - 10 + 'px';
+  chart.notifyResize();
+});
 
-      btnSnap.addEventListener('click', function() {
-        chart2.getImage(function(result) {
-          var img = document.createElement('img');
-          img.src= result.image;
-          document.body.appendChild(img);
-        }, true);
-      });
-    });
-  </script>
+btnSnap.addEventListener('click', function() {
+  chart2.getImage(function(result) {
+    var img = document.createElement('img');
+    img.src= result.image;
+    document.body.appendChild(img);
+  }, true);
+});
+</script>
 </body>
 </html>
