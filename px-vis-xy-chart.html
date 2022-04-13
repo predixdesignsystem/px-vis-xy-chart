@@ -156,14 +156,16 @@ Custom property | Description
             config='{"zoom": true, "pan": true, "tooltip": true}'>
           </px-vis-toolbar>
           <!-- Core -->
-          <px-threshold-bar
-            id="thresholdBar"
-            min="{{min}}"
-            max="{{max}}"
-            config="{{config}}"
-            hide-scale
-            hide-value>
-          </px-threshold-bar>
+          <template is="dom-if" if="[[ !dynamicMarkerSetting ]]">
+            <px-threshold-bar
+              id="thresholdBar"
+              min="{{min}}"
+              max="{{max}}"
+              config="{{config}}"
+              hide-scale
+              hide-value>
+            </px-threshold-bar>
+          </template>
           <px-vis-tooltip
             id="tooltip"
             tooltip-data="[[tooltipData]]"
@@ -758,6 +760,12 @@ Custom property | Description
         value: function () {
           return 0;
         }
+      },
+      dynamicMarkerSetting: {
+        type: Boolean,
+        value: function() {
+          return false;
+        }
       }
     },
     observers: [
@@ -977,7 +985,11 @@ Custom property | Description
       }
       //account for X axis
       if (this.xAxisLocation === 'bottom') {
-        newMarg.bottom -= 40;
+        if (!this.dynamicMarkerSetting) {
+          newMarg.bottom -= 40;
+        } else {
+          newMarg.bottom -= 20;
+        }
       } else if (this.xAxisLocation === 'top') {
         newMarg.top -= 40;
       }
