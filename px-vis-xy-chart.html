@@ -43,6 +43,8 @@ limitations under the License.
 <link rel="import" href="../px-vis/px-vis-reference-curve.html"/>
 <link rel="import" href="../px-vis/px-vis-central-tooltip-content.html"/>
 <link rel="import" href="../px-tooltip/px-tooltip.html"/>
+<link rel="import" href="../px-threshold-bar/px-threshold-bar.html"/>
+<link rel="import" href="../px-vis/px-vis-threshold.html"/>
 
 <link rel="import" href="css/px-vis-xy-chart-styles.html"/>
 
@@ -133,6 +135,7 @@ Custom property | Description
           dynamic-menu-config="[[dynamicMenuConfig]]"
           tooltip-data="[[_registerTooltipData]]"
           chart-data="[[_filteredData]]"
+          register-format-callback="[[registerFormatCallback]]"
           complete-series-config="[[completeSeriesConfig]]"
           muted-series={{mutedSeries}}
           type="{{_registerType}}"
@@ -153,6 +156,16 @@ Custom property | Description
             config='{"zoom": true, "pan": true, "tooltip": true}'>
           </px-vis-toolbar>
           <!-- Core -->
+          <template is="dom-if" if="[[ !dynamicMarkerSetting ]]">
+            <px-threshold-bar
+              id="thresholdBar"
+              min="{{min}}"
+              max="{{max}}"
+              config="{{config}}"
+              hide-scale
+              hide-value>
+            </px-threshold-bar>
+          </template>
           <px-vis-tooltip
             id="tooltip"
             tooltip-data="[[tooltipData]]"
@@ -160,6 +173,7 @@ Custom property | Description
             muted-series="[[mutedSeries]]"
             x-axis-type="[[xAxisType]]"
             y-axis-type="[[yAxisType]]"
+            register-format-callback="[[registerFormatCallback]]"
             complete-series-config="[[completeSeriesConfig]]"
             mouse-position="[[mousePosition]]"
             hover-target="[[mouseRect]]"
@@ -377,6 +391,7 @@ Custom property | Description
         crosshair-data="{{crosshairData}}"
         default-empty-data="[[defaultEmptyData]]"
         generating-crosshair-data="{{generatingCrosshairData}}"
+        crosshair-frozen=[[crosshairFrozen]]
         extents-data="{{extentsData}}"
         x-axis-type="[[xAxisType]]"
         y-axis-type="[[yAxisType]]"
@@ -423,6 +438,20 @@ Custom property | Description
         language="[[language]]"
         formats="[[formats]]">
       </px-vis-event>
+
+      <px-vis-threshold
+        svg="[[layer.2]]"
+        complete-series-config="[[completeSeriesConfig]]"
+        threshold-data="[[thresholdData]]"
+        threshold-config="[[thresholdConfig]]"
+        width="[[width]]"
+        margin="[[_internalMargin]]"
+        y="[[y]]"
+        domain-changed="[[domainChanged]]"
+        clip-path="[[seriesClipPath]]"
+        show-threshold-box="[[showThresholdBox]]"
+        language="[[language]]">
+      </px-vis-threshold>
     </div>
 
     <template id="highlighterDomIf" is="dom-if" if="[[renderToCanvas]]" restamp on-dom-change="_highlighterConfigChanged">
@@ -533,6 +562,7 @@ Custom property | Description
       PxVisBehaviorD3.domainUpdate,
       PxVisBehaviorChart.registerPositioning,
       PxVisBehaviorChart.chartAutoResize,
+      PxVisBehavior.thresholds,
       PxVisBehaviorChart.layers,
       PxColorsBehavior.dataVisColorTheming,
       PxVisBehavior.serieToRedrawOnTop,
@@ -549,6 +579,7 @@ Custom property | Description
       PxVisBehavior.muteUnmuteSeries,
       PxVisBehavior.zoomSelection,
       PxVisBehaviorChart.tooltipFollowMouseCalculation,
+      PxVisBehaviorChart.thresholdConfig,
       PxVisBehavior.selectionType,
       PxVisBehaviorD3.canvasContext,
       PxVisBehaviorD3.renderToCanvas,
@@ -567,8 +598,7 @@ Custom property | Description
 
     ],
     properties: {
-      /** 
-       * Determines the position of the X axis.
+      /** Defines where to locate the X-axis.
        * - `bottom`
        * - `top`
        *
@@ -705,6 +735,41 @@ Custom property | Description
       useKeyIfMissing: {
         type: Boolean,
         value: true
+      },
+
+      /**
+       * Configuration object used to customize the thresholdbar.
+       * Most interesting properties include:
+       * -min
+       * -max
+       * -color
+       */
+      config: {
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
+      registerFormatCallback: {
+        type: Function
+      },
+      min: {
+        type: Number,
+        value: function () {
+          return 0;
+        }
+      },
+      max: {
+        type: Number,
+        value: function () {
+          return 0;
+        }
+      },
+      dynamicMarkerSetting: {
+        type: Boolean,
+        value: function() {
+          return false;
+        }
       }
     },
     observers: [
@@ -837,6 +902,7 @@ Custom property | Description
           toolbarRect = this.$.toolbar.getBoundingClientRect(),
           heightDeduct = 0,
           widthDeduct = 0;
+
           if(this.smartsignalPointsModecheck) {
             wrapperRect.height = this.height;
           }
@@ -915,21 +981,25 @@ Custom property | Description
       if (this.hasUndefinedArguments(arguments)) {
         return;
       }
-
+      //use our internal margins
       var newMarg = {
         'top': this._internalMargin.top,
         'left': this._internalMargin.left,
         'right': this._internalMargin.right,
         'bottom': this._internalMargin.bottom
       }
-
-      // Handle X axis
+      //account for X axis
       if (this.xAxisLocation === 'bottom') {
-        newMarg.bottom -= 40;
+        if (!this.dynamicMarkerSetting) {
+          newMarg.bottom -= 40;
+        } else {
+          newMarg.bottom -= 20;
+        }
       } else if (this.xAxisLocation === 'top') {
         newMarg.top -= 40;
       }
 
+      //adjust if something is dev set
       newMarg.top += Number(this.marginMarkersAdjustment.top || 0);
       newMarg.bottom += Number(this.marginMarkersAdjustment.bottom || 0);
       newMarg.left += Number(this.marginMarkersAdjustment.left || 0);
@@ -959,7 +1029,7 @@ Custom property | Description
         return;
       }
 
-        return this.y[this.axes[0]];
+      return this.y[this.axes[0]];
     },
 
     _returnXDomain: function() {
@@ -994,9 +1064,9 @@ Custom property | Description
       }
 
       if(this.domainChanged && this._axisDomainChanged) {
-		  // check if 'this.$.yAxes.domainChanged' is undefined use
-		  // 'this.domainChanged' to initialize 'domainChanged' property on 'px-vis-multi-axis'
-		  return this.$.yAxes.domainChanged ? (this.$.yAxes.domainChanged + 1) : (this.domainChanged + 1);
+        // check if 'this.$.yAxes.domainChanged' is undefined use
+        // 'this.domainChanged' to initialize 'domainChanged' property on 'px-vis-multi-axis'
+        return this.$.yAxes.domainChanged ? (this.$.yAxes.domainChanged + 1) : (this.domainChanged + 1);
       }
     },
 
