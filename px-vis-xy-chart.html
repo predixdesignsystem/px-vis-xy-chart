@@ -663,7 +663,7 @@ Custom property | Description
       _internalMarginMarkers: {
         type: Object
       },
-      smartsignalPointsModecheck: {
+      pointsMode: {
         type: Boolean,
         value: false
       },
@@ -837,9 +837,9 @@ Custom property | Description
           toolbarRect = this.$.toolbar.getBoundingClientRect(),
           heightDeduct = 0,
           widthDeduct = 0;
-          if(this.smartsignalPointsModecheck) {
-            wrapperRect.height = this.height;
-          }
+      if(this.pointsMode) {
+        wrapperRect.height = this.height;
+      }
 
       if(this.$.register.type === 'horizontal') {
         heightDeduct += registerRect.height;
